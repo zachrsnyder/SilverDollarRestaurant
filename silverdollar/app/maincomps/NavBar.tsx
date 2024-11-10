@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import React from 'react'
 import Image from 'next/image'
-import SmallScreenMenu from '@/app/component/SmallScreenMenu'
+import SmallScreenMenu from '@/component/SmallScreenMenu'
 
 //TODO: Add alternative styling for smaller screens!
 

@@ -1,7 +1,7 @@
 import Image from "next/image";
-import Facebook from "./component/Facebook";
-import FoodCard from "./component/SmallCard";
-import SmallCard from "./component/SmallCard";
+import Facebook from "../component/Facebook";
+import FoodCard from "../component/SmallCard";
+import SmallCard from "../component/SmallCard";
 
 export default function Home() {
   return (

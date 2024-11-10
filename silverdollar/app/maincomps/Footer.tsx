@@ -1,6 +1,6 @@
-import MapClientContainer from "@/app/component/MapClientContainer";
+import MapClientContainer from "@/component/MapClientContainer";
 import {Phone, Mail, Building2} from 'lucide-react'
-import Hours from '@/app/component/Hours'
+import Hours from '@/component/Hours'
 import Link from "next/link";
 
 

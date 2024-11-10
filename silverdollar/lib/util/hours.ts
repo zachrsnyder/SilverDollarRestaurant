@@ -1,11 +1,38 @@
+/**
+ * Description placeholder
+ *
+ * @typedef {DayOfWeek}
+ */
 type DayOfWeek = 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday';
 
 // interface for how to format 
+/**
+ * Description placeholder
+ *
+ * @export
+ * @interface RestaurantHours
+ * @typedef {RestaurantHours}
+ */
 export interface RestaurantHours {
+  /**
+   * Description placeholder
+   *
+   * @type {DayOfWeek}
+   */
   day: DayOfWeek;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   hours: string;
 }
 
+/**
+ * Description placeholder
+ *
+ * @type {DayOfWeek[]}
+ */
 const DAYS_OF_WEEK: DayOfWeek[] = [
   'Sunday',
   'Monday',
@@ -16,6 +43,11 @@ const DAYS_OF_WEEK: DayOfWeek[] = [
   'Saturday'
 ];
 
+/**
+ * Description placeholder
+ *
+ * @returns {RestaurantHours[]}
+ */
 export const getRestaurantHours = () : RestaurantHours[] => {
 
     const hours: RestaurantHours[] = [

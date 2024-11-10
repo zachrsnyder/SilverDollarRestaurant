@@ -1,18 +1,15 @@
-import {auth} from '../../firebase.config'
+import { auth } from '../../firebase.config'
+
 import { 
     signInWithEmailAndPassword,
-    createUserWithEmailAndPassword,
-    signOut
+    signOut,
+    User
 } from 'firebase/auth'
 
-export async function loginUser(email: string, password: string) {
+export async function loginAdmin(email: string, password: string) {
     return signInWithEmailAndPassword(auth, email, password)
 }
 
-export async function registerUser(email: string, password: string) {
-    return createUserWithEmailAndPassword(auth, email, password)
-}
-
-export async function logoutUser() {
+export async function logoutAdmin() {
     return signOut(auth)
 }
