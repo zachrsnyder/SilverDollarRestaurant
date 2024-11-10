@@ -16,6 +16,9 @@ const config: Config = {
         secondary: '#fff7ed',
         text: '#000000',
       },
+      fontFamily: {
+        arvo: ['var(--font-arvo)'],
+      },
     },
   },
   plugins: [],
