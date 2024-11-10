@@ -46,7 +46,7 @@ export default function Footer() {
                 <Link href=''><p className='text-lg hover:text-red-800'>Contact</p></Link>
               </div>
               <div className='flex items-center gap-2 pl-5'>
-                <Link href=''><p className='text-lg hover:text-red-800'>Careers</p></Link>
+                <Link href='/careers'><p className='text-lg hover:text-red-800'>Careers</p></Link>
               </div>
             </div>
           </div>

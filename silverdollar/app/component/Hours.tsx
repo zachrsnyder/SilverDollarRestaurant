@@ -1,7 +1,7 @@
 'use client'
 
 import {useEffect, useState} from 'react'
-import { RestaurantHours, getRestaurantHours } from '@/app/lib/util/hours';
+import { RestaurantHours, getRestaurantHours } from '@/lib/util/hours';
 
 
 const Hours = () => {

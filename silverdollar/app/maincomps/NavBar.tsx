@@ -16,7 +16,7 @@ const NavBar = () => {
             <Link href="/" className='hover:text-red-800'>Home</Link>
             <Link href="/menu" className='hover:text-red-800'>Menu</Link>
             <Link href="/contact" className='hover:text-red-800'>Contact</Link>
-            <Link href="/employment" className='hover:text-red-800'>Careers</Link>
+            <Link href="/careers" className='hover:text-red-800'>Careers</Link>
           </div>
           <div className='flex justify-end w-full sm:hidden'>
             <SmallScreenMenu/>
