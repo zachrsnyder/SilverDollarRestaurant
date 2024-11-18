@@ -1,16 +1,32 @@
 
 
+/**
+ * Different roles for admin users
+ *
+ * @export
+ * @typedef {UserRole}
+ */
 export type UserRole = 'owner' | 'manager';
 
 /**
- * @typedef {Object} AdminUser
- * @property {string} email - Admin's email
- * @property {UserRole} role - Either an owner or a manager
- * @property {string} name - Admin name
+ * Fields stored from session user in admin page
+ *
+ * @export
+ * @interface AdminUser
+ * @typedef {AdminUser}
  */
-
 export interface AdminUser {
-  email: string;
-  role: UserRole;
-  name: string;
+  userId?: string;
+
+  role?: UserRole;
+  
+  fName?: string;
+
+
+  expiresAt?: number;
+  
+
+  iat?: number;
+
+  exp?: number;
 }
