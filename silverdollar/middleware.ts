@@ -1,19 +1,24 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
+import { cookies } from "next/headers";
+import { NextRequest, NextResponse } from "next/server";
+import { decrypt } from "@/lib/auth/session";
 
-export async function middleware(request: NextRequest) {
-    // Get Firebase Auth token from cookies or localStorage
-    const token = request.cookies.get('auth-token')?.value
+const protectedRoutes = ["/admin/dashboard"];
 
-    if (request.nextUrl.pathname.startsWith('/dashboard')) {
-        if (!token) {
-            return NextResponse.redirect(new URL('/login', request.url))
-        }
-    }
+export default async function middleware(req: NextRequest) {
+  //nextUrl attribute available on the client and middleware and refers to the url the request is calling to.
+  const path = req.nextUrl.pathname;
 
-    return NextResponse.next()
-}
+  const isProtectedRoute = protectedRoutes.includes(path);
 
-export const config = {
-    matcher: ['/dashboard/:path*', '/login']
+  const cookie = await cookies()
+  const value = cookie.get("session")?.value;
+  // console.log(value);
+
+  const session = await decrypt(value);
+
+  if (isProtectedRoute && !session?.userId) {
+    return NextResponse.redirect(new URL("/admin", req.nextUrl));
+  }
+
+  return NextResponse.next();
 }

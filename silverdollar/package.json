@@ -9,13 +9,19 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@google-cloud/firestore": "^7.10.0",
     "@googlemaps/js-api-loader": "^1.16.8",
     "@react-google-maps/api": "^2.20.3",
+    "cookies-next": "^5.0.2",
     "firebase-admin": "^12.7.0",
+    "google-auth-library": "^9.14.2",
+    "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.456.0",
     "next": "15.0.2",
+    "next-auth": "^4.24.10",
     "react": "19.0.0-rc-02c0e824-20241028",
-    "react-dom": "19.0.0-rc-02c0e824-20241028"
+    "react-dom": "19.0.0-rc-02c0e824-20241028",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/node": "^20",

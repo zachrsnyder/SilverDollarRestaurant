@@ -1,4 +1,6 @@
 // Good Metadata
+import { Metadata } from "next"
+
 export const metadata: Metadata = {
   title: 'Professional Web Development | YourCompany',
   description: 'Expert web development services specializing in React, Next.js, and modern JavaScript. Get custom solutions for your business needs.',
