@@ -4,15 +4,19 @@ import { logout } from "../components/logout";
 import {useEffect, useState} from 'react'
 import { AdminUser } from "@/lib/types/auth";
 import LeftDashboard from "./components/LeftDashboard";
+import { PageType } from "@/lib/types/pageTypes";
+import { ID } from "@/lib/types/ID";
 
+
+//TODO: Fix switch case to adjust for "add" ID strings
 
 export default function Dashboard() {
-  const [error, setError] = useState<String | null>(null)
+  const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [loadingContent, setLoadingContent] = useState(true)
   const [user, setUser] = useState<AdminUser | null>(null)
-  const [currentPage, setCurrentPage] = useState("Welcome");
-  const [currentData, setCurrentData] = useState(null)
+  const [currentPage, setCurrentPage] = useState<PageType>("Welcome");
+  const [currentData, setCurrentData] = useState<ID>(null)
 
 
 
@@ -39,6 +43,8 @@ export default function Dashboard() {
     getSession()
   }, [])
 
+
+  //triggers whenever the data is changed, this will force it to change even when moving through two contents of the same page type.
   useEffect(()=>{
     const getContent = async() => {
       setLoadingContent(true)
@@ -76,12 +82,12 @@ export default function Dashboard() {
 
     getContent()
     
-  }, [currentPage])
+  }, [currentData])
 
   return (
     <div>
 
-      <LeftDashboard setCurrentPage={setCurrentPage}/>
+      <LeftDashboard setCurrentPage={setCurrentPage} setCurrentData={setCurrentData}/>
       <div className='bg-red-600 hover:bg-red-800 fixed top-5 right-16 z-50 rounded-lg'>
         <button className='my-2 mx-4 text-white' onClick={() => logout()}>Logout</button>
       </div>

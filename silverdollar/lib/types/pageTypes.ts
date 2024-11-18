@@ -1,0 +1,1 @@
+export type PageType = "Welcome" | "Job Postings" | "Manage Workers"
