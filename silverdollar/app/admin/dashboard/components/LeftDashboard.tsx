@@ -1,9 +1,12 @@
 'use client'
-import {SetStateAction, useState} from 'react'
+import {useState, useEffect} from 'react'
 import {ChevronRight, ChevronLeft} from 'lucide-react'
 import { JobSection } from './JobsSection'
 import { ID } from '@/lib/types/ID'
+import { JobPostingMetadata } from '@/lib/types/JobPostingMetadata'
 import { PageType } from '@/lib/types/pageTypes'
+import { db } from '@/lib/auth/client'
+
 
 interface Props{
     setCurrentPage : React.Dispatch<React.SetStateAction<PageType>>
@@ -11,10 +14,23 @@ interface Props{
     setCurrentData : React.Dispatch<React.SetStateAction<ID>>
 }
 
+
+
+
+/**
+ * Notes: When a doc is created, it is to be added to the postings array
+ * 
+ * 
+ */
+
 const LeftDashboard : React.FC<Props> = ({setCurrentPage, setCurrentData}) => {
     
     const [isCollapsed, setIsCollapsed] = useState(false)
     const [isHovered, setIsHovered] = useState(false);
+    //handling job posting metadata
+    
+
+  
 
     // Function to toggle the sidebar open or closed
     const toggleAside = () => {

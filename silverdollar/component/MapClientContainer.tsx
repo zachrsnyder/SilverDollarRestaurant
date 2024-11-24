@@ -1,5 +1,6 @@
 'use client'
-import MapComponent from './Map'
+import dynamic from 'next/dynamic'
+const MapComponent = dynamic(() => import('./Map'), { ssr: false });
 
 const MapClientContainer = () => {
   return (

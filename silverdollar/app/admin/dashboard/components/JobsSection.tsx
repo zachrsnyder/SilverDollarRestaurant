@@ -2,9 +2,9 @@ import { Plus, Briefcase } from 'lucide-react';
 import {useState} from 'react'
 import { PageType } from '@/lib/types/pageTypes';
 import { ID } from '@/lib/types/ID';
+import {usePostingsSubscription} from '@/lib/util/usePostingSubscription'
 
-//TODO: Add logic for toggling open and close (query job listings)
-//TODO: Create Job Section cards
+//TODO: View and edit potential styling issues with job cards
 
 interface Props {
 
@@ -15,14 +15,13 @@ interface Props {
 
 export const JobSection = ({setCurrentData, setCurrentPage} : Props) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+    const {postings, loading} = usePostingsSubscription();
     return(
-<div className='flex relative'>
+<div className='flex flex-col relative'>
   <div className="flex items-center justify-between p-4 border-b border-white/10">
     <div 
       onClick={() => {
         setIsOpen(!isOpen);
-        setIsLoading(false);
       }}
       className="flex items-center space-x-3 cursor-pointer group"
     >
@@ -43,13 +42,21 @@ export const JobSection = ({setCurrentData, setCurrentPage} : Props) => {
   </div>
   <div>
       {isOpen && (
-        <div className="p-4 space-y-4">
-            {isLoading ? (
+        <div className="p-4 space-y-4 flex flex-col">
+            {loading ? (
             <div className="text-black/70 text-center py-4">Loading...</div>
             ) : (
             <>
-                {/*TODO: Make job postings logic*/}
-                <div>Listings yur</div>
+              {postings.map(posting => (
+                <div key={posting.id} className='flex mx-2 w-full justify-between h-32 rounded-md bg-stone-400/50 hover:text-red-800'>
+                  <div className='text-xl font-arvo'>
+                    {posting.title}
+                  </div>
+                  <div>
+                    {posting.status == "Active" ? <div className='text-green-400'>Active</div> : <div className='text-gray-600'>Archived</div>}
+                  </div>
+                </div>
+              ))}
             </>
             )}
       </div>

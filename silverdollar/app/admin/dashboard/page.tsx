@@ -9,6 +9,7 @@ import { ID } from "@/lib/types/ID";
 
 
 //TODO: Fix switch case to adjust for "add" ID strings
+//Plan: 
 
 export default function Dashboard() {
   const [error, setError] = useState<string | null>(null)
@@ -16,7 +17,7 @@ export default function Dashboard() {
   const [loadingContent, setLoadingContent] = useState(true)
   const [user, setUser] = useState<AdminUser | null>(null)
   const [currentPage, setCurrentPage] = useState<PageType>("Welcome");
-  const [currentData, setCurrentData] = useState<ID>(null)
+  const [currentData, setCurrentData] = useState<ID>(null);
 
 
 
@@ -41,10 +42,12 @@ export default function Dashboard() {
       }
     }
     getSession()
+    
+
   }, [])
 
 
-  //triggers whenever the data is changed, this will force it to change even when moving through two contents of the same page type.
+  //triggers whenever the data is changed, this will force it to change even when moving through two contents of the same page type. (unless miraculously a worker and a job listing have the same id)
   useEffect(()=>{
     const getContent = async() => {
       setLoadingContent(true)
