@@ -3,8 +3,9 @@ import {useState} from 'react'
 import { PageType } from '@/lib/types/pageTypes';
 import { ID } from '@/lib/types/ID';
 import {usePostingsSubscription} from '@/lib/util/usePostingSubscription'
+import JobMeta from './JobMeta';
 
-//TODO: View and edit potential styling issues with job cards
+// TODO: Add view/update/delete of postings
 
 interface Props {
 
@@ -18,11 +19,10 @@ export const JobSection = ({setCurrentData, setCurrentPage} : Props) => {
     const {postings, loading} = usePostingsSubscription();
     return(
 <div className='flex flex-col relative'>
-  <div className="flex items-center justify-between p-4 border-b border-white/10">
-    <div 
-      onClick={() => {
+  <div className="flex items-center justify-between p-4 border-b border-white/10" onClick={() => {
         setIsOpen(!isOpen);
-      }}
+      }}>
+    <div 
       className="flex items-center space-x-3 cursor-pointer group"
     >
       <div className="p-2 rounded-lg bg-white/5 text-black group-hover:bg-white/10 transition-colors">
@@ -48,13 +48,8 @@ export const JobSection = ({setCurrentData, setCurrentPage} : Props) => {
             ) : (
             <>
               {postings.map(posting => (
-                <div key={posting.id} className='flex mx-2 w-full justify-between h-32 rounded-md bg-stone-400/50 hover:text-red-800'>
-                  <div className='text-xl font-arvo'>
-                    {posting.title}
-                  </div>
-                  <div>
-                    {posting.status == "Active" ? <div className='text-green-400'>Active</div> : <div className='text-gray-600'>Archived</div>}
-                  </div>
+                <div key={posting.id}>
+                  <JobMeta meta={posting}/>
                 </div>
               ))}
             </>

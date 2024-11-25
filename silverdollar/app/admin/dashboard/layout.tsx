@@ -1,4 +1,4 @@
-
+import { CurrentContext } from "./components/CurrentContext"
 export default function Layout({
     children,
     modal
@@ -7,9 +7,9 @@ export default function Layout({
     modal?: React.ReactNode
   }) {
     return (
-        <div>
-            {children}
-            {modal}
-        </div>
+        <CurrentContext>
+          {children}
+          {modal}
+        </CurrentContext>
     )
   }

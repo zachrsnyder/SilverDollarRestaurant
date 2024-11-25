@@ -6,6 +6,8 @@ import { AdminUser } from "@/lib/types/auth";
 import LeftDashboard from "./components/LeftDashboard";
 import { PageType } from "@/lib/types/pageTypes";
 import { ID } from "@/lib/types/ID";
+import AddJobForm from "./components/AddJob";
+import { usePageData } from "./components/CurrentContext";
 
 
 //TODO: Fix switch case to adjust for "add" ID strings
@@ -16,8 +18,9 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true)
   const [loadingContent, setLoadingContent] = useState(true)
   const [user, setUser] = useState<AdminUser | null>(null)
-  const [currentPage, setCurrentPage] = useState<PageType>("Welcome");
-  const [currentData, setCurrentData] = useState<ID>(null);
+  const { currentPage, setCurrentPage, currentData, setCurrentData } = usePageData();
+  
+  const [posting, setPosting] = useState(null)
 
 
 
@@ -51,36 +54,39 @@ export default function Dashboard() {
   useEffect(()=>{
     const getContent = async() => {
       setLoadingContent(true)
-      switch(currentPage){
-        case "Job Postings": {
-          try{
-            const jobs = await fetch("/api/jobs", {
-              method: 'GET',
-              headers: { "Content-Type": "application/json" },
-            })
-            const json = await jobs.json();
-            const list = json?.body;
-            setCurrentData(list)
-          }catch(error : any){
-            console.log("Error fetching job postings", error);
-            setError("Error fetching job postings")
-          }finally{
-            setLoadingContent(false)
-          }
-        }
-        case "Manage Workers": {
-          try{
-            if (user?.role != "owner"){
-              throw Error("Insufficient Permissions")
+      if(currentData != "add"){
+        switch(currentPage){
+          case "Job Postings": {
+            try{
+              const jobs = await fetch("/api/jobs", {
+                method: 'GET',
+                headers: { "Content-Type": "application/json" },
+              })
+              const json = await jobs.json();
+              const list = json?.body;
+              setCurrentData(list)
+            }catch(error : any){
+              console.log("Error fetching job postings", error);
+              setError("Error fetching job postings")
+            }finally{
+              setLoadingContent(false)
             }
-            setLoadingContent(false)
-          }catch(error : any){
-            console.log("Error accessing worker info", error)
-            setError("Error accessing worker info")
+          }
+          case "Manage Workers": {
+            try{
+              if (user?.role != "owner"){
+                throw Error("Insufficient Permissions")
+              }
+              setLoadingContent(false)
+            }catch(error : any){
+              console.log("Error accessing worker info", error)
+              setError("Error accessing worker info")
+            }
           }
         }
+      }else{
+        setLoadingContent(false);
       }
-  
     }
 
     getContent()
@@ -88,35 +94,35 @@ export default function Dashboard() {
   }, [currentData])
 
   return (
-    <div>
+    <div className='flex flex-row justify-between align-middle'>
 
-      <LeftDashboard setCurrentPage={setCurrentPage} setCurrentData={setCurrentData}/>
+      <LeftDashboard/>
       <div className='bg-red-600 hover:bg-red-800 fixed top-5 right-16 z-50 rounded-lg'>
         <button className='my-2 mx-4 text-white' onClick={() => logout()}>Logout</button>
       </div>
 
       {/* Main Content */}
-      <div className='flex jusify-center align-middle mx-auto w-3/4'>
+      <div className='flex justify-center items-center mt-20 w-3/4'>
       {/*loading clause wrapped in error clause. Within loading clause is booleans to decide what content to display! Might be smarter to have error nested in loading, but this also works.*/}
       {error ? (<div className='text-lg text-red-500'>{error}</div>) : (<>
         {loadingContent ? (
           <div className='text-7xl'>Loading your content...</div>
         ) : (<>
           {currentPage == "Welcome" && (
-            <div className='text-7xl flex-col space-y-16 font-arvo '>
+            <div className='text-7xl align-middle space-y-16 font-arvo '>
               <div>Welcome,</div>
               <div>{user?.fName}</div>
             </div>
           )}
           {currentPage == "Job Postings" && (
-            <div>
-              Jobs
-            </div>
+            <>
+              {currentData == "add" ? <AddJobForm/> : <div>Posting Content</div>}
+            </>
           )}
           {currentPage == "Manage Workers" && (
-            <div>
-              Manage Workers Owner!!
-            </div>
+            <>
+              {currentData == "add" ? <div>Add a worker</div> : <div>Worker info!</div>}
+            </>
           )}
         </>)}
       </>)}

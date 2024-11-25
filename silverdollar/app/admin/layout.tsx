@@ -11,7 +11,7 @@ export default function Layout({
 }) {
   return (
     <div>
-        <div className="container min-h-screen flex items-center justify-center">
+        <div className="container min-h-screen">
             {children}
             {modal}
         </div>

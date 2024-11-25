@@ -1,5 +1,5 @@
 import {ID} from './ID'
-type JobStatus = "Active" | "Archived";
+export type JobStatus = "Active" | "Archived" | "Draft";
 
 export interface JobPostingMetadata {
     id: ID

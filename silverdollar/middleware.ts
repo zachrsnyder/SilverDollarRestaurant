@@ -17,6 +17,7 @@ export default async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/admin", req.nextUrl));
   }
 
+  
   // Protected API routes
   if (path.startsWith("/api/admin")) {
     if (!session?.userId) {
@@ -30,6 +31,13 @@ export default async function middleware(req: NextRequest) {
       }
     } catch (error) {
       return NextResponse.json({ error: "Invalid session" }, { status: 401 });
+    }
+  }
+
+  // Checking to ensure randoms can't create job postings. Essentially G checking you! Had to leave this route outside of admin because everyone has the right to load the jobs.
+  if(path.startsWith("api/jobPosting")){
+    if(req.method == "POST" && !session?.userId){
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
   }
 
