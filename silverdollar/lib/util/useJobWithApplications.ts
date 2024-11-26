@@ -149,7 +149,8 @@ export function useJobWithApplications(jobId: ID) {
   };
 
   return { 
-    job, 
+    job,
+    setJob, 
     applications, 
     loading, 
     error,

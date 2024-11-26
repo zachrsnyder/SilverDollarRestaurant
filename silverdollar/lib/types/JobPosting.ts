@@ -2,10 +2,11 @@ import { ID } from './ID';
 import { JobStatus } from './JobPostingMetadata';
 import { Timestamp } from 'firebase/firestore';
 
+export type JobType = 'full-time' | 'part-time' | 'contract' | 'temporary'
 
 export interface CreateJobPosting {
   title: string;
-  type: 'full-time' | 'part-time' | 'contract' | 'temporary';
+  type: JobType;
   summary: string;
   keyResponsibilities: string[];
   requirements: string[];

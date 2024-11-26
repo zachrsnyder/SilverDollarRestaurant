@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 
 interface TooltipProps {
-    text: string;
+    text: string | React.ReactNode;
 
     children: React.ReactNode
 
-    coords: [number, number]   
+    coords: [number, number]
+    
+    tailwind?: string
 }
 
-const Tooltip = ({ text, children, coords } : TooltipProps) => {
+const Tooltip = ({ text, children, coords, tailwind } : TooltipProps) => {
   const [isVisible, setIsVisible] = useState(false);
 
   return (
@@ -19,12 +21,13 @@ const Tooltip = ({ text, children, coords } : TooltipProps) => {
     >
       {children}
       {isVisible && (
-        <div className="absolute z-[9999] flex px-4 py-1 text-xs font-thin text-white bg-gray-700 rounded-lg"
+        <div className={`absolute flex ${tailwind ? {tailwind} :'px-4 py-1 text-xs font-thin text-white bg-gray-700 rounded-lg'} `}
         style={{
             top: coords[0] ?? "auto",
-            left: coords[1] ?? "auto",
+            right: coords[1] ?? "auto",
             whiteSpace: "nowrap",
-            pointerEvents: 'none'
+            pointerEvents: 'none',
+            zIndex: 20
           }}>
             <span className="!whitespace-nowrap">{text}</span>
           

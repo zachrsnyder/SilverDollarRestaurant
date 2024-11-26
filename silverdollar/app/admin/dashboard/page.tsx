@@ -99,7 +99,7 @@ export default function Dashboard() {
     <div className='flex flex-row justify-between align-middle'>
 
       <LeftDashboard/>
-      <div className='bg-red-600 hover:bg-red-800 fixed top-5 right-16 z-50 rounded-lg'>
+      <div className='bg-red-800 hover:bg-red-600 fixed top-5 right-16 z-50 rounded-lg'>
         <button className='my-2 mx-4 text-white' onClick={() => logout()}>Logout</button>
       </div>
 

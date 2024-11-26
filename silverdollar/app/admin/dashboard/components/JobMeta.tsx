@@ -101,7 +101,7 @@ const JobMeta = ({meta}: Props) => {
     }
   return (
     <>
-    <div key={meta.id} className={`flex flex-col md:flex-row group w-full justify-between items-center px-3 rounded-md bg-stone-400 hover:text-red-800`}
+    <div key={meta.id} className={`flex flex-col min-h-11 md:flex-row group w-full justify-between items-center px-3 rounded-md bg-gray-500 hover:text-red-800`}
         onClick={()=>{handleCardClick()}}
     >
         <div className='text-lg xl:text-xl font-arvo'>
@@ -111,12 +111,12 @@ const JobMeta = ({meta}: Props) => {
             <div className={`overflow-hidden group-hover:overflow-visible transition-[width] duration-700 w-[0vw] group-hover:w-14 flex space-x-2`}
                 
             >
-                <Tooltip text={'Delete'} coords={[-20,10]}><div onClick={()=>{onDeleteClick()}}><Trash2 size={22}/></div></Tooltip>
-                {(meta.status == "Draft" || (meta.status == "Archived")) && (<Tooltip text={'Post Job'} coords={[-20, 20]}><div  onClick={() => {handlePostClick()}} className='text-green-600 text-xs text-nowrap whitespace-nowrap inline-block min-w-max'><BookPlus size={22}/></div></Tooltip>)}
-                {meta.status == "Active" && (<Tooltip text={"Archive Post"} coords={[-20,20]}><div onClick={() => {handleArchiveClick()}} className='text-gray-600'><EyeOff size={22}/></div></Tooltip>)}
+                <Tooltip text={'Delete'} coords={[-20, -60]}><div onClick={()=>{onDeleteClick()}}><Trash2 size={22}/></div></Tooltip>
+                {(meta.status == "Draft" || (meta.status == "Archived")) && (<Tooltip text={'Post Job'} coords={[-20, -80]}><div  onClick={() => {handlePostClick()}} className='text-green-600 text-xs text-nowrap whitespace-nowrap inline-block min-w-max'><BookPlus size={22}/></div></Tooltip>)}
+                {meta.status == "Active" && (<Tooltip text={"Archive Post"} coords={[-20,-80]}><div onClick={() => {handleArchiveClick()}} className='text-gray-600'><EyeOff size={22}/></div></Tooltip>)}
             </div>
-            <div className='z-50 bg-stone-400'>
-                {meta.status == "Active" ? <div className='text-green-400 w-11'>Active</div> : <div className='text-gray-600 w-11'>{meta.status}</div>}
+            <div className='z-10 bg-gray-500'>
+                {meta.status == "Active" ? <div className='text-green-400 w-11 text-end'>Active</div> : <div className='text-gray-600 w-11 text-end'>{meta.status}</div>}
             </div>
         </div>
         

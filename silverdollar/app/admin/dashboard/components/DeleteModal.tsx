@@ -1,4 +1,4 @@
-import { BaseModal } from "@/app/maincomps/BaseModal";
+import { BaseModal } from "@/lib/util/BaseModal";
 
 interface DeleteConfirmationModalProps {
     isOpen: boolean;
