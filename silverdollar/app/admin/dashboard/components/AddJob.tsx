@@ -2,7 +2,7 @@
 
 import { serverTimestamp, addDoc, collection } from 'firebase/firestore';
 import { db, auth } from '@/lib/auth/client';
-import { JobPosting } from '@/lib/types/JobPosting';
+import { CreateJobPosting } from '@/lib/types/JobPosting';
 import { useState } from 'react';
 
 
@@ -10,7 +10,7 @@ import { useState } from 'react';
 export default function AddJobForm() {
 
     //empty job
-    const [formData, setFormData] = useState<JobPosting>({
+    const [formData, setFormData] = useState<CreateJobPosting>({
         title: '',
         type: 'full-time',
         summary: '',
@@ -61,7 +61,7 @@ export default function AddJobForm() {
     const handleSubmit = async (e: React.FormEvent) => {
         try{
             e.preventDefault();
-            
+
             const user = auth.currentUser;
             if (user) {
                 const token = await user.getIdTokenResult();
@@ -139,7 +139,7 @@ export default function AddJobForm() {
             value={formData.type}
             onChange={e => setFormData(prev => ({ 
               ...prev, 
-              type: e.target.value as JobPosting['type']
+              type: e.target.value as CreateJobPosting['type']
             }))}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
           >
@@ -296,7 +296,7 @@ export default function AddJobForm() {
           value={formData.status}
           onChange={e => setFormData(prev => ({ 
             ...prev, 
-            status: e.target.value as JobPosting['status']
+            status: e.target.value as CreateJobPosting['status']
           }))}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
         >

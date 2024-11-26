@@ -29,7 +29,7 @@ const LeftDashboard : React.FC = () => {
       <div className='mt-20 flex min-h-screen text-[var(--text-color)] z-10'>
         <div className={`h-full z-10 transition-all duration-300 bg-gray-300 ${
             isCollapsed ? 'w-0 p-0 overflow-hidden' : 'w-[25vw]'} shadow-2xl flex flex-col`}>
-              <JobSection setCurrentData={setCurrentData} setCurrentPage={setCurrentPage}/>
+              <JobSection/>
         </div>
         <div className='h-full items-center relative flex justify-center'>
           <div className="w-[1vw] h-[4vw] bg-gray-500 rounded-r-full justify-center align-middle items-center flex z-10" style={{ opacity: isHovered ? .90 : .20, color: 'black' }} onClick={toggleAside} onMouseEnter={() => setIsHovered(true)}

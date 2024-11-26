@@ -8,6 +8,10 @@ import { PageType } from "@/lib/types/pageTypes";
 import { ID } from "@/lib/types/ID";
 import AddJobForm from "./components/AddJob";
 import { usePageData } from "./components/CurrentContext";
+import { JobPosting } from "@/lib/types/JobPosting";
+import { db } from "@/lib/auth/client";
+import { doc, getDoc } from "firebase/firestore";
+import ViewPageComp from "./components/ViewPageComp";
 
 
 //TODO: Fix switch case to adjust for "add" ID strings
@@ -20,7 +24,9 @@ export default function Dashboard() {
   const [user, setUser] = useState<AdminUser | null>(null)
   const { currentPage, setCurrentPage, currentData, setCurrentData } = usePageData();
   
-  const [posting, setPosting] = useState(null)
+  //implementing specific pages.
+  const [posting, setPosting] = useState<JobPosting | null>(null)
+  const [worker, setWorker] = useState(null)
 
 
 
@@ -58,13 +64,9 @@ export default function Dashboard() {
         switch(currentPage){
           case "Job Postings": {
             try{
-              const jobs = await fetch("/api/jobs", {
-                method: 'GET',
-                headers: { "Content-Type": "application/json" },
-              })
-              const json = await jobs.json();
-              const list = json?.body;
-              setCurrentData(list)
+              const docRef = doc(db, "jobPostings", `${currentData}`);
+              const data = await getDoc(docRef);
+              
             }catch(error : any){
               console.log("Error fetching job postings", error);
               setError("Error fetching job postings")
@@ -116,7 +118,7 @@ export default function Dashboard() {
           )}
           {currentPage == "Job Postings" && (
             <>
-              {currentData == "add" ? <AddJobForm/> : <div>Posting Content</div>}
+              {currentData == "add" ? <AddJobForm/> : <ViewPageComp/>}
             </>
           )}
           {currentPage == "Manage Workers" && (

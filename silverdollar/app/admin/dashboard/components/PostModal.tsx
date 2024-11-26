@@ -1,5 +1,6 @@
 import { BaseModal } from "@/app/maincomps/BaseModal";
 
+
 interface PostConfirmationModalProps {
     isOpen: boolean;
     onClose: () => void;

@@ -7,6 +7,7 @@ import { doc, deleteDoc, updateDoc } from 'firebase/firestore'
 import DeleteConfirmationModal from './DeleteModal'
 import PostModal from './PostModal'
 import ArchiveModal from './ArchiveModal'
+import Tooltip from '@/lib/util/Tooltip'
 
 interface Props{
     meta: JobPostingMetadata
@@ -93,22 +94,29 @@ const JobMeta = ({meta}: Props) => {
     const handleArchiveModalClose = () => {
         setIsArchiveOpen(false);
     }
+
+    const handleCardClick = () => {
+        setCurrentPage("Job Postings");
+        setCurrentData(`${meta.id}`);
+    }
   return (
     <>
-    <div key={meta.id} className={`flex group w-full justify-between items-center h-11 px-3 rounded-md bg-stone-400/50 hover:text-red-800`}>
-        <div className='text-xl font-arvo'>
+    <div key={meta.id} className={`flex flex-col md:flex-row group w-full justify-between items-center px-3 rounded-md bg-stone-400 hover:text-red-800`}
+        onClick={()=>{handleCardClick()}}
+    >
+        <div className='text-lg xl:text-xl font-arvo'>
             {meta.title}
         </div>
-        <div className='flex space-x-2'>
-            <div className={`overflow-hidden transition-[width] duration-700 w-[0vw] group-hover:w-[4vw] flex space-x-4`}
+        <div className='flex flex-col md:flex-row space-x-2'>
+            <div className={`overflow-hidden group-hover:overflow-visible transition-[width] duration-700 w-[0vw] group-hover:w-14 flex space-x-2`}
                 
             >
-                <div onClick={()=>{onDeleteClick()}}><Trash2 size={22}/></div>
-                {(meta.status == "Draft" || meta.status == "Archived") && (<div  onClick={() => {handlePostClick()}} className='text-green-600'><BookPlus size={22}/></div>)}
-                {meta.status == "Active" && (<div  onClick={() => {handleArchiveClick()}} className='text-gray-600'><EyeOff size={22}/></div>)}
+                <Tooltip text={'Delete'} coords={[-20,10]}><div onClick={()=>{onDeleteClick()}}><Trash2 size={22}/></div></Tooltip>
+                {(meta.status == "Draft" || (meta.status == "Archived")) && (<Tooltip text={'Post Job'} coords={[-20, 20]}><div  onClick={() => {handlePostClick()}} className='text-green-600 text-xs text-nowrap whitespace-nowrap inline-block min-w-max'><BookPlus size={22}/></div></Tooltip>)}
+                {meta.status == "Active" && (<Tooltip text={"Archive Post"} coords={[-20,20]}><div onClick={() => {handleArchiveClick()}} className='text-gray-600'><EyeOff size={22}/></div></Tooltip>)}
             </div>
-            <div>
-                {meta.status == "Active" ? <div className='text-green-400'>Active</div> : <div className='text-gray-600'>{meta.status}</div>}
+            <div className='z-50 bg-stone-400'>
+                {meta.status == "Active" ? <div className='text-green-400 w-11'>Active</div> : <div className='text-gray-600 w-11'>{meta.status}</div>}
             </div>
         </div>
         

@@ -4,19 +4,16 @@ import { PageType } from '@/lib/types/pageTypes';
 import { ID } from '@/lib/types/ID';
 import {usePostingsSubscription} from '@/lib/util/usePostingSubscription'
 import JobMeta from './JobMeta';
+import { usePageData } from './CurrentContext';
+import Tooltip from '@/lib/util/Tooltip';
 
 // TODO: Add view/update/delete of postings
 
-interface Props {
 
-    setCurrentPage : React.Dispatch<React.SetStateAction<PageType>>
-
-    setCurrentData : React.Dispatch<React.SetStateAction<ID>>
-}
-
-export const JobSection = ({setCurrentData, setCurrentPage} : Props) => {
+export const JobSection = () => {
     const [isOpen, setIsOpen] = useState(false);
     const {postings, loading} = usePostingsSubscription();
+    const {currentPage, setCurrentPage, currentData, setCurrentData} = usePageData()
     return(
 <div className='flex flex-col relative'>
   <div className="flex items-center justify-between p-4 border-b border-white/10" onClick={() => {
@@ -30,6 +27,7 @@ export const JobSection = ({setCurrentData, setCurrentPage} : Props) => {
       </div>
       <h3 className="text-lg font-sans font-bold ">Job Postings</h3>
     </div>
+    <Tooltip text={'Add Job'} coords={[-14,10]}>
     <button 
     onClick={() => {
         setCurrentData("add")
@@ -39,6 +37,7 @@ export const JobSection = ({setCurrentData, setCurrentPage} : Props) => {
     >
         <Plus className="text-black/70 group-hover: transition-colors" size={20} />
     </button>
+    </Tooltip>
   </div>
   <div>
       {isOpen && (
