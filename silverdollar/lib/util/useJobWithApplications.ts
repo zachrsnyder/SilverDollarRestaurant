@@ -56,6 +56,7 @@ const globalJobCache = new JobCache();
 
 export function useJobWithApplications(jobId: ID) {
   const [job, setJob] = useState<JobPosting | null>(null);
+  const [originalJob, setOriginalJob] = useState<JobPosting | null>(null)
   const [applications, setApplications] = useState<Application[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
@@ -65,31 +66,33 @@ export function useJobWithApplications(jobId: ID) {
   const applicationsUnsubscribeRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
+    setJob(null);
+    setOriginalJob(null);
     if (!jobId) return;
 
-    // Check cache first
     const cachedJob = globalJobCache.get(jobId);
     if (cachedJob) {
-      setJob(cachedJob);
+      const jobCopy = structuredClone(cachedJob); // Deep copy
+      setOriginalJob(jobCopy);
+      setJob(jobCopy);
       setLoading(false);
     }
 
-    // Set up job document listener
     const jobRef = doc(db, 'jobPostings', jobId);
     jobUnsubscribeRef.current = onSnapshot(
       jobRef,
       (docSnap) => {
         if (docSnap.exists()) {  
-            const jobData = {
-                id: docSnap.id,
-                ...docSnap.data()
-            } as JobPosting;
-            setJob(jobData);
-            // Update cache
-            globalJobCache.set(jobId, jobData);
-            setLoading(false);
-        } else {
-          setJob(null);
+          const jobData = {
+            id: docSnap.id,
+            ...docSnap.data()
+          } as JobPosting;
+          
+          // Set job data
+          setJob(jobData);
+          // Only set originalJob if it's not already set
+          setOriginalJob(structuredClone(jobData));
+          globalJobCache.set(jobId, jobData);
           setLoading(false);
         }
       },
@@ -131,6 +134,10 @@ export function useJobWithApplications(jobId: ID) {
     };
   }, [jobId]);
 
+  const updateOriginalJob = () => {
+    setOriginalJob(structuredClone(job));
+  };
+
   // Function to force refresh the data
   const refreshData = async () => {
     setLoading(true);
@@ -150,7 +157,9 @@ export function useJobWithApplications(jobId: ID) {
 
   return { 
     job,
-    setJob, 
+    setJob,
+    originalJob, 
+    updateOriginalJob,
     applications, 
     loading, 
     error,

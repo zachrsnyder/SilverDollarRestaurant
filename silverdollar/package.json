@@ -9,8 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.13.5",
+    "@emotion/styled": "^11.13.5",
     "@google-cloud/firestore": "^7.10.0",
     "@googlemaps/js-api-loader": "^1.16.8",
+    "@mui/material": "^6.1.9",
     "@react-google-maps/api": "^2.20.3",
     "cookies-next": "^5.0.2",
     "firebase-admin": "^12.7.0",

@@ -1,16 +1,35 @@
-import {Job} from '../../../lib/types/Job'
+import { ClientJobPostingMeta } from '@/lib/types/ClientJobPostingMeta'
+import { JobPostingMetadata } from '@/lib/types/JobPostingMetadata'
+import { Dialog } from '@mui/material'
+import {useState} from 'react'
 
 interface Props {
-    job : Job
+    job : ClientJobPostingMeta
 }
 
+// TODO: FIX MODALS IN ADMIN DASHBOARD
+
+
 const JobCard = ({job} : Props) => {
+  const [open, setOpen] = useState(false);
+  const handleCardClick = () => {
+    console.log(`Open modal for ${job.title}`)
+  }
+
   return (
-    <div className='flex justify-evenly flex-col w-full h-[200px] bg-gray-300 border-t-2 border-black'>
-        <div>
-            <h1>{job.title}</h1>
+    <>
+    <div key={job.id} className={`flex flex-col md:flex-row group h-full w-full justify-between items-center px-3 rounded-md bg-gray-400 hover:text-red-800`}
+        onClick={()=>{handleCardClick()}}
+    >
+        <div className='text-lg xl:text-xl font-arvo font-bold'>
+            {job.title}
         </div>
+        <div className='xl:text-lg font-arvo text-gray-600'>
+          {job.type}
+        </div>
+        
     </div>
+    </>
   )
 }
 

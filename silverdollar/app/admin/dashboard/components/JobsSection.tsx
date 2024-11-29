@@ -7,7 +7,6 @@ import JobMeta from './JobMeta';
 import { usePageData } from './CurrentContext';
 import Tooltip from '@/lib/util/Tooltip';
 
-// TODO: Add view/update/delete of postings
 
 
 export const JobSection = () => {
@@ -16,11 +15,12 @@ export const JobSection = () => {
     const {currentPage, setCurrentPage, currentData, setCurrentData} = usePageData()
     return(
 <div className='flex flex-col relative'>
-  <div className="flex items-center justify-between p-4 border-b border-white/10" onClick={() => {
-        setIsOpen(!isOpen);
-      }}>
+  <div className="flex items-center justify-between p-4 border-b border-white/10">
     <div 
       className="flex items-center space-x-3 cursor-pointer group"
+      onClick={() => {
+        setIsOpen(!isOpen);
+      }}
     >
       <div className="p-2 rounded-lg bg-white/5 text-black group-hover:bg-white/10 transition-colors">
         <Briefcase className="" size={20} />
@@ -33,7 +33,7 @@ export const JobSection = () => {
         setCurrentData("add")
         setCurrentPage("Job Postings")
     }}
-    className="p-2 rounded-full hover:bg-white/10 transition-colors group"
+    className="p-2 rounded-full hover:bg-white/10 transition-colors group z-30"
     >
         <Plus className="text-black/70 group-hover: transition-colors" size={20} />
     </button>

@@ -1,66 +1,51 @@
 'use client'
 import {useEffect, useState} from 'react'
-import { Job } from '../../../lib/types/Job'
-import { db } from '@/firebase.config' 
+
+import { db } from '@/lib/auth/client' 
 import { collection, getDocs } from 'firebase/firestore'
 import JobCard from './JobCard'
+import { JobPostingMetadata } from '@/lib/types/JobPostingMetadata'
+import { usePostingsSubscription } from '@/lib/util/usePostingSubscription'
+import { Skeleton } from '@mui/material'
+import { useClientPostingsSubscription } from '@/lib/util/useClientPostingSubscription'
 
 
-const jobTest : Job[] = [
-    {id: '1', title: "busser", type: "part-time", postedDate: "Today", status: "open"},
-    {id: '2', title: "busser", type: "part-time", postedDate: "Today", status: "open"},
-    {id: '3', title: "busser", type: "part-time", postedDate: "Today", status: "open"},
-    {id: '4', title: "busser", type: "part-time", postedDate: "Today", status: "open"},
-    {id: '5', title: "busser", type: "part-time", postedDate: "Today", status: "open"},
-]
-
+// TODO: Go into the admin side and make a dasboard on mount script to update # of applications. I dont want to modify the write privileges for the collection.
 
 const JobTable = () => {
-    const [jobs, setJobs] = useState<Job[]>([])
-    const [loading, setLoading] = useState(true)
-  
-    useEffect(() => {
-      const fetchJobs = async () => {
-        try {
-        //   const jobsCollection = collection(db, 'jobs')
-        //   const jobSnapshot = await getDocs(jobsCollection)
-        //   const jobList = jobSnapshot.docs.map(doc => ({
-        //     id: doc.id,
-        //     ...doc.data()
-        //   })) as Job[]
-        //   setJobs(jobList)
-        setJobs(jobTest)
-        } catch (error) {
-          console.log('Error fetching jobs:', error)
-        } finally {
-          setLoading(false)
-        }
-      }
-  
-      fetchJobs()
-    }, [])
 
-    
+  const skeletonCnt = 10;
+  const {postings, loading, error} = useClientPostingsSubscription()
   
-    if (loading) {
-      return <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-500"></div>
-      </div>
-    }
-  
-
-
   return (
-    <div className="flex flex-col w-10/12 sm:w-4/5 overflow-auto mx-auto">
+    <div className="flex flex-col w-10/12 sm:w-4/5 mx-auto">
         {/*Results header*/}
         <div className='flex justify-start'>
-            <p className='ml-4 my-2'>{jobs.length} Results</p>
+          {/* {loading ?
+            <p className='ml-4 my-2'>{postings.length} Results</p>
+            :
+            <Skeleton variant={'rectangular'}/>
+          } */}
         </div>
-        {jobs.map((job ) => (
-        <div key={job.id}>
-            <JobCard job={job}/>
-        </div>
-        ))}
+        {!loading ? (
+            <div className={`space-y-2 mx-auto ${postings.length < 5 ? '' : 'overflow-y-scroll'}`}>         
+            {postings.map((job ) => (
+              job.status == "Active" &&
+            <div className='xl:w-[900px] md:w-[700px] sm:w-[500px] w-[400px] h-[100px]' key={job.id}>
+                <JobCard job={job}/>
+            </div>))}
+            </div>
+        ) : (
+          <div className='space-y-2 mx-auto overflow-y-scroll'>
+            {  
+              Array.from({length: skeletonCnt}, (_, index) => 
+                (<div  key={index} >
+                  <Skeleton variant='rectangular' width={800} height={100}/>
+                </div>)
+              )
+            }
+          </div>
+        )}
     </div>
   )
 }

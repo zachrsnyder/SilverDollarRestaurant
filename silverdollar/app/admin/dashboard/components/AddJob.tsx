@@ -300,9 +300,8 @@ export default function AddJobForm() {
           }))}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
         >
-          <option value="Archived">Draft</option>
-          <option value="Draft">Published</option>
-          <option value="Active">Closed</option>
+          <option value="Draft">Draft</option>
+          <option value="Active">Active</option>
         </select>
       </div>
 
