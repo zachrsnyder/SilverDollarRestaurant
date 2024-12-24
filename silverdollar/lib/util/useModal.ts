@@ -9,6 +9,7 @@ interface UseModalProps {
 export function useModal({ isOpen, onClose }: UseModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const previousActiveElement = useRef<HTMLElement | null>(null);
+  const initialFocusPerformed = useRef(false);
 
   //handles leaving modal when click isnt within modal. Triggers on every mouse event
   const handleClickOutside = useCallback(
@@ -67,14 +68,6 @@ export function useModal({ isOpen, onClose }: UseModalProps) {
       document.addEventListener('keydown', handleKeyDown);
       document.addEventListener('keydown', handleFocusTrap);
 
-      //focus first focusable element in modal
-      const focusableElements = modalRef.current?.querySelectorAll(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-      );
-      if (focusableElements?.length) {
-        (focusableElements[0] as HTMLElement).focus();
-      }
-
       //prevent body scroll
       document.body.style.overflow = 'hidden';
 
@@ -84,9 +77,10 @@ export function useModal({ isOpen, onClose }: UseModalProps) {
         document.removeEventListener('keydown', handleKeyDown);
         document.removeEventListener('keydown', handleFocusTrap);
         
-        // Restore focus and scroll
-        previousActiveElement.current?.focus();
-        document.body.style.overflow = 'unset';
+        // // Restore focus and scroll
+        // previousActiveElement.current?.focus();
+        // document.body.style.overflow = 'unset';
+        // initialFocusPerformed.current = false;
       };
     }
   }, [isOpen, handleClickOutside, handleKeyDown, handleFocusTrap]);

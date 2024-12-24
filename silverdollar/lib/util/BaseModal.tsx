@@ -1,7 +1,7 @@
 import { useModal } from "@/lib/util/useModal";
 
 interface BaseModalProps {
-    isOpen: boolean;
+    isOpen: any;
     onClose: () => void;
     children: React.ReactNode;
     className?: string;

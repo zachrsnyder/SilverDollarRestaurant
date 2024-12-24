@@ -1,6 +1,15 @@
 import { Metadata } from 'next'
 
 
+
+/** CAREERS TODO
+ * TODO: Implement correct loading.tsx and error.tsx to this directory. 
+ * TODO: Implement individual posting modal. Modal layout.tsx + correct routing.
+ * TODO: Gussy up!
+ * 
+ */
+
+
 export const metadata: Metadata = {
   title: 'Careers | Silver Dollar',
   description: 'Join the team at The Silver Dollar in Eldon, MO!',
@@ -49,7 +58,6 @@ export default function Layout({
   return (
     <div>
       {children}
-      {modal}
     </div>
   )
 }

@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
 import { collection, query, orderBy, onSnapshot, QuerySnapshot, DocumentData} from 'firebase/firestore';
 import { db } from '@/lib/auth/client';
-import { ClientJobPostingMeta } from '../types/ClientJobPostingMeta';
+import { ClientJobPosting } from '../types/ClientJobPostingMeta';
 
 // Cache for initial data
-let cachedPostings: ClientJobPostingMeta[] | null = null;
+let cachedPostings: ClientJobPosting[] | null = null;
 let cacheTimestamp: number = 0;
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
 export function useClientPostingsSubscription() {
-  const [postings, setPostings] = useState<ClientJobPostingMeta[]>([]);
+  const [postings, setPostings] = useState<ClientJobPosting[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
@@ -34,7 +34,7 @@ export function useClientPostingsSubscription() {
         const initialPostings = snapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
-        })) as ClientJobPostingMeta[];
+        })) as ClientJobPosting[];
         
         setPostings(initialPostings);
         cachedPostings = initialPostings;
@@ -44,11 +44,21 @@ export function useClientPostingsSubscription() {
         snapshot.docChanges().forEach((change) => {
           if (change.type === 'added') {
             const data = change.doc.data();
-            const newJob: ClientJobPostingMeta = {
-              id: change.doc.id,
+            const newJob: ClientJobPosting = {
+              id: data?.id,
               title: data?.title,
               status: data?.status,
-              type: data?.type
+              type: data?.type,
+              compensation: {
+                min: data?.compensation?.min,
+                max: data?.compensation?.max,
+                period: data?.compensation?.period
+              },
+              createdAt: data?.createdAt,
+              keyResponsibilities: data?.keyResponsibilities,
+              requirements: data?.requirements,
+              summary: data?.summary,
+              updatedAt: data?.updatedAt
             };
             
             setPostings(prev => {
@@ -71,12 +81,23 @@ export function useClientPostingsSubscription() {
           
           if (change.type === 'modified') {
             const data = change.doc.data();
-            const updatedDoc: ClientJobPostingMeta = {
-              id: change.doc.id,
-              title: data?.title,
-              status: data?.status,
-              type: data?.type
-            };
+            const updatedDoc: ClientJobPosting = 
+              {
+                id: data?.id,
+                title: data?.title,
+                status: data?.status,
+                type: data?.type,
+                compensation: {
+                  min: data?.compensation?.min,
+                  max: data?.compensation?.max,
+                  period: data?.compensation?.period
+                },
+                createdAt: data?.createdAt,
+                keyResponsibilities: data?.keyResponsibilities,
+                requirements: data?.requirements,
+                summary: data?.summary,
+                updatedAt: data?.updatedAt
+              };
             
             setPostings(prev => 
               prev.map(post => 

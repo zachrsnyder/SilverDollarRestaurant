@@ -17,10 +17,13 @@ export default async function CareersPage() {
             priority
           /> */}
           <h1 className="text-4xl text-red-800 font-bold font-arvo mb-4">Join Our Team!</h1>
-          <p className="text-lg text-gray-600">
-            At Silver Dollar's we value our team and their vital contributions to making things happen! Here you can find and apply to all of our available job postings. 
+          <p className="text-lg text-gray-600 mb-6">
+            At Silver Dollar we value our team and their vital contributions to making things happen! Here you can find and apply to all of our available job postings. 
           </p>
-          <JobTable />
+          <div>
+            <JobTable />
+          </div>
+          
         </div>
         
       </div>
