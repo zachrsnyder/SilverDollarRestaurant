@@ -4,9 +4,11 @@ import { useEffect, useRef, useCallback } from 'react';
 interface UseModalProps {
   isOpen: boolean;
   onClose: () => void;
+
+  onFocusMiss?: () => void
 }
 
-export function useModal({ isOpen, onClose }: UseModalProps) {
+export function useModal({ isOpen, onClose, onFocusMiss = () => {onClose()} }: UseModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const previousActiveElement = useRef<HTMLElement | null>(null);
   const initialFocusPerformed = useRef(false);
@@ -18,10 +20,10 @@ export function useModal({ isOpen, onClose }: UseModalProps) {
         modalRef.current &&
         !modalRef.current.contains(event.target as Node)
       ) {
-        onClose();
+        onFocusMiss();
       }
     },
-    [onClose]
+    [onFocusMiss]
   );
 
   //handles escape upon use of escape key, triggers on every key down.
@@ -69,7 +71,7 @@ export function useModal({ isOpen, onClose }: UseModalProps) {
       document.addEventListener('keydown', handleFocusTrap);
 
       //prevent body scroll
-      document.body.style.overflow = 'hidden';
+      
 
       //cleanup
       return () => {

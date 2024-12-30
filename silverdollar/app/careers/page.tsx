@@ -6,7 +6,7 @@ export default async function CareersPage() {
     console.log("Earth to careers")
     
     return (
-      <div className="container mx-auto px-4 py-8">
+      <div className="mx-auto px-4 py-8">
         <div className="text-center mt-20">
 
           {/* <Image

@@ -18,16 +18,12 @@ const JobCard = ({job, handleJobClick} : Props) => {
 
   return (
     <>
-    <div key={job.id} className={`flex flex-col md:flex-row group h-full w-full justify-between items-center px-3 rounded-md bg-gray-400 hover:text-red-800`}
+    <div key={job.id} className={`flex flex-col md:flex-row group h-full w-full justify-between items-center px-3 rounded-md bg-gray-300 hover:bg-gray-200`}
       onClick={() =>{handleJobClick(job)}}
     >
         <div className='text-lg xl:text-xl font-arvo font-bold'>
-            {job.title}
-        </div>
-        <div className='xl:text-lg font-arvo text-gray-600'>
-          {job.type}
-        </div>
-        
+            <span>{job.title}&nbsp;&nbsp;|</span><span className='xl:text-lg font-arvo text-gray-600'>&nbsp;&nbsp;&nbsp;&nbsp;{job.type}</span>
+        </div>  
     </div>
     </>
   )

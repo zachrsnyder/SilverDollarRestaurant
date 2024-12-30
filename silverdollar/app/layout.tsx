@@ -73,7 +73,7 @@ export default function RootLayout({
       >
         {/* {!shouldHideHeaderFooter && <NavBar />} */}
         <NavBar />
-        {children}
+        <main className='relative'>{children}</main>
         {/* {!shouldHideHeaderFooter && <Footer />} */}
         <Footer />
       </body>
