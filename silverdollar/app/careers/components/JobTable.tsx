@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { ClientJobPosting } from '@/lib/types/ClientJobPostingMeta'
 import { Modal, Paper, Skeleton } from '@mui/material'
@@ -83,31 +83,31 @@ export default function JobsTableWithModal() {
     router.push(`?${params.toString()}`, { scroll: false })
   }
 
-  const handleCloseModal = () => {
+  const handleCloseModal = useCallback(() => {
     // Remove jobId from URL
     
     const params = new URLSearchParams(searchParams)
     params.delete('jobId')
     router.push(`?${params.toString()}`, { scroll: false })
-  }
+  }, [searchParams, router])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-      const { name, value, type, checked } = e.target;
+    const { name, value, type, checked } = e.target;
       setApplication(prev => {
   
-          if(!prev) return prev
+        if(!prev) return prev
   
-          if(type == "file" && e.target.files) {
-              return {
-                  ...prev,
-                  resume: e.target.files[0]
-              }
-          }
-          return {
-              ...prev,
-              [name]: type === 'checkbox' ? checked : value
-          }});
-    };
+        if(type == "file" && e.target.files) {
+            return {
+                ...prev,
+                resume: e.target.files[0]
+            }
+        }
+        return {
+          ...prev,
+          [name]: type === 'checkbox' ? checked : value
+      }});
+  };
   
     const handleEducationChange = (
       level: keyof Application['education'],
@@ -267,8 +267,9 @@ export default function JobsTableWithModal() {
         {/* Personal Information */}
         <div className="space-y-4 mt-4">
           <h2 className="text-lg font-semibold text-gray-700">Personal Information</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
+          {/* Address Fields */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className='md:col-span-2'>
               <label className="block text-sm font-medium text-gray-600">Name (Last Name, First)</label>
               <input
                 type="text"
@@ -279,10 +280,6 @@ export default function JobsTableWithModal() {
                 required
               />
             </div>
-          </div>
-
-          {/* Address Fields */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-gray-600">Address</label>
               <input
@@ -311,6 +308,17 @@ export default function JobsTableWithModal() {
                 type="text"
                 name="state"
                 value={application?.state}
+                onChange={handleChange}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-600">ZipCode</label>
+              <input
+                type="text"
+                name="zipCode"
+                value={application?.zipCode}
                 onChange={handleChange}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 required

@@ -3,33 +3,52 @@
 import React from 'react';
 import { useEffect, useState, useRef } from 'react';
 
-const loadGoogleMapsScript = (apiKey, callback) => {
-  return new Promise((resolve, reject) => {
-    // If already loaded, resolve immediately
-    if (window.google?.maps) {
-      resolve();
-      return;
-    }
+// Keep track of script loading state globally
+let isScriptLoading = false;
+let scriptLoadPromise = null;
 
+const loadGoogleMapsScript = (apiKey) => {
+  // If the script is already loaded, return the existing promise
+  if (window.google?.maps) {
+    return Promise.resolve();
+  }
+
+  // If the script is currently loading, return the existing promise
+  if (scriptLoadPromise) {
+    return scriptLoadPromise;
+  }
+
+  isScriptLoading = true;
+  
+  // Create a new promise for script loading
+  scriptLoadPromise = new Promise((resolve, reject) => {
     // Create a unique callback name
     const callbackName = `googleMapsCallback_${Math.random().toString(36).substr(2, 9)}`;
     
     window[callbackName] = () => {
-      if (callback) callback();
+      isScriptLoading = false;
       resolve();
+      delete window[callbackName];
     };
 
+    // Create script element
     const script = document.createElement('script');
     script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=${callbackName}`;
     script.async = true;
     script.defer = true;
     
     script.onerror = (error) => {
+      isScriptLoading = false;
+      scriptLoadPromise = null;
       reject(error);
+      delete window[callbackName];
     };
 
+    // Add script to document
     document.head.appendChild(script);
   });
+
+  return scriptLoadPromise;
 };
 
 const MapComponent = ({
@@ -37,7 +56,6 @@ const MapComponent = ({
   address,
   zoom = 15
 }) => {
-  const [isLoading, setIsLoading] = useState(true);
   const [mapError, setMapError] = useState(null);
   const mapInstance = useRef(null);
   const mapRef = useRef(null);
@@ -61,12 +79,10 @@ const MapComponent = ({
             zoomControl: true
           });
         }
-
-        setIsLoading(false);
       } catch (error) {
         if (isMounted) {
+          console.error('Map loading error:', error);
           setMapError(`Failed to load map: ${error.message}`);
-          setIsLoading(false);
         }
       }
     };
@@ -75,19 +91,24 @@ const MapComponent = ({
 
     return () => {
       isMounted = false;
-      if (mapInstance.current) {
-        // Clean up map instance if needed
-        mapInstance.current = null;
-      }
     };
-  }, []); // Only run on mount
+  }, [apiKey]); // Only run when apiKey changes
 
   // Handle updates to zoom and address
   useEffect(() => {
     if (!mapInstance.current || !window.google?.maps) return;
     
     mapInstance.current.setZoom(zoom);
-    // Add address update logic here if needed
+
+    // Add geocoding for address if needed
+    if (address) {
+      const geocoder = new window.google.maps.Geocoder();
+      geocoder.geocode({ address }, (results, status) => {
+        if (status === 'OK' && results[0]) {
+          mapInstance.current.setCenter(results[0].geometry.location);
+        }
+      });
+    }
   }, [zoom, address]);
 
   if (mapError) {
@@ -103,7 +124,7 @@ const MapComponent = ({
     );
   }
 
-  if (isLoading) {
+  if (isScriptLoading) {
     return (
       <div style={{
         height: '300px',

@@ -1,6 +1,5 @@
 'use server'
 import JobTable from './components/JobTable'
-import Image from 'next/image'
 
 export default async function CareersPage() {
     console.log("Earth to careers")
