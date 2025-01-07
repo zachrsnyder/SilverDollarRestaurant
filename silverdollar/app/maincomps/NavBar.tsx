@@ -2,6 +2,7 @@ import Link from 'next/link'
 import React from 'react'
 import Image from 'next/image'
 import SmallScreenMenu from '@/component/SmallScreenMenu'
+import MenuDropdown from '@/component/MenuDropdown'
 
 //TODO: Add alternative styling for smaller screens!
 
@@ -13,10 +14,39 @@ const NavBar = () => {
       <div className="flex flex-1 justify-start items-center space-x-14 text-xl font-arvo font-bold text-gray-500">
           <Link href="#" className="text-black font-bold" ><Image src='/images/logo.png' alt='Silver Dollar' width={125} height={65} className='min-w-[125px]'/></Link>
           <div className="hidden sm:flex space-x-14">
-            <Link href="/" className='hover:text-red-800'>Home</Link>
-            <Link href="/menu" className='hover:text-red-800'>Menu</Link>
-            <Link href="/contact" className='hover:text-red-800'>Contact</Link>
-            <Link href="/careers" className='hover:text-red-800'>Careers</Link>
+          <div style={{
+                padding: '1.5rem 1rem',
+                fontSize: '1.275rem',
+                fontWeight: '750',
+                display: 'inline-flex',
+                alignItems: 'center',
+                cursor: 'pointer'
+                }}
+                className='text-gray-500'
+            >
+              <Link
+                href='/'
+              >
+                Home
+              </Link>
+            </div>
+            <MenuDropdown/>
+            <div style={{
+                padding: '1.5rem 1rem',
+                fontSize: '1.275rem',
+                fontWeight: '750',
+                display: 'inline-flex',
+                alignItems: 'center',
+                cursor: 'pointer'
+                }}
+                className='text-gray-500'
+            >
+              <Link
+                href='/careers'
+              >
+                Careers
+              </Link>
+            </div>
           </div>
           <div className='flex justify-end w-full sm:hidden'>
             <SmallScreenMenu/>
