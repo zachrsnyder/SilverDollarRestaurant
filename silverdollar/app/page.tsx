@@ -2,6 +2,7 @@ import Image from "next/image";
 import Facebook from "../component/Facebook";
 import FoodCard from "../component/SmallCard";
 import SmallCard from "../component/SmallCard";
+import MenuesSection from "@/component/menuesSection";
 
 export default function Home() {
   return (
@@ -60,6 +61,8 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      <MenuesSection/>
 
     </div>
   );

@@ -6,6 +6,10 @@ import { verify } from "jsonwebtoken"; // Add this import
 const protectedRoutes = ["/admin/dashboard"];
 const protectedApiRoutes = ["/api/admin"]; // Add API routes that need protection
 
+
+//todo: Dont decrypt cookie if the route isnt a protected one cmon now
+
+
 export default async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname;
   const cookie = await cookies();
