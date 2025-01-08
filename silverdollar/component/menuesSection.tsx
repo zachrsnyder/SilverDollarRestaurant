@@ -6,7 +6,7 @@ import { Utensils, CookingPot } from 'lucide-react'
 const MenuesSection = () => {
   return (
     <div className="grid min-h-[500px]" style={{ 
-        gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 500px), 1fr))'
+        gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))'
     }}>
         <div className=""
             style={{
