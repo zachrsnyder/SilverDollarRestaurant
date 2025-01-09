@@ -1,7 +1,15 @@
+import { cache } from "react";
 import { adminFileStorage, adminDb } from "../auth/admin";
 
 
-export async function getMenu() {
+
+export const getMenu = cache(async () => {
+  const menues = await getData();
+  return menues;
+});
+export const revalidate = 86400; // 24 hours
+
+export async function getData() {
     try {
         const menuSnapshot = await adminDb
             .collection('menu')
@@ -31,14 +39,14 @@ export async function getMenu() {
                     dinner: dinnerSignedUrl[0]
                 }
             }else{
-                return { error: 400, message: 'Missing one or more of the necessary Urls'}
+                return { breakfast: '/', dinner: '/', error: 400, message: 'Missing one or more of the necessary Urls'}
             }
             
         }else{
             // indicating no menu ledger found
-            return { error: 400, message: 'Could not find record of menu data.'}
+            return { breakfast: '/', dinner: '/', error: 400, message: 'Could not find record of menu data.'}
         }
     }catch( errer : any){
-        return { error: 400, message:'Error occurred while fetching menues'}
+        return { breakfast: '/', dinner: '/', error: 400, message:'Error occurred while fetching menues'}
     }
 }

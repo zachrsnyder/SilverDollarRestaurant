@@ -3,7 +3,11 @@ import Link from "next/link"
 import PreviousMap_ from "postcss/lib/previous-map";
 import { useState, useEffect } from "react"
 
-export default function MenuDropdown() {
+
+interface Props{
+        menuUrls: {breakfast: string, dinner: string, error?: number; message?: string;}
+}
+export default function MenuDropdown({menuUrls} : Props) {
     const [isHovered, setIsHovered] = useState(false);
     const [breakfast, setBreakfast] = useState(false)
     const [dinner, setDinner] = useState(false);
@@ -28,7 +32,7 @@ export default function MenuDropdown() {
                 alignItems: 'center',
                 cursor: 'pointer'
                 }}
-                className='text-gray'
+                className={`${isHovered ? 'text-red-800 ':'text-gray-500' }`}
             >
                 Menu
             </div>
@@ -48,7 +52,9 @@ export default function MenuDropdown() {
                 <div style={{ padding: '0.5rem 0' }} role="menu"
                 >
                     <Link
-                        href="#"
+                        href={menuUrls.breakfast}
+                        target="_blank" 
+                        rel="noopener noreferrer"
                         style={{
                             display: 'block',
                             padding: '0.5rem 1rem',
@@ -65,7 +71,9 @@ export default function MenuDropdown() {
                         Breakfast
                     </Link>
                     <Link
-                        href="#"
+                        href={menuUrls.dinner}
+                        target="_blank" 
+                        rel="noopener noreferrer"
                         style={{
                             display: 'block',
                             padding: '0.5rem 1rem',

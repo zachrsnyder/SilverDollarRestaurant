@@ -4,7 +4,12 @@ import "./globals.css";
 import NavBar from "./maincomps/NavBar";
 import Footer from './maincomps/Footer'
 import {Arvo} from 'next/font/google'
+import { getMenu } from "@/lib/util/getMenu";
 // import { usePathname } from "next/navigation";
+
+
+// Cache the getData function
+
 
 
 export const arvo = Arvo({
@@ -52,30 +57,22 @@ export const metadata: Metadata = {
   ]
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
-  // const pathname = usePathname();
-
-  // const noHeaderFooter = ['/admin/dashboard']
-
-  // const shouldHideHeaderFooter = noHeaderFooter.some((route) => {
-  //   pathname.startsWith(route);
-  // })
-
+  
   return (
     <html lang="en">
       <body
         className={`${arvo.variable} antialiased`}
       >
         {/* {!shouldHideHeaderFooter && <NavBar />} */}
-        <NavBar />
+        <NavBar/>
         <main className='relative'>{children}</main>
         {/* {!shouldHideHeaderFooter && <Footer />} */}
-        <Footer />
+        <Footer/>
       </body>
     </html>
   );

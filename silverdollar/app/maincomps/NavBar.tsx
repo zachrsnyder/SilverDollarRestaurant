@@ -2,11 +2,13 @@ import Link from 'next/link'
 import Image from 'next/image'
 import SmallScreenMenu from '@/component/SmallScreenMenu'
 import MenuDropdown from '@/component/MenuDropdown'
+import { getMenu } from '@/lib/util/getMenu'
 
 //TODO: Add alternative styling for smaller screens!
 
 
-const NavBar = () => {
+const NavBar = async() => {
+  const menuUrls = await getMenu();
   
   return (
     <nav className="bg-primary p-4 shadow-[0px_5px_10px_rgba(0,0,0,.5)] flex fixed w-full z-40 h-20">
@@ -21,7 +23,7 @@ const NavBar = () => {
                 alignItems: 'center',
                 cursor: 'pointer'
                 }}
-                className='text-gray-500'
+                className='text-gray-500 hover:text-red-800'
             >
               <Link
                 href='/'
@@ -29,7 +31,7 @@ const NavBar = () => {
                 Home
               </Link>
             </div>
-            <MenuDropdown/>
+            <MenuDropdown menuUrls={menuUrls}/>
             <div style={{
                 padding: '1.5rem 1rem',
                 fontSize: '1.275rem',
@@ -38,7 +40,7 @@ const NavBar = () => {
                 alignItems: 'center',
                 cursor: 'pointer'
                 }}
-                className='text-gray-500'
+                className='text-gray-500 hover:text-red-800'
             >
               <Link
                 href='/careers'
@@ -48,7 +50,7 @@ const NavBar = () => {
             </div>
           </div>
           <div className='flex justify-end w-full md:hidden'>
-            <SmallScreenMenu/>
+            <SmallScreenMenu menuUrls={menuUrls}/>
           </div>
       </div>
     </nav>

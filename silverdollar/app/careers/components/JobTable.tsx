@@ -219,7 +219,7 @@ export default function JobsTableWithModal() {
           }}
             className='mr-4'
           >
-            <X size={24} className='text-gray-100 hover:text-white '/>
+            <X size={24} className='text-gray-100 hover:text-red-500 '/>
           </button>
         </div>
         <div className='p-3 bg-white'>
@@ -276,7 +276,7 @@ export default function JobsTableWithModal() {
                 name="name"
                 value={application?.name}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full text-black rounded-md bg-gray-100 border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 required
               />
             </div>
@@ -287,7 +287,7 @@ export default function JobsTableWithModal() {
                 name="address"
                 value={application?.address}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full text-black bg-gray-100 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 required
               />
             </div>
@@ -298,7 +298,7 @@ export default function JobsTableWithModal() {
                 name="city"
                 value={application?.city}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full text-black bg-gray-100 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 required
               />
             </div>
@@ -309,7 +309,7 @@ export default function JobsTableWithModal() {
                 name="state"
                 value={application?.state}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full text-black bg-gray-100 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 required
               />
             </div>
@@ -320,7 +320,7 @@ export default function JobsTableWithModal() {
                 name="zipCode"
                 value={application?.zipCode}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full text-black bg-gray-100 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 required
               />
             </div>
@@ -338,7 +338,7 @@ export default function JobsTableWithModal() {
                 name="startDate"
                 value={application?.startDate}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full text-black bg-gray-100 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 required
               />
             </div>
@@ -351,7 +351,11 @@ export default function JobsTableWithModal() {
                 name="currentlyEmployed"
                 checked={application?.currentlyEmployed}
                 onChange={handleChange}
-                className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                className="rounded accent-gray-100 border-gray-300  focus:ring-blue-500"
+                style={{
+                  backgroundColor: '#f3f4f6',
+                  accentColor: '#f3f4f6'
+                }}
               />
               <label className="text-sm text-gray-600">Are you employed now?</label>
             </div>
@@ -384,7 +388,7 @@ export default function JobsTableWithModal() {
                     type="text"
                     value={application?.education[level].name}
                     onChange={(e) => handleEducationChange(level, 'name', e.target.value)}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                    className="mt-1 block w-full text-black bg-gray-100 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                     
                   />
                 </div>
@@ -394,7 +398,7 @@ export default function JobsTableWithModal() {
                     type="text"
                     value={application?.education[level].years}
                     onChange={(e) => handleEducationChange(level, 'years', e.target.value)}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                    className="mt-1 block w-full text-black bg-gray-100 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                     
                   />
                 </div>
@@ -424,7 +428,7 @@ export default function JobsTableWithModal() {
                 name="specialStudy"
                 value={application?.specialStudy}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full text-black bg-gray-100 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
               />
             </div>
             <div>
@@ -434,7 +438,7 @@ export default function JobsTableWithModal() {
                 name="specialTraining"
                 value={application?.specialTraining}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full text-black bg-gray-100 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
               />
             </div>
             <div>
@@ -444,7 +448,7 @@ export default function JobsTableWithModal() {
                 name="specialSkills"
                 value={application?.specialSkills}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full text-black bg-gray-100 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
               />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -455,7 +459,7 @@ export default function JobsTableWithModal() {
                   name="militaryService"
                   value={application?.militaryService}
                   onChange={handleChange}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  className="mt-1 block w-full text-black bg-gray-100 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 />
               </div>
               <div>
@@ -465,7 +469,7 @@ export default function JobsTableWithModal() {
                   name="militaryRank"
                   value={application?.militaryRank}
                   onChange={handleChange}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  className="mt-1 block w-full text-black bg-gray-100 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 />
               </div>
             </div>

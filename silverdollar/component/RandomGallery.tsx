@@ -103,7 +103,6 @@ export default function RandomGallery() {
         //extra run to maybe fill the holes
         for(let row = 0; row < totalRows; row++){
             for(let col = 0; col < totalCols; col++){
-                console.log(row, col)
                 if(grid[row][col] == null && currItem < items.length){
                     layoutItems.push(placeItem(row, col, 1, 1, items[currItem]))
                     currItem++;
@@ -175,7 +174,7 @@ export default function RandomGallery() {
                         key={item.id}
                         style={{
                             transition: 'opacity',
-                            transitionDuration: '2000ms',
+                            transitionDuration: '1500ms',
                             transitionTimingFunction: 'cubic-bezier(0, 0, 0.3, 1)',
                             opacity: `${visible ? '1' : '0'}`,
                             backgroundImage: `url('${item.src}')`,

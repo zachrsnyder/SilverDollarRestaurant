@@ -1,13 +1,52 @@
 'use client'
 
 import { Utensils, CookingPot } from 'lucide-react'
+import { LegacyRef, useEffect, useRef, useState } from 'react'
 
-const MenuesSection = () => {
+interface Props{
+    menuUrls: {breakfast: string, dinner: string, error?: number; message?: string;}
+}
+
+const MenuesSection = ({menuUrls} : Props) => {
+
+    const [visible, setVisible] = useState<boolean>(false)
+    const gridRef = useRef<HTMLElement>(null)
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+          ([entry]) => {
+            if (entry.isIntersecting) {
+              setVisible(true);
+              observer.disconnect(); // Stop observing once visible
+            }
+          },
+          {
+            threshold: 0.1 // Trigger when 10% of the element is visible
+          }
+        );
+    
+        if (gridRef.current) {
+          observer.observe(gridRef.current);
+        }
+    
+        return () => observer.disconnect();
+      }, []);
+
   return (
-    <div className="grid min-h-[500px]" style={{ 
-        gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))'
-    }}>
-        <div className=""
+    <div className="grid min-h-[500px]" 
+        ref={gridRef as LegacyRef<HTMLDivElement>}
+        style={{ 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))',
+            opacity: `${visible ? '1' : '0'}`,
+            transition: 'opacity',
+            transitionDuration: '1500ms',
+            transitionTimingFunction: 'cubic-bezier(0, 0, 0.3, 1)'
+        }}
+    >
+        <a className=""
+            href={menuUrls.breakfast}
+            target="_blank" 
+            rel="noopener noreferrer"
             style={{
                 backgroundImage: `url('/images/IMG_3469.jpeg')`,
                 backgroundSize: 'cover',
@@ -40,8 +79,11 @@ const MenuesSection = () => {
                     <h4 className='text-white font-arvo font-bold text-4xl md:text-6xl lg:text-7xl max-w-[80%] mx-auto break-words'>check out our breakfast menu!</h4>
                 </div>
             </div>  
-        </div>
-        <div className="h-[500px]"
+        </a>
+        <a className="h-[500px]"
+            href={menuUrls.dinner}
+            target="_blank" 
+            rel="noopener noreferrer"
             style={{
                 backgroundImage: `url('/images/IMG_3517.jpeg')`,
                 backgroundSize: 'cover',
@@ -75,7 +117,7 @@ const MenuesSection = () => {
                 </div>
                 
             </div>
-        </div>
+        </a>
     </div>
   )
 }

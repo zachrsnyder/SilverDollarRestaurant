@@ -5,7 +5,11 @@ import Link from 'next/link'
 
 //TODO: Add slide in effect from right side of screen
 
-const SmallScreenMenu = () => {
+interface Props{
+    menuUrls: {breakfast: string, dinner: string, error?: number; message?: string;}
+}
+
+const SmallScreenMenu = ({menuUrls} : Props) => {
     const [showMenu, setShowMenu] = useState<Boolean>(false)
     const modalRef = useRef<HTMLElement>(null)
 
@@ -64,10 +68,16 @@ const SmallScreenMenu = () => {
                         paddingLeft: '.5rem'
                     }}
                 >
-                    <Link href='/' 
+                    <Link
+                        href={menuUrls.breakfast}
+                        target="_blank" 
+                        rel="noopener noreferrer"
                         className='text-gray-400 hover:text-gray-500 block pb-4'
                     >Breakfast Menu</Link>
-                    <Link href='/'
+                    <Link 
+                        href={menuUrls.dinner}
+                        target="_blank" 
+                        rel="noopener noreferrer"
                         className='text-gray-400 hover:text-gray-500 block'
                     >Lunch & Dinner Menu</Link>
                 </div>

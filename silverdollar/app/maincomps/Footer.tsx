@@ -2,10 +2,12 @@ import MapClientContainer from "@/component/MapClientContainer";
 import {Phone, Mail, Building2} from 'lucide-react'
 import Hours from '@/component/Hours'
 import Link from "next/link";
+import { getMenu } from "@/lib/util/getMenu";
 
 
 
-export default function Footer() {  
+export default async function Footer() {  
+  const menuUrls = await getMenu();
   return (
     <footer className="bg-gray-700 text-white">
       <div className="container mx-auto px-4 py-4">
@@ -37,13 +39,13 @@ export default function Footer() {
             </div>
             <div className='container h-full flex flex-col text-gray-300'>
               <div className='flex items-center gap-2 pl-5'>
-                <Link href=''><p className='text-lg hover:text-red-800'>Home</p></Link>
+                <Link href='/'><p className='text-lg hover:text-red-800'>Home</p></Link>
               </div>
               <div className='flex items-center gap-2 pl-5'>
-                <Link href=''><p className='text-lg hover:text-red-800'>Menu</p></Link>
+                <Link href={menuUrls.breakfast} target="_blank" rel="noopener noreferrer"><p className='text-lg hover:text-red-800'>Breakfast Menu</p></Link>
               </div>
               <div className='flex items-center gap-2 pl-5'>
-                <Link href=''><p className='text-lg hover:text-red-800'>Contact</p></Link>
+                <Link href={menuUrls.dinner} target="_blank" rel="noopener noreferrer"><p className='text-lg hover:text-red-800'>Lunch & Dinner Menu</p></Link>
               </div>
               <div className='flex items-center gap-2 pl-5'>
                 <Link href='/careers'><p className='text-lg hover:text-red-800'>Careers</p></Link>
