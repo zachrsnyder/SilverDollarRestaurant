@@ -1,6 +1,5 @@
 'use client'
 
-import React from 'react'
 import { Utensils, CookingPot } from 'lucide-react'
 
 const MenuesSection = () => {

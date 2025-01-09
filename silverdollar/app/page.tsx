@@ -3,6 +3,8 @@ import Facebook from "../component/Facebook";
 import FoodCard from "../component/SmallCard";
 import SmallCard from "../component/SmallCard";
 import MenuesSection from "@/component/menuesSection";
+import ResponsiveGalley from "@/component/ResponsiveGallery";
+import RandomGallery from "@/component/RandomGallery";
 
 export default function Home() {
   return (
@@ -15,7 +17,7 @@ export default function Home() {
       /> */}
       
 
-      <div className='flex justify-center xl:mx-18'>
+      {/* <div className='flex justify-center xl:mx-18'>
         <div className='grid w-full xl:w-4/5 lg:gap-x-12 grid-cols-1 sm:grid-cols-2 md:grid-cols-3'>
           <div className='flex flex-shrink-0 justify-center'>
             <SmallCard
@@ -60,9 +62,11 @@ export default function Home() {
             />
           </div>
         </div>
-      </div>
+      </div> */}
 
       <MenuesSection/>
+
+      <RandomGallery />
 
     </div>
   );

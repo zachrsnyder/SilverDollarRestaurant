@@ -1,6 +1,5 @@
 'use client'
 
-import React from 'react';
 import { useEffect, useState, useRef } from 'react';
 
 // Keep track of script loading state globally

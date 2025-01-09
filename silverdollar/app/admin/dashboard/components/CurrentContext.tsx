@@ -1,7 +1,7 @@
 'use client'
 import { ID } from "@/lib/types/ID";
 import { PageType } from "@/lib/types/pageTypes";
-import React, { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
 
 interface CurrentContextType {

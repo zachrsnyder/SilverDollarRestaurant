@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { JobPostingMetadata } from '@/lib/types/JobPostingMetadata'
 import { Trash2, BookPlus, Eye, EyeOff } from 'lucide-react'
 import { usePageData } from './CurrentContext'

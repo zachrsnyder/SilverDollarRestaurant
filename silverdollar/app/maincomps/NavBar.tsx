@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import React from 'react'
 import Image from 'next/image'
 import SmallScreenMenu from '@/component/SmallScreenMenu'
 import MenuDropdown from '@/component/MenuDropdown'
