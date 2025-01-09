@@ -1,12 +1,14 @@
 'use client'
 
 import { shuffle } from "lodash";
-import { useEffect, useState } from "react"
+import { LegacyRef, useEffect, useRef, useState } from "react"
 import Image from "next/image";
 
 export default function RandomGallery() {
 
     const [layout, setLayout] = useState<Array<{ id: number, src: string, alt: string, gridArea: string }>>([])
+    const gridRef = useRef<HTMLElement>(null)
+    const [visible, setVisible] = useState<boolean>(false)
 
     const images = [
         { id: 1, src: '/gallery/IMG_1091.jpeg', alt: 'egg' },
@@ -21,6 +23,7 @@ export default function RandomGallery() {
         { id: 10, src: '/gallery/IMG_3580.jpeg', alt: 'egg 9'},
         { id: 11, src: '/gallery/IMG_3606.jpeg', alt: 'egg 9'},
         { id: 12, src: '/gallery/IMG_3607.jpeg', alt: 'egg 9'},
+        { id: 13, src: '/gallery/IMG_1779.jpeg', alt: 'waffle!'}
       ];
 
     const generateValidLayout = (totalRows : number, totalCols : number) => {
@@ -37,6 +40,8 @@ export default function RandomGallery() {
 
             //edge case where space would become unfillable (should force a 2x1 or 1x2 tile in this scenario)
             if(spaceLeft - (rowSpan * colSpan) > (items.length - 1 - currItem) * 2) return false;
+
+
              
             for( let i = row; i < row + rowSpan; i++){
                 for( let j = col; j < col + colSpan; j++){
@@ -91,6 +96,27 @@ export default function RandomGallery() {
             }
         }
 
+        if(spaceLeft == 0){
+            return layoutItems;
+        }
+        
+        //extra run to maybe fill the holes
+        for(let row = 0; row < totalRows; row++){
+            for(let col = 0; col < totalCols; col++){
+                console.log(row, col)
+                if(grid[row][col] == null && currItem < items.length){
+                    layoutItems.push(placeItem(row, col, 1, 1, items[currItem]))
+                    currItem++;
+                    if(spaceLeft == 0){
+                        return layoutItems;
+                    }
+                }
+            }
+        }
+        
+
+
+
         return layoutItems;
     }
 
@@ -99,27 +125,59 @@ export default function RandomGallery() {
         setLayout(newLayout)    
     }, []);
 
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+          ([entry]) => {
+            if (entry.isIntersecting) {
+              setVisible(true);
+              observer.disconnect(); // Stop observing once visible
+            }
+          },
+          {
+            threshold: 0.1 // Trigger when 10% of the element is visible
+          }
+        );
+    
+        if (gridRef.current) {
+          observer.observe(gridRef.current);
+        }
+    
+        return () => observer.disconnect();
+      }, []);
+
     return (
-        <div className='py-6 '
+        <div className='bg-gray-700'
             style={{
                 marginLeft: 'auto',
-                marginRight: 'auto'
+                marginRight: 'auto',
+                padding: '3rem 4rem',
+                borderRadius: '.5rem'
             }}
         >
-            <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(5, minmax(0, 213px))',
-                gridAutoRows: 'min-content',
-                position: 'relative',
-                gridTemplateRows: 'repeat(4, minmax(0, 160px))',
-                aspectRatio: '4/4',
-                rowGap: '.5rem',
-                columnGap: '.4rem'
-            }}>
+            <div className='max-w-[1065px]'
+                ref={gridRef as LegacyRef<HTMLDivElement>}
+                style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(5, minmax(0, 213px))',
+                    // gridAutoRows: 'min-content',
+                    position: 'relative',
+                    gridTemplateRows: 'repeat(4, minmax(0, 160px))',
+                    aspectRatio: '',
+                    rowGap: '.7rem',
+                    columnGap: '.6rem'
+                    
+                }}
+            >
                 {layout.map((item : { id: number, src: string, alt: string, gridArea: string }, index : number) => (
-                    <div className=""
+                
+                    <a
+                        href={item.src} target="_blank" rel="noopener noreferrer"
                         key={item.id}
                         style={{
+                            transition: 'opacity',
+                            transitionDuration: '2000ms',
+                            transitionTimingFunction: 'cubic-bezier(0, 0, 0.3, 1)',
+                            opacity: `${visible ? '1' : '0'}`,
                             backgroundImage: `url('${item.src}')`,
                             backgroundSize: 'cover',
                             backgroundPosition: 'center',
@@ -127,10 +185,32 @@ export default function RandomGallery() {
                             gridArea: item.gridArea,
                             position: 'relative',
                             zIndex: 1,
-                            borderRadius: '.5rem'
+                            borderRadius: '.3rem',
+                            boxShadow: '5px 5px 4px rgba(0,0,0,.5)'
                         }}
                     >
-                    </div>
+                        <div className='absolute top-0 bottom-0 left-0 right-0 w-full h-full text-white uppercase font-arvo font-bold text-9xl text-wrap'
+                            style={{
+                                zIndex: 10,
+                                backgroundColor: 'rgba(20,20,20,.1)',
+                                textTransform: 'capitalize',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems:'center',
+                                transition: 'background-color 0.3s ease',
+                                cursor: 'zoom-in'
+                            }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.backgroundColor = 'rgba(200,200,200,0.45)';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.backgroundColor = 'rgba(20,20,20,0)';
+                            }}
+                        >
+
+                        </div>  
+                    </a>
+                
                 ))}
             </div>
 
