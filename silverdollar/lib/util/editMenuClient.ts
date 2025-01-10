@@ -3,6 +3,8 @@ import { storage, db } from "../auth/client";
 import { doc, updateDoc, getDocs, collection, getDoc, query, limit, runTransaction, Transaction} from 'firebase/firestore'
 import {ref, getDownloadURL, uploadBytes } from 'firebase/storage'
 import { Files } from "lucide-react";
+import { Menu } from "../types/AdminMenu";
+import { version } from "os";
 
 export async function getVersionCount(){
     try{
@@ -94,5 +96,24 @@ export async function addMenu(breakfastUrl : File, dinnerUrl: File){
         return { success: true }
     }catch(err: any){
         return { success:false, message: 'Error occurred while adding a new menu'}
+    }
+}
+
+export async function getAll(){
+    let menu: Menu;
+    const q = query(collection(db, 'menu'), limit(1))
+    const snapshot = await getDocs(q);
+    if(!snapshot.empty){
+        const docId = snapshot.docs[0].id;
+        const docRef = doc(db, 'menu', docId);
+        const menuMeta = (await getDoc(docRef)).data();
+        const menues = await getMenu(menuMeta?.version);
+        if(menuMeta?.version && menues.success){
+            return {version: menuMeta?.version, versionCount: menuMeta?.versionCount, breakfastUrl: menues.breakfast, dinnerUrl: menues.dinner, success: true}
+        }else{
+            return {version: 0, versionCount: 0, breakfastUrl: '/', dinnerUrl: '/', success: false, message: 'Unknown error getting menu documents.'}
+        }
+    }else{
+        return {version: 0, versionCount: 0, breakfastUrl: '/', dinnerUrl: '/', success: false, message: 'Error when getting recent menu information.' }
     }
 }

@@ -141,7 +141,7 @@ const JobMeta = ({meta}: Props) => {
     // };
   return (
     <>
-    <div key={meta.id} className={`flex flex-col min-h-11 md:flex-row group w-full justify-between items-center px-3 rounded-md bg-gray-500 hover:text-red-800`}
+    <div key={meta.id} className={`flex flex-col min-h-11 md:flex-row group w-full justify-between items-center px-3 rounded-sm bg-gray-500 hover:text-red-800`}
         onClick={()=>{handleCardClick()}}
     >
         <div className='text-lg xl:text-xl font-arvo'>
@@ -162,7 +162,7 @@ const JobMeta = ({meta}: Props) => {
         
     </div>
     
-    {/*Modals. It could even be more efficient to make "ConfirmationModal" component with an extra passed prop being description so because all of these modals are very similar */}
+    {/*Modals. It could even be more efficient thao make "ConfirmationModal" component with an extra passed prop being description so because all of these modals are very similar */}
     <DeleteConfirmationModal isOpen={isDeleteOpen} onClose={onDeleteModalClose} onConfirm={handleDelete} title={meta.title}/>
     <PostModal isOpen={isPostOpen} onClose={onPostModalClose} onConfirm={handlePost} title={meta.title}/>
     <ArchiveModal isOpen={isArchiveOpen} onClose={handleArchiveModalClose} onConfirm={handleArchive} title={meta.title}/>

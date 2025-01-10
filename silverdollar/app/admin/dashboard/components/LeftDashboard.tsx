@@ -7,6 +7,7 @@ import { JobPostingMetadata } from '@/lib/types/JobPostingMetadata'
 import { PageType } from '@/lib/types/pageTypes'
 import { db } from '@/lib/auth/client'
 import { usePageData } from './CurrentContext'
+import MenuSection from './MenuSection'
 
 
 
@@ -30,6 +31,7 @@ const LeftDashboard : React.FC = () => {
         <div className={`h-full z-10 transition-all duration-300 bg-gray-300 ${
             isCollapsed ? 'w-0 p-0 overflow-hidden' : 'w-[25vw]'} shadow-2xl flex flex-col`}>
               <JobSection/>
+              <MenuSection/>
         </div>
         <div className='h-full items-center relative flex justify-center'>
           <div className="w-[1vw] h-[4vw] bg-gray-500 rounded-r-full justify-center align-middle items-center flex z-10" style={{ opacity: isHovered ? .90 : .20, color: 'black' }} onClick={toggleAside} onMouseEnter={() => setIsHovered(true)}

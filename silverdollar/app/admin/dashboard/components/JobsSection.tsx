@@ -41,7 +41,7 @@ export const JobSection = () => {
   </div>
   <div>
       {isOpen && (
-        <div className="p-4 space-y-4 flex flex-col">
+        <div className="p-4 space-y-1 flex flex-col">
             {loading ? (
             <div className="text-black/70 text-center py-4">Loading...</div>
             ) : (

@@ -1,1 +1,1 @@
-export type PageType = "Welcome" | "Job Postings" | "Manage Workers"
+export type PageType = "Welcome" | "Job Postings" | "Manage Workers" | "Manage Menu"

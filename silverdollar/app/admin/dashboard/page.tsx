@@ -12,6 +12,7 @@ import { JobPosting } from "@/lib/types/JobPosting";
 import { db } from "@/lib/auth/client";
 import { doc, getDoc } from "firebase/firestore";
 import ViewPageComp from "./components/ViewPageComp";
+import MenuManager from "./components/MenuManager";
 
 
 //TODO: Fix switch case to adjust for "add" ID strings
@@ -85,6 +86,9 @@ export default function Dashboard() {
               setError("Error accessing worker info")
             }
           }
+          case "Manage Menu": {
+            
+          }
         }
       }else{
         setLoadingContent(false);
@@ -124,6 +128,11 @@ export default function Dashboard() {
           {currentPage == "Manage Workers" && (
             <>
               {currentData == "add" ? <div>Add a worker</div> : <div>Worker info!</div>}
+            </>
+          )}
+          {currentPage == "Manage Menu" && (
+            <>
+              <MenuManager/>
             </>
           )}
         </>)}
