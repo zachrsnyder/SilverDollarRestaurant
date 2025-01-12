@@ -3,15 +3,7 @@ import { doc, collection, query, orderBy, onSnapshot, FirestoreError } from 'fir
 import { db } from '@/lib/auth/client';
 import { JobPosting } from '../types/JobPosting';
 import { ID } from '../types/ID';
-
-
-// temp application interface to simulate cache and query
-interface Application {
-  id: string;
-  name: string;
-  email: string;
-  
-}
+import { Application } from '../types/Application';
 
 // Cache manager outside component to persist between renders
 const jobCache = new Map<string, JobPosting>();
@@ -110,7 +102,6 @@ export function useJobWithApplications(jobId: ID) {
     applicationsQuery,
     (querySnapshot) => {
         const apps = querySnapshot.docs.map(doc => ({
-        id: doc.id,
         ...doc.data()
         })) as Application[];
         setApplications(apps);

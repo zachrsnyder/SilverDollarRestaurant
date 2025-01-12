@@ -12,6 +12,7 @@ import { BaseModal } from '@/lib/util/BaseModal';
 import SaveConfirmationModal from './SaveModal';
 import { db } from '@/lib/auth/client';
 import { doc, FirestoreError, updateDoc } from 'firebase/firestore';
+import { Application } from '@/lib/types/Application';
 
 //TODO: Document code, fix enter key functionality on edit boxes. Add pay period :() completely forgot abt it.
 
@@ -231,8 +232,8 @@ const ViewPageComp = () => {
                         <div className='mx-4 my-2 min-h-[500px] bg-gray-700 rounded-lg block'>
                             <div className='text-xl font-arvo pl-3 py-2 text-white font-bold'>Applicants</div>
                             <div className='mx-6'>
-                                {applications.map(application => (
-                                    <div>{application.name}</div>
+                                {applications.map((value : Application,index : number)  => (
+                                    <div key={index}>{value.name}</div>
                                 ))}
                             </div>
                         </div>

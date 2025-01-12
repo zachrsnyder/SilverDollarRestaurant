@@ -13,6 +13,8 @@ import { db } from "@/lib/auth/client";
 import { doc, getDoc } from "firebase/firestore";
 import ViewPageComp from "./components/ViewPageComp";
 import MenuManager from "./components/MenuManager";
+import { Menu } from "@/lib/types/AdminMenu";
+import { getAll } from "@/lib/util/editMenuClient";
 
 
 //TODO: Fix switch case to adjust for "add" ID strings
@@ -28,8 +30,19 @@ export default function Dashboard() {
   //implementing specific pages.
   const [posting, setPosting] = useState<JobPosting | null>(null)
   const [worker, setWorker] = useState(null)
+  const [menu, setMenu] = useState<Menu | null>(null);
 
-
+  async function fetchMenu() {         
+    try {
+        const value = await getAll();
+        if(value.success){
+            setMenu(value as Menu)
+        }
+    } catch (error) {
+        console.log("Error fetching menu:", error);
+        setMenu(null);
+    }
+  }
 
   useEffect(()=>{
     const getSession = async() => {
@@ -87,7 +100,8 @@ export default function Dashboard() {
             }
           }
           case "Manage Menu": {
-            
+            await fetchMenu();
+            setLoadingContent(false);
           }
         }
       }else{
@@ -132,7 +146,7 @@ export default function Dashboard() {
           )}
           {currentPage == "Manage Menu" && (
             <>
-              <MenuManager/>
+              <MenuManager menuData={menu}/>
             </>
           )}
         </>)}

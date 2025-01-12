@@ -9,7 +9,6 @@ export const getMenu = cache(async () => {
   const menues = await getData();
   return menues;
 });
-export const revalidate = 86400; // 24 hours
 
 export async function getData() {
     try {
