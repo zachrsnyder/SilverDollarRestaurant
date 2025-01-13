@@ -18,31 +18,14 @@ export async function getData() {
             .get();
         if(!menuSnapshot.empty){
             const doc = menuSnapshot.docs[0].data();
+            console.log(doc)
             const version = doc.version
 
-            const bucket = adminFileStorage.bucket();
             
-            if(1){
-                const [breakfastSignedUrl, dinnerSignedUrl] = await Promise.all([
-                    bucket.file(`menus/v${version}/breakfast.pdf`).getSignedUrl({
-                        action: 'read',
-                        expires: Date.now() + 1000 * 60 * 60
-
-                    }),
-                    bucket.file(`menus/v${version}/dinner.pdf`).getSignedUrl({
-                        action: 'read',
-                        expires: Date.now() + 1000 * 60 * 60
-                    }),
-                ])
-
-                return {
-                    breakfast: breakfastSignedUrl[0],
-                    dinner: dinnerSignedUrl[0]
-                }
-            }else{
-                return { breakfast: '/', dinner: '/', error: 400, message: 'Missing one or more of the necessary Urls'}
+            return {
+                breakfast: doc?.breakfastUrl,
+                dinner: doc?.dinnerUrl
             }
-            
         }else{
             // indicating no menu ledger found
             return { breakfast: '/', dinner: '/', error: 400, message: 'Could not find record of menu data.'}

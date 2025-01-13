@@ -32,7 +32,7 @@ export default function MenuDropdown({menuUrls} : Props) {
                 alignItems: 'center',
                 cursor: 'pointer'
                 }}
-                className={`${isHovered ? 'text-red-800 ':'text-gray-500' }`}
+                className={`${isHovered ? 'text-red-800 ':'text-gray-500' } transition-color duration-300`}
             >
                 Menu
             </div>
@@ -59,7 +59,8 @@ export default function MenuDropdown({menuUrls} : Props) {
                             display: 'block',
                             padding: '0.5rem 1rem',
                             fontSize: '1rem',
-                            color: breakfast ? '#6b7280' : '#9ca3af'
+                            color: breakfast ? '#6b7280' : '#9ca3af',
+                            transition: 'color .3s cubic-bezier(0.4, 0, 0.2, 1)',
                         }}
                         onMouseEnter={(e) => {
                             setBreakfast(true)
@@ -78,8 +79,8 @@ export default function MenuDropdown({menuUrls} : Props) {
                             display: 'block',
                             padding: '0.5rem 1rem',
                             fontSize: '1rem',
-                            color: dinner ? '#6b7280' : '#9ca3af'
-
+                            color: dinner ? '#6b7280' : '#9ca3af',
+                            transition: 'color .3s cubic-bezier(0.4, 0, 0.2, 1)',
                         }}
                         
                         onMouseEnter={(e) => {

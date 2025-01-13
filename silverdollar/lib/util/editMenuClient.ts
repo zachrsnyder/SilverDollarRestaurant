@@ -6,17 +6,24 @@ import { Files } from "lucide-react";
 import { Menu } from "../types/AdminMenu";
 import { version } from "os";
 
-export async function getVersionCount(){
-    try{
+export async function getVersionCount() {
+    try {
         const docsQuery = query(collection(db, 'menu'), limit(1));
         const snapshot = await getDocs(docsQuery);
-
-        if(!snapshot.empty){
+        
+        if (!snapshot.empty) {
             const docData = snapshot.docs[0].data();
-            return { success: true,  versionCount: docData.versionCount }
+            console.log("Doc data:", docData);
+            if (docData.versionCount === undefined) {
+                throw new Error('versionCount field not found in document');
+            }
+            return { success: true, versionCount: docData.versionCount };
+        } else {
+            throw new Error('No documents found in menu collection');
         }
-    }catch(err: any){
-        return { success:false, message: 'Error fetching versioning document'}
+    } catch (err: any) {
+        console.error('Error in getVersionCount:', err);
+        return { success: false, message: 'Error fetching versioning document', error: err.message };
     }
 }
 
@@ -36,9 +43,11 @@ export async function getVersion(){
 
 export async function changeMetadata(data: object) {
     // operates under the assumption that the version passed is within the range of possible versions
+    console.log(data)
     try{
         const docsQuery = query(collection(db, 'menu'), limit(1));
         const snapshot = await getDocs(docsQuery);
+        console.log(snapshot)
         if(!snapshot.empty){
             const docId = snapshot.docs[0].id;
             const docRef = doc(db, 'menu', docId);
@@ -61,6 +70,8 @@ export async function getMenu(version?:number){
             getDownloadURL(dinnerRef)
         ]);
 
+        console.log(breakfastUrl, dinnerUrl)
+
         return {
             success: true,
             breakfast: breakfastUrl,
@@ -72,30 +83,45 @@ export async function getMenu(version?:number){
     }
 }
 
-export async function addMenu(breakfastUrl : File, dinnerUrl: File){
-    try{
-        const res = await getVersionCount();
-        const versionCount = res?.versionCount
-
-        const [breakfastSnapshot, dinnerSnapshot] = await Promise.all([
-            uploadBytes(ref(storage, `menus/v${versionCount+1}/breakfast.pdf`), breakfastUrl),
-            uploadBytes(ref(storage, `menus/v${versionCount+1}/dinner.pdf`), dinnerUrl)
-          ]);
-
+export async function addMenu(breakfastUrl: File, dinnerUrl: File) {
+    try {
+        const versionResponse = await getVersionCount();
+        if (!versionResponse.success) {
+            throw new Error(versionResponse.message);
+        }
         
+        const versionCount = versionResponse.versionCount;
+        if (versionCount === undefined) {
+            throw new Error('Version count is undefined');
+        }
+
+    
+        const [breakfastSnapshot, dinnerSnapshot] = await Promise.all([
+            uploadBytes(ref(storage, `menus/v${versionCount + 1}/breakfast.pdf`), breakfastUrl),
+            uploadBytes(ref(storage, `menus/v${versionCount + 1}/dinner.pdf`), dinnerUrl)
+        ]);
+
         const docsQuery = query(collection(db, 'menu'), limit(1));
         const snapshot = await getDocs(docsQuery);
-        if(!snapshot.empty){
+        
+        if (!snapshot.empty) {
             const docId = snapshot.docs[0].id;
-            const docRef = doc(db, 'menu', docId);
+            const docRef = doc(db, 'menu', docId);            
             await updateDoc(docRef, {
-                version: versionCount + 1,
                 versionCount: versionCount + 1
-            })
+            });
+            
+            return { success: true };
+        } else {
+            throw new Error('No menu document found to update version count');
         }
-        return { success: true }
-    }catch(err: any){
-        return { success:false, message: 'Error occurred while adding a new menu'}
+    } catch (err: any) {
+        console.error('Error in addMenu:', err);
+        return { 
+            success: false, 
+            message: 'Error occurred while adding a new menu',
+            error: err.message 
+        };
     }
 }
 
@@ -103,12 +129,15 @@ export async function getAll(){
     let menu: Menu;
     const q = query(collection(db, 'menu'), limit(1))
     const snapshot = await getDocs(q);
+    console.log("Test of snapshot", snapshot)
     if(!snapshot.empty){
         const docId = snapshot.docs[0].id;
         const docRef = doc(db, 'menu', docId);
         const menuMeta = (await getDoc(docRef)).data();
+        console.log("Get all's menu data", menuMeta)
         const menues = await getMenu(menuMeta?.version);
-        if(menuMeta?.version && menues.success){
+        console.log("Get alls menu urls", menues)
+        if(menues.success){
             return {version: menuMeta?.version, versionCount: menuMeta?.versionCount, breakfastUrl: menues.breakfast, dinnerUrl: menues.dinner, success: true}
         }else{
             return {version: 0, versionCount: 0, breakfastUrl: '/', dinnerUrl: '/', success: false, message: 'Unknown error getting menu documents.'}

@@ -7,7 +7,7 @@ export default function MenuSection() {
     const {currentPage, setCurrentPage, currentData, setCurrentData} = usePageData()
     return(
 <div className='flex flex-col relative'
-    onClick={()=>{setCurrentPage("Manage Menu"); setCurrentData(null)}}
+    onClick={()=>{setCurrentPage("Manage Menu"); setCurrentData("Menu")}}
 >
   <div className="flex items-center justify-between p-4 border-b border-white/10">
     <div 

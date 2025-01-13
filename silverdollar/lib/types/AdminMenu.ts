@@ -1,13 +1,13 @@
 export interface Menu {
-    version: number, 
+    version?: number, 
 
-    versionCount: number, 
+    versionCount?: number | undefined, 
 
-    breakfastUrl: string,
+    breakfastUrl?: string | undefined,
 
-    dinnerUrl: string,
+    dinnerUrl?: string| undefined,
 
-    success: boolean,
+    success?: boolean | undefined,
 
     message?: number
 }

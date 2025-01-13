@@ -31,12 +31,19 @@ export default function Dashboard() {
   const [posting, setPosting] = useState<JobPosting | null>(null)
   const [worker, setWorker] = useState(null)
   const [menu, setMenu] = useState<Menu | null>(null);
+  const [currentMenu, setCurrentMenu] = useState<Menu | null>(null);
 
-  async function fetchMenu() {         
+  async function fetchMenu() {   
+    console.log("Called")      
     try {
         const value = await getAll();
+        console.log(value)
         if(value.success){
+            console.log("Successfully grabbed menu data on mount!.", value)
             setMenu(value as Menu)
+            setCurrentMenu(value as Menu);
+        }else{
+          console.log("Indescribable error occurred")
         }
     } catch (error) {
         console.log("Error fetching menu:", error);
@@ -72,6 +79,7 @@ export default function Dashboard() {
 
   //triggers whenever the data is changed, this will force it to change even when moving through two contents of the same page type. (unless miraculously a worker and a job listing have the same id)
   useEffect(()=>{
+    console.log("Ran at all")
     const getContent = async() => {
       setLoadingContent(true)
       if(currentData != "add"){
@@ -86,6 +94,7 @@ export default function Dashboard() {
               setError("Error fetching job postings")
             }finally{
               setLoadingContent(false)
+              break;
             }
           }
           case "Manage Workers": {
@@ -98,10 +107,12 @@ export default function Dashboard() {
               console.log("Error accessing worker info", error)
               setError("Error accessing worker info")
             }
+            break;
           }
           case "Manage Menu": {
             await fetchMenu();
             setLoadingContent(false);
+            break;
           }
         }
       }else{
@@ -117,7 +128,7 @@ export default function Dashboard() {
     <div className='flex flex-row justify-between align-middle'>
 
       <LeftDashboard/>
-      <div className='bg-red-800 hover:bg-red-600 fixed top-5 right-16 z-50 rounded-lg'>
+      <div className='bg-red-800 hover:bg-red-600 transition-colors duration-300 fixed top-5 right-16 z-50 rounded-lg'>
         <button className='my-2 mx-4 text-white' onClick={() => logout()}>Logout</button>
       </div>
 
@@ -139,14 +150,14 @@ export default function Dashboard() {
               {currentData == "add" ? <AddJobForm/> : <ViewPageComp/>}
             </>
           )}
-          {currentPage == "Manage Workers" && (
+          {currentPage == "Manage Workers" && user?.role && user.role === "owner" && (
             <>
               {currentData == "add" ? <div>Add a worker</div> : <div>Worker info!</div>}
             </>
           )}
           {currentPage == "Manage Menu" && (
             <>
-              <MenuManager menuData={menu}/>
+              <MenuManager menuData={menu} setMenuData={setMenu} currentMenu={currentMenu} setCurrentMenu={setCurrentMenu}/>
             </>
           )}
         </>)}

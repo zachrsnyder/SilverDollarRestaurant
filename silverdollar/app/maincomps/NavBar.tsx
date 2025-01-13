@@ -23,7 +23,7 @@ const NavBar = async() => {
                 alignItems: 'center',
                 cursor: 'pointer'
                 }}
-                className='text-gray-500 hover:text-red-800'
+                className='text-gray-500 hover:text-red-800 transition-colors duration-300'
             >
               <Link
                 href='/'
@@ -40,7 +40,7 @@ const NavBar = async() => {
                 alignItems: 'center',
                 cursor: 'pointer'
                 }}
-                className='text-gray-500 hover:text-red-800'
+                className='text-gray-500 hover:text-red-800 transition-colors duration-300'
             >
               <Link
                 href='/careers'
