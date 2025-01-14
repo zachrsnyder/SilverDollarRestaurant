@@ -28,7 +28,7 @@ export async function checkAccount(prevState: any, formData: FormData) {
   
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    const idToken = await userCredential.user.getIdToken();
+    const idToken = await userCredential.user.uid;
 
     // Pass the token to your server to create a session
     const response = await fetch("/api/session", {

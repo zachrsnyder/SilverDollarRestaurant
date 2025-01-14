@@ -1,10 +1,11 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { WorkerData } from "../types/auth";
 import { auth, db } from "./client";
 import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
 import { FirebaseError } from "firebase/app";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import { deleteSession } from "./session";
 
 const loginSchema = z.object({
     email: z.string().email({ message: "Invalid email address" }).trim(),
@@ -17,33 +18,47 @@ const loginSchema = z.object({
 export class AuthService {
 
     
-    
+    // create authenticated user
     static async registerUser(workerData : WorkerData){
         try{
 
             // create firebase auth user
             const userCredential = await createUserWithEmailAndPassword(auth, workerData.email, workerData.password);
             const user = userCredential.user;
+            
+            const idToken = user.getIdToken();
+            console.log("New user idToken", idToken)
 
-            await setDoc(doc(db, 'users', user.uid), {
-                email: workerData.email,
+
+            const response = await fetch('/api/admin/register', {
+              method: 'POST',
+              headers: { 'Content-Type' : 'application/json'},
+              body: JSON.stringify({
+                uid: user.uid,
+                role: workerData.role,
                 fName: workerData.fName,
-                lName: workerData.lName,
-                role: "manager",
-                createdAt: serverTimestamp()
-            });
+                lName: workerData.lName
+              })
+            })
+            // await setDoc(doc(db, 'users', idToken), {
+            //     email: workerData.email,
+            //     fName: workerData.fName,
+            //     lName: workerData.lName,
+            //     role: "manager",
+            //     createdAt: serverTimestamp()
+            // });
 
-            return user;
+            return {success: true, user: user};
         } catch (error){
-            console.log("Error registering user: ", error)
+            console.error("Error registering user: ", error)
+            return {success: false, error: error};
         }
     };
 
-
-
-
+    // login 
     static async checkAccount(enterredEmail : string , enterredPassword : string) {
-        try{
+        
+      try{
             const result = loginSchema.safeParse({
                 email: enterredEmail,
                 password: enterredPassword
@@ -52,7 +67,7 @@ export class AuthService {
             if (!result.success) {
                 return {
                   errors: result.error.flatten().fieldErrors,
-                };
+                }
               }
             
             const { email, password } = result.data;
@@ -62,9 +77,16 @@ export class AuthService {
             
             
             if (user.uid !== null) {
+              // if user exists we send the id to the server to make a cookie
                 const idToken =  await user.getIdToken();
-                return {
-                    idToken: idToken,
+                const response = await fetch('/api/session/login', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ idToken })
+                })
+                const res = await response.json()
+                if(res.success){
+                  window.location.href = '/admin/dashboard'
                 }
             } else {
               return {
@@ -86,21 +108,41 @@ export class AuthService {
         }
     }
 
+    // get user info from their doc in firestore. Not using this atm
     static async getUserInfo(uid: string){
         try{
-          console.log("uid: ", uid)
-            const user = await getDoc(doc(db, 'users', uid));
-            return user.data()
+          const user = await getDoc(doc(db, 'users', uid));
+          console.log(user.data())
+          return user.data()
         }catch(err: any){
             console.log("Error fetching full user profile: ", err)
         }
     }
 
+    static async getCurrentUserClaims() {
+      const currentUser = auth.currentUser;
+
+      console.log("CurrentUser: ", currentUser);
+
+      if(currentUser){
+        const tokenResult = await currentUser.getIdTokenResult()
+        console.log('Claims: ', tokenResult.claims)
+
+        return tokenResult.claims;
+      }
+      return null;
+    }
+
+    // logout and revoke session and cookie
     static async logout() {
         try {
           const userId = auth.currentUser?.uid;
           await signOut(auth);
-          redirect("/admin")
+          const res = await fetch("/api/session/logout", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+          })
+          window.location.href = '/admin';
         } catch (error : any) {
             console.log("Error logging out: ", error);
         }

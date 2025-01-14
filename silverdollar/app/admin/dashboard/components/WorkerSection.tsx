@@ -1,6 +1,6 @@
 import { ChangeEvent, useRef, useState } from "react";
 import { usePageData } from "./CurrentContext";
-import { Plus, UsersRound } from "lucide-react";
+import { CircleAlert, Plus, UsersRound } from "lucide-react";
 import Tooltip from "@/lib/util/Tooltip";
 import { useWorkersSubscription } from "@/lib/util/useWorkersSubscription";
 import { WorkerMeta } from "./WorkerMeta";
@@ -15,6 +15,7 @@ const emptyWorker : WorkerData = {
     email: '',
     password: '',
     confirmPassword: '',
+    role: 'manager'
 }
 
 export default function WorkerSection() {
@@ -23,10 +24,13 @@ export default function WorkerSection() {
 
     const [newWorker, setNewWorker] = useState<WorkerData>(emptyWorker)
 
+    const [firebaseError, setFirebaseError] = useState<Error | null>(null)
+
     const [errors, setErrors] = useState<{
         fName?: string;
         lName?: string;
         email?: string;
+        role?: string;
         password?: string;
         confirmPassword?: string;
     }>({})
@@ -62,8 +66,8 @@ export default function WorkerSection() {
         }
       };
 
-    const handleChange = (field: keyof WorkerData) => (e : ChangeEvent<HTMLInputElement>): void => {
-        const { name, value, type, checked } = e.target;
+    const handleChange = (field: keyof WorkerData) => (e : ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
+        const { name, value, type } = e.target;
         setNewWorker((prev : WorkerData) => {
             if(!prev) return prev;
             return {
@@ -84,7 +88,7 @@ export default function WorkerSection() {
             }}
             >
             <div className="p-2 rounded-lg bg-white/5 text-black group-hover:bg-white/10 transition-colors">
-                <UsersRound className="" size={20} />
+                <UsersRound className="" size={22} />
             </div>
             <h3 className="text-lg font-sans font-bold ">Manage Workers</h3>
             </div>
@@ -138,6 +142,9 @@ export default function WorkerSection() {
                 className="mt-1 block w-full text-black bg-gray-100 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 required
                 />
+                {errors.fName && (
+                    <div className='text-red-500'>{errors.fName}</div>
+                )}
             </div>
             <div>
                 <label className="block text-sm font-medium text-gray-600">Last Name</label>
@@ -149,9 +156,12 @@ export default function WorkerSection() {
                 className="mt-1 block w-full text-black bg-gray-100 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 required
                 />
+                {errors.lName && (
+                    <div className='text-red-500'>{errors.lName}</div>
+                )}
             </div>
-            <div>
-                <label className="block text-sm font-medium text-gray-600">Email</label>
+            <div className='col-span-1 md:col-span-2'>
+                <label className="block text-sm font-medium text-gray-600 ">Email</label>
                 <input
                 type="text"
                 name="email"
@@ -160,7 +170,30 @@ export default function WorkerSection() {
                 className="mt-1 block w-full text-black bg-gray-100 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 required
                 />
+                {errors.email && (
+                    <div className='text-red-500'>{errors.email}</div>
+                )}
             </div>
+            <div className=''>
+                <label className="block text-sm font-medium text-gray-600 ">Role</label>
+                <select
+                    value={newWorker.role}
+                    onChange={handleChange('role')}
+                    name='role'
+                    className="w-full p-2 border rounded-md bg-white cursor-pointer"
+                >
+                    <option value="" disabled>Select an option</option>
+                    <option value="manager">Manager</option>
+                    <option value="admin">Admin</option>
+                </select>
+                {errors.email && (
+                    <div className='text-red-500'>{errors.email}</div>
+                )}
+            </div>
+            <div className='flex flex-row items-center text-gray-600'>
+                <CircleAlert size={24} className={'pr-2'}/><span>Admins have control over manager privilege</span>
+            </div>
+            
         </div>
         <div className='space-y-4'>
             <div>
@@ -173,6 +206,9 @@ export default function WorkerSection() {
                 className="mt-1 block w-full text-black bg-gray-100 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 required
                 />
+                {errors.password && (
+                    <div className='text-red-500'>{errors.password}</div>
+                )}
             </div>
             <div>
                 <label className="block text-sm font-medium text-gray-600">Re-Type Password</label>
@@ -184,10 +220,13 @@ export default function WorkerSection() {
                 className="mt-1 block w-full text-black bg-gray-100 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 required
                 />
+                {errors.confirmPassword && (
+                    <div className='text-red-500'>{errors.confirmPassword}</div>
+                )}
             </div>
         </div>
         <div className='flex justify-end'>
-            <div className='flex justify-between space-y-4'>
+            <div className='flex justify-between space-x-8'>
             <div className='rounded-md bg-gray-400 hover:bg-gray-300 transition-colors duration-300 px-3 py-2'
                 onClick={()=>{
                     closeAddDialog()
@@ -195,16 +234,29 @@ export default function WorkerSection() {
             >
                 Cancel
             </div>
-            <div className='rounded-md bg-blue-500 hover:bg-blue-300 transition-colors duration-300px-3 py-2'
+            <div className='rounded-md bg-blue-500 hover:bg-blue-300 transition-colors duration-300 px-3 py-2'
                 onClick={async()=>{
-                    await AuthService.registerUser(newWorker);
-                    closeAddDialog();
+                    const res = await AuthService.registerUser(newWorker);
+                    if(res.success === true){
+                        closeAddDialog();
+                    }
+                    
                 }}
             >
                 Add
             </div>
             </div>
         </div>
+        {firebaseError && (
+            <div className='bg-red-400 rounded-lg px-3 py-5 text-center'
+                style={{
+                    outline: '2px solid white',
+                    outlineOffset: '-6px'
+                }}
+            >
+               {firebaseError.message}
+            </div>
+        )}
     </DialogWrapper>
 
   </>

@@ -31,7 +31,7 @@ const LeftDashboard : React.FC<Props> = ({user} : Props) => {
             isCollapsed ? 'w-0 p-0 overflow-hidden' : 'w-[25vw]'} shadow-2xl flex flex-col`}>
               <JobSection/>
               <MenuSection/>
-              {user?.role && user?.role == "owner" && (
+              {user?.role && user?.role == "admin" && (
                 <WorkerSection />
               )}
         </div>

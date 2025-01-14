@@ -8,7 +8,7 @@ import { ID } from "./ID";
  * @export
  * @typedef {UserRole}
  */
-export type UserRole = 'owner' | 'manager';
+export type UserRole = 'admin' | 'manager';
 
 /**
  * Fields stored from session user in admin page
@@ -39,6 +39,7 @@ export const formSchema = z.object({
     lName: z.string().trim(),
     email: z.string()
       .email('Invalid email address'),
+    role: z.enum(["manager", "admin"]),
     password: z.string()
       .min(8, 'Password must be at least 8 characters')
       .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
@@ -55,6 +56,7 @@ export const formSchema = z.object({
     fName: z.string(),
     lName: z.string(),
     email: z.string().email('Invalid email address'),
+    role: z.enum(["manager", "admin"]),
     password: z.string()
       .min(8, 'Password must be at least 8 characters')
       .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')

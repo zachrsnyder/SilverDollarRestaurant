@@ -24,8 +24,10 @@ export function AuthProvider({ children } : AuthProps) {
 
   useEffect(() => {
     // This listener is crucial - it's what keeps track of the auth state
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
+    const unsubscribe = onAuthStateChanged(auth, (userChanged) => {
+        console.log("Auth state changed?")
+        if (userChanged?.uid === user?.uid) {
+            console.log("User altered")
         // User is signed in
         setUser(user);
       } else {

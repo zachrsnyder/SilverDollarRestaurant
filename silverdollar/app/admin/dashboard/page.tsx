@@ -1,8 +1,7 @@
 "use client";
 
-import { logout } from "../components/logout";
 import {useEffect, useState} from 'react'
-import { AdminUser } from "@/lib/types/auth";
+import { AdminUser, UserRole } from "@/lib/types/auth";
 import LeftDashboard from "./components/LeftDashboard";
 import { PageType } from "@/lib/types/pageTypes";
 import { ID } from "@/lib/types/ID";
@@ -37,12 +36,11 @@ export default function Dashboard() {
   const [currentMenu, setCurrentMenu] = useState<Menu | null>(null);
 
   async function fetchMenu() {   
-    console.log("Called")      
+       
     try {
         const value = await getAll();
         console.log(value)
         if(value.success){
-            console.log("Successfully grabbed menu data on mount!.", value)
             setMenu(value as Menu)
             setCurrentMenu(value as Menu);
         }else{
@@ -56,17 +54,20 @@ export default function Dashboard() {
 
   useEffect(()=>{
     const setTheAdminUser = async() => {
-      const admin = await AuthService.getUserInfo(user?.uid ? user.uid : '')
-      const userData : AdminUser = {
-        fName: admin?.fName,
-        lName: admin?.lName,
-        email: admin?.email,
-        role: admin?.role,
-        userId: user?.uid
+      const admin = await AuthService.getCurrentUserClaims();
+      if(admin){
+        console.log(admin)
+        const userData : AdminUser = {
+          fName: admin?.fName as string,
+          lName: admin?.lName as string,
+          role: admin?.role as UserRole,
+          userId: user?.uid
+        }
+        setAdminUser(userData)
       }
-      setAdminUser(userData)
-      console.log(userData)
+      
     }
+
     setTheAdminUser();
   }, [user])
 
@@ -92,7 +93,7 @@ export default function Dashboard() {
           }
           case "Manage Workers": {
             try{
-              if (adminUser?.role != "owner"){
+              if (adminUser?.role != "admin"){
                 throw Error("Insufficient Permissions")
               }
               setLoadingContent(false)
@@ -122,7 +123,9 @@ export default function Dashboard() {
 
       <LeftDashboard user={adminUser}/>
       <div className='bg-red-800 hover:bg-red-600 transition-colors duration-300 fixed top-5 right-16 z-50 rounded-lg'>
-        <button className='my-2 mx-4 text-white' onClick={() => logout()}>Logout</button>
+        <button className='my-2 mx-4 text-white' onClick={async() => {
+          await AuthService.logout()
+        }}>Logout</button>
       </div>
 
       {/* Main Content */}

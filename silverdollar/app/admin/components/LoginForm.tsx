@@ -25,21 +25,7 @@ export function LoginForm() {
     e.preventDefault();
     try {
       const res = await AuthService.checkAccount(email, password)
-      
-      const idToken = res?.idToken
-
-      if(idToken){
-        
-        const response = await fetch("/api/session", {
-          method: "POST",
-          body: JSON.stringify({ idToken }),
-          headers: { "Content-Type": "application/json" },
-        });
-  
-        router.push('/admin/dashboard');
-      }else{
-        setError(res?.errors ? res.errors : emptyErrors)
-      }      
+      setError(res?.errors ? res.errors : emptyErrors)     
     } catch (error: any) {
       setError(error.message);
     }
@@ -59,7 +45,7 @@ export function LoginForm() {
   return (
     <div className="flex min-h-screen items-center justify-center p-4">
       <div className="w-full max-w-md rounded-lg border border-gray-200 bg-white p-8 shadow-lg">
-        <h2 className="mb-6 text-center text-2xl font-bold text-gray-900">Login</h2>
+        <h2 className="mb-6 text-center text-2xl font-bold text-gray-900">Admin Portal</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
             <input
@@ -68,7 +54,7 @@ export function LoginForm() {
               name="email"
               placeholder="Email"
               value={email}
-              className="w-full rounded-md border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+              className="w-full rounded-md bg-gray-200 border  border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
             />
             {error?.email && (
               <p className="text-sm text-red-500">{error?.email}</p>
@@ -83,7 +69,7 @@ export function LoginForm() {
               type="password"
               value={password}
               placeholder="Password"
-              className="w-full rounded-md border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+              className="w-full rounded-md bg-gray-200 border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
             />
             {error?.password && (
               <p className="text-sm text-red-500">{error.password}</p>

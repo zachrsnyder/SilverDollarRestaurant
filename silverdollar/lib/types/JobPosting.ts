@@ -46,10 +46,6 @@ export const areJobPostingsEqual = (job1: JobPosting | null, job2: JobPosting | 
   if (job1 === null && job2 === null) return true;
   if (job1 === null || job2 === null) return false;
 
-  console.log(job1.title, job2.title)
-
-  console.log("They exist")
-
   // Compare primitive fields
   if (job1.id !== job2.id) return false;
   if (job1.title !== job2.title) return false;
@@ -58,24 +54,20 @@ export const areJobPostingsEqual = (job1: JobPosting | null, job2: JobPosting | 
   if (job1.status !== job2.status) return false;
   if (job1.applications !== job2.applications) return false;
 
-  console.log("primitives equal")
 
   // Compare arrays
   if (!areArraysEqual(job1.keyResponsibilities, job2.keyResponsibilities)) return false;
   if (!areArraysEqual(job1.requirements, job2.requirements)) return false;
 
-  console.log("arrays equal")
-
   // Compare compensation object
   if (!areCompensationEqual(job1.compensation, job2.compensation)) return false;
 
-  console.log("compensation equal")
+
 
   // Compare timestamps
   if (!areTimestampsEqual(job1.createdAt, job2.createdAt)) return false;
   if (!areTimestampsEqual(job1.updatedAt, job2.updatedAt)) return false;
 
-  console.log("timestamps equal")
 
   return true;
 };
