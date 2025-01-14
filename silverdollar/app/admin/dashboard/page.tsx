@@ -65,6 +65,7 @@ export default function Dashboard() {
         userId: user?.uid
       }
       setAdminUser(userData)
+      console.log(userData)
     }
     setTheAdminUser();
   }, [user])
@@ -72,7 +73,6 @@ export default function Dashboard() {
   
   //triggers whenever the data is changed, this will force it to change even when moving through two contents of the same page type. (unless miraculously a worker and a job listing have the same id)
   useEffect(()=>{
-    console.log("Ran at all")
     const getContent = async() => {
       setLoadingContent(true)
       if(currentData != "add"){
@@ -129,7 +129,7 @@ export default function Dashboard() {
       <div className='flex justify-center items-center mt-20 w-3/4'>
       {/*loading clause wrapped in error clause. Within loading clause is booleans to decide what content to display! Might be smarter to have error nested in loading, but this also works.*/}
       {error ? (<div className='text-lg text-red-500'>{error}</div>) : (<>
-        {loadingContent ? (
+        {loading ? (
           <div className='text-7xl'>Loading your content...</div>
         ) : (<>
           {currentPage == "Welcome" && (

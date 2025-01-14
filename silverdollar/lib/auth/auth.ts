@@ -88,6 +88,7 @@ export class AuthService {
 
     static async getUserInfo(uid: string){
         try{
+          console.log("uid: ", uid)
             const user = await getDoc(doc(db, 'users', uid));
             return user.data()
         }catch(err: any){

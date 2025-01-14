@@ -12,11 +12,12 @@ export default function Layout({
 }) {
   return (
     <div>
-      
+      <AuthProvider>
         <div className="container min-h-screen">
             {children}
             {modal}
         </div>
+      </AuthProvider>
     </div>
   )
 }

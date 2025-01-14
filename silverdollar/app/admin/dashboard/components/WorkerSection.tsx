@@ -7,20 +7,21 @@ import { WorkerMeta } from "./WorkerMeta";
 import DialogWrapper from "@/lib/util/DialogWrapper";
 import { AdminUser, fieldSchemas, formSchema, WorkerData } from "@/lib/types/auth";
 import { z } from "zod";
+import { AuthService } from "@/lib/auth/auth";
 
-
+const emptyWorker : WorkerData = {
+    fName: '',
+    lName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+}
 
 export default function WorkerSection() {
     const [isOpen, setIsOpen] = useState(false);
     const {workers, loading} = useWorkersSubscription();
 
-    const [newWorker, setNewWorker] = useState<WorkerData>({
-        fName: '',
-        lName: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-    })
+    const [newWorker, setNewWorker] = useState<WorkerData>(emptyWorker)
 
     const [errors, setErrors] = useState<{
         fName?: string;
@@ -36,6 +37,7 @@ export default function WorkerSection() {
         addWorkerDialog.current?.showModal();
     }
     const closeAddDialog = () => {
+        setNewWorker(emptyWorker)
         document.body.style.overflow = "unset";
         addWorkerDialog.current?.close()
     }
@@ -120,7 +122,7 @@ export default function WorkerSection() {
         onClose={()=>{
             closeAddDialog();
         }}
-        className='rounded-lg bg-white text-black space-y-4'
+        className='rounded-lg bg-white text-black space-y-4 p-5'
     >
         <div className='font-sans font-bold text-lg'>
             Add Manager
@@ -164,7 +166,7 @@ export default function WorkerSection() {
             <div>
                 <label className="block text-sm font-medium text-gray-600">Password</label>
                 <input
-                type="text"
+                type="password"
                 name="password"
                 value={newWorker.password}
                 onChange={handleChange("password")}
@@ -175,13 +177,32 @@ export default function WorkerSection() {
             <div>
                 <label className="block text-sm font-medium text-gray-600">Re-Type Password</label>
                 <input
-                type="text"
+                type="password"
                 name="confirmPassword"
                 value={newWorker.confirmPassword}
                 onChange={handleChange("confirmPassword")}
                 className="mt-1 block w-full text-black bg-gray-100 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 required
                 />
+            </div>
+        </div>
+        <div className='flex justify-end'>
+            <div className='flex justify-between space-y-4'>
+            <div className='rounded-md bg-gray-400 hover:bg-gray-300 transition-colors duration-300 px-3 py-2'
+                onClick={()=>{
+                    closeAddDialog()
+                }}
+            >
+                Cancel
+            </div>
+            <div className='rounded-md bg-blue-500 hover:bg-blue-300 transition-colors duration-300px-3 py-2'
+                onClick={async()=>{
+                    await AuthService.registerUser(newWorker);
+                    closeAddDialog();
+                }}
+            >
+                Add
+            </div>
             </div>
         </div>
     </DialogWrapper>
