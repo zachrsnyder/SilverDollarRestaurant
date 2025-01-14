@@ -1,6 +1,4 @@
 import { NextResponse } from "next/server";
-import { adminAuth, adminDb } from "@/lib/auth/admin";
-import { createSession, deleteSession } from "@/lib/auth/session";
 import { cookies } from "next/headers";
 
 // POST: Create a session
@@ -12,23 +10,16 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "ID token is required" }, { status: 400 });
     }
 
-    // Verify the Firebase ID token
-    const decodedToken = await adminAuth.verifyIdToken(idToken);
 
-    //get full user doc to get user privileges.
-    const userDoc = await adminDb.collection('users').doc(decodedToken.uid).get()
-    if(userDoc.exists){
+    const cookieStore = await cookies();
+    cookieStore.set('authToken', idToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+      maxAge: 60 * 60 * 24 * 7 // 1 week
+    });
 
-        const userRole = userDoc.data()?.role;
-        const userName = userDoc.data()?.fName;
-        console.log(userRole)
-        await createSession(decodedToken.uid, userRole, userName);
-
-        return NextResponse.json({ message: "Session created" }, { status: 200 });
-    }
-
-    // Create session and set cookie
-    
+    return NextResponse.json({ success: true })
   } catch (error : any) {
     console.error("Session Creation Error:", error.message);
     return NextResponse.json({ error: "Invalid ID token or internal error" }, { status: 401 });

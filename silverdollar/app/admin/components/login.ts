@@ -14,7 +14,7 @@ const loginSchema = z.object({
 
 
 
-export async function login(prevState: any, formData: FormData) {
+export async function checkAccount(prevState: any, formData: FormData) {
   const result = loginSchema.safeParse(Object.fromEntries(formData));
 
   if (!result.success) {

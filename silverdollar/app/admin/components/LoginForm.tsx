@@ -1,38 +1,92 @@
 "use client";
-import { useActionState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { useFormStatus } from "react-dom";
-import { login } from "./login";
+import { AuthService } from "@/lib/auth/auth";
+import { useAuth } from "@/lib/auth/rbac";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { useRouter } from "next/navigation";
+import { auth } from "@/lib/auth/client";
 
+const emptyErrors = {
+  email: undefined,
+  password: undefined
+}
 export function LoginForm() {
-  const [state, loginAction] = useActionState(login, undefined);
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState<{
+    email?: string[] | undefined;
+    password?: string[] | undefined;
+  }>(emptyErrors);
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const res = await AuthService.checkAccount(email, password)
+      
+      const idToken = res?.idToken
+
+      if(idToken){
+        
+        const response = await fetch("/api/session", {
+          method: "POST",
+          body: JSON.stringify({ idToken }),
+          headers: { "Content-Type": "application/json" },
+        });
+  
+        router.push('/admin/dashboard');
+      }else{
+        setError(res?.errors ? res.errors : emptyErrors)
+      }      
+    } catch (error: any) {
+      setError(error.message);
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if(name === "email"){
+      setEmail(value)
+    }else if(name === "password"){
+      setPassword(value)
+    }
+    // Clear error when user starts typing
+    if (error) setError(emptyErrors);
+  }
 
   return (
     <div className="flex min-h-screen items-center justify-center p-4">
       <div className="w-full max-w-md rounded-lg border border-gray-200 bg-white p-8 shadow-lg">
         <h2 className="mb-6 text-center text-2xl font-bold text-gray-900">Login</h2>
-        <form action={loginAction} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
             <input
+              onChange={handleChange}
               id="email"
               name="email"
               placeholder="Email"
+              value={email}
               className="w-full rounded-md border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
             />
-            {state?.errors?.email && (
-              <p className="text-sm text-red-500">{state.errors.email}</p>
+            {error?.email && (
+              <p className="text-sm text-red-500">{error?.email}</p>
             )}
           </div>
 
           <div className="space-y-2">
             <input
+              onChange={handleChange}
               id="password"
               name="password"
               type="password"
+              value={password}
               placeholder="Password"
               className="w-full rounded-md border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
             />
-            {state?.errors?.password && (
-              <p className="text-sm text-red-500">{state.errors.password}</p>
+            {error?.password && (
+              <p className="text-sm text-red-500">{error.password}</p>
             )}
           </div>
 

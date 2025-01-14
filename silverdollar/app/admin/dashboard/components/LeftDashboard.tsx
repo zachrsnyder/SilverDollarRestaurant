@@ -9,21 +9,17 @@ import { db } from '@/lib/auth/client'
 import { usePageData } from './CurrentContext'
 import MenuSection from './MenuSection'
 import { AdminUser } from '@/lib/types/auth'
+import WorkerSection from './WorkerSection'
 
 interface Props {
-  user : AdminUser;
+  user : AdminUser | null;
 }
 
 const LeftDashboard : React.FC<Props> = ({user} : Props) => {
     
     const [isCollapsed, setIsCollapsed] = useState(false)
     const [isHovered, setIsHovered] = useState(false);
-    //handling job posting metadata
-    const {currentPage, setCurrentPage, currentData, setCurrentData } = usePageData();
     
-
-  
-
     // Function to toggle the sidebar open or closed
     const toggleAside = () => {
       setIsCollapsed(!isCollapsed);

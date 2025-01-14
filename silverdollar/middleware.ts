@@ -1,6 +1,5 @@
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { decrypt } from "@/lib/auth/session";
 
 const protectedRoutes = ["/admin/dashboard"];
 const protectedApiRoutes = ["/api/admin", "/api/jobPostings"]; 
@@ -9,13 +8,12 @@ export default async function middleware(req: NextRequest) {
   console.log("running middleware")
   const path = req.nextUrl.pathname;
   
-  if(path.includes('admin')){
+  if(path.includes('admin') && !path.includes("session")){
     const cookie = await cookies();
-    const value = cookie.get("session")?.value;
-    const session = await decrypt(value);
-
+    const value = cookie.get("authToken")?.value;
+    console.log(value)
     // if the session doesnt have a userId they cant enter the page
-    if (!session?.userId) {
+    if (!value) {
       if (protectedRoutes.includes(path)) {
         return NextResponse.redirect(new URL("/admin", req.nextUrl));
       }
@@ -23,7 +21,7 @@ export default async function middleware(req: NextRequest) {
 
     // handle protected api routes
     if (protectedApiRoutes.includes(path)) {
-      if (!session?.userId || !(session?.role === "owner" || session?.role === "manager")) {
+      if (!value) {
         return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       }
     }

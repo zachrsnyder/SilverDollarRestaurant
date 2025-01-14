@@ -15,6 +15,9 @@ import ViewPageComp from "./components/ViewPageComp";
 import MenuManager from "./components/MenuManager";
 import { Menu } from "@/lib/types/AdminMenu";
 import { getAll } from "@/lib/util/editMenuClient";
+import { useAuth } from "../components/AuthProvider";
+import { AuthService } from "@/lib/auth/auth";
+
 
 
 //TODO: Fix switch case to adjust for "add" ID strings
@@ -22,11 +25,11 @@ import { getAll } from "@/lib/util/editMenuClient";
 
 export default function Dashboard() {
   const [error, setError] = useState<string | null>(null)
-  const [loading, setLoading] = useState(true)
   const [loadingContent, setLoadingContent] = useState(true)
-  const [user, setUser] = useState<AdminUser | null>(null)
+  const { user, loading } = useAuth()
   const { currentPage, setCurrentPage, currentData, setCurrentData } = usePageData();
-  
+  //type of defined user
+  const [adminUser, setAdminUser] = useState<AdminUser | null>(null)
   //implementing specific pages.
   const [posting, setPosting] = useState<JobPosting | null>(null)
   const [worker, setWorker] = useState(null)
@@ -52,31 +55,21 @@ export default function Dashboard() {
   }
 
   useEffect(()=>{
-    const getSession = async() => {
-      try{
-        setLoading(true);
-        const session = await fetch("/api/admin", {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        });
-        const res = await session.json();
-        const body = res.body;
-        setUser(body);
-        setLoadingContent(false)
-      }catch(error : any){
-        console.log("Error fetching session: ", error);
-        setError(error)
-      }finally{
-        //at this point, the current users information has been discovered, and the default window to be displayed is the Welcome page, so loading content is no longer true.
-        setLoading(false)
+    const setTheAdminUser = async() => {
+      const admin = await AuthService.getUserInfo(user?.uid ? user.uid : '')
+      const userData : AdminUser = {
+        fName: admin?.fName,
+        lName: admin?.lName,
+        email: admin?.email,
+        role: admin?.role,
+        userId: user?.uid
       }
+      setAdminUser(userData)
     }
-    getSession()
-    
+    setTheAdminUser();
+  }, [user])
 
-  }, [])
-
-
+  
   //triggers whenever the data is changed, this will force it to change even when moving through two contents of the same page type. (unless miraculously a worker and a job listing have the same id)
   useEffect(()=>{
     console.log("Ran at all")
@@ -99,7 +92,7 @@ export default function Dashboard() {
           }
           case "Manage Workers": {
             try{
-              if (user?.role != "owner"){
+              if (adminUser?.role != "owner"){
                 throw Error("Insufficient Permissions")
               }
               setLoadingContent(false)
@@ -127,7 +120,7 @@ export default function Dashboard() {
   return (
     <div className='flex flex-row justify-between align-middle'>
 
-      <LeftDashboard/>
+      <LeftDashboard user={adminUser}/>
       <div className='bg-red-800 hover:bg-red-600 transition-colors duration-300 fixed top-5 right-16 z-50 rounded-lg'>
         <button className='my-2 mx-4 text-white' onClick={() => logout()}>Logout</button>
       </div>
@@ -142,17 +135,12 @@ export default function Dashboard() {
           {currentPage == "Welcome" && (
             <div className='text-7xl align-middle space-y-16 font-arvo '>
               <div>Welcome,</div>
-              <div>{user?.fName}</div>
+              <div>{adminUser?.fName}</div>
             </div>
           )}
           {currentPage == "Job Postings" && (
             <>
               {currentData == "add" ? <AddJobForm/> : <ViewPageComp/>}
-            </>
-          )}
-          {currentPage == "Manage Workers" && user?.role && user.role === "owner" && (
-            <>
-              {currentData == "add" ? <div>Add a worker</div> : <div>Worker info!</div>}
             </>
           )}
           {currentPage == "Manage Menu" && (

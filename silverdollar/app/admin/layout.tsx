@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import { AuthProvider } from './components/AuthProvider'
 
 
 
@@ -11,6 +12,7 @@ export default function Layout({
 }) {
   return (
     <div>
+      
         <div className="container min-h-screen">
             {children}
             {modal}
