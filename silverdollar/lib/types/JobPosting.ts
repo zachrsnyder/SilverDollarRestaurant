@@ -35,9 +35,9 @@ export interface JobPosting {
 
   applications: number,
 
-  createdAt: Date;
+  createdAt: Timestamp;
 
-  updatedAt: Date;
+  updatedAt: Timestamp;
 
 }
 

@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 import { BaseModal } from '@/lib/util/BaseModal';
 import SaveConfirmationModal from './SaveModal';
 import { db } from '@/lib/auth/client';
-import { doc, FirestoreError, updateDoc } from 'firebase/firestore';
+import { doc, FirestoreError, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { Application } from '@/lib/types/Application';
 
 //TODO: Document code, fix enter key functionality on edit boxes. Add pay period :() completely forgot abt it.
@@ -41,7 +41,8 @@ const ViewPageComp = () => {
         try{
             const docRef = doc(db, "jobPostings", `${job?.id}`);
             await updateDoc(docRef, {
-                ...job
+                ...job,
+                updatedAt: serverTimestamp()
             })
             updateOriginalJob(); // Update originalJob after successful save
             setSaveConfirm(false)
@@ -222,10 +223,10 @@ const ViewPageComp = () => {
                             </div>
                             <div className='text-gray-500 text-end text-sm'>
                                 <div>
-                                    Created At: {job?.createdAt.toLocaleDateString()}
+                                    Created At: {job?.createdAt ? job.createdAt.toDate().toLocaleDateString(): ''}
                                 </div>
                                 <div>
-                                    Last Updated At: {job?.updatedAt.toLocaleDateString()}
+                                    Last Updated At: {job?.updatedAt ? job.updatedAt.toDate().toLocaleDateString() : ''}
                                 </div>
                             </div>
                         </div>

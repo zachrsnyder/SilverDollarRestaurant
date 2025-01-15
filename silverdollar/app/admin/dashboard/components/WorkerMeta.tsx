@@ -1,7 +1,7 @@
 import { AuthService } from "@/lib/auth/auth";
 import { AdminUser } from "@/lib/types/auth";
 import DialogWrapper from "@/lib/util/DialogWrapper";
-import { Menu, Trash2 } from "lucide-react";
+import { ChevronUp, Menu, Trash2 } from "lucide-react";
 import { useRef, useState } from "react";
 
 interface WorkerProps {
@@ -27,6 +27,7 @@ export function WorkerMeta({ meta } : WorkerProps){
 
     return (
         <>
+            <div className='flex flex-col relative'>
             <div key={meta.userId} className={`flex flex-col min-h-11 md:flex-row group w-full justify-between items-center px-3 rounded-sm bg-gray-500 hover:text-red-800`}>
                 <div className='text-lg xl:text-xl font-arvo'>
                     {meta.fName} {meta.lName}
@@ -45,11 +46,31 @@ export function WorkerMeta({ meta } : WorkerProps){
                             setOpen(not);
                         }}
                     >
-                        <Menu size={22} />
+                        <ChevronUp size={22} className={`${open ? 'rotate-180' : ''} transition-transform duration-500`} />
                     </div>
                 </div>
             </div>
-
+            <div className='overflow-hidden'>
+                <div
+                    className={`transform transition-all duration-300 ease-in-out ${
+                        open ? 'translate-y-0 opacity-100' : '-translate-y-2 opacity-0 h-0'
+                    }`}
+                >
+                    <div className='bg-gray-400 grid grid-cols-1 md:grid-cols-2'>
+                        <div className='p-2'>
+                            {meta.createdAt?.toDate().toDateString()}
+                        </div>
+                        <div className='p-2'>
+                            {meta.email}
+                        </div>
+                        <div className='p-2 capitalize'>
+                            {meta.role}
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            </div>
             <DialogWrapper
                 dialogRef={deleteRef}
                 onClose={()=>{

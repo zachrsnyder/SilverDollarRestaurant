@@ -16,7 +16,7 @@ export default function MenuSection() {
       <div className="p-2 rounded-lg bg-white/5 text-black group-hover:bg-white/10 transition-colors">
         <ScrollText className="" size={20} />
       </div>
-      <h3 className="text-lg font-sans font-bold ">Menu Management</h3>
+      <h3 className="text-sm md:text-lg font-sans font-bold ">Menu Management</h3>
     </div>
   </div>
 </div>

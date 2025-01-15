@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { doc, collection, query, orderBy, onSnapshot, FirestoreError } from 'firebase/firestore';
+import { doc, collection, query, orderBy, onSnapshot, FirestoreError, Timestamp } from 'firebase/firestore';
 import { db } from '@/lib/auth/client';
 import { JobPosting } from '../types/JobPosting';
 import { ID } from '../types/ID';
@@ -21,7 +21,9 @@ class JobCache {
 
   set(jobId: ID, data: JobPosting) {
     this.cache.set(jobId, {
-      data,
+      data: {
+        ...data,
+      },
       timestamp: Date.now()
     });
   }
@@ -64,7 +66,11 @@ export function useJobWithApplications(jobId: ID) {
 
     const cachedJob = globalJobCache.get(jobId);
     if (cachedJob) {
-      const jobCopy = structuredClone(cachedJob); // Deep copy
+      const jobCopy = {
+        ...cachedJob,
+        createdAt: cachedJob.createdAt, 
+        updatedAt: cachedJob.updatedAt
+      };
       setOriginalJob(jobCopy);
       setJob(jobCopy);
       setLoading(false);
@@ -79,8 +85,8 @@ export function useJobWithApplications(jobId: ID) {
           const jobData = {
             id: docSnap.id,
             ...data,
-            createdAt: data.createdAt.toDate(),
-            updatedAt: data.updatedAt.toDate()
+            createdAt: data.createdAt as Timestamp,
+            updatedAt: data.updatedAt as Timestamp
           } as JobPosting;
           
           // Set job data

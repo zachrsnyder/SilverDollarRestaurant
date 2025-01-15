@@ -25,7 +25,7 @@ export const JobSection = () => {
       <div className="p-2 rounded-lg bg-white/5 text-black group-hover:bg-white/10 transition-colors">
         <Briefcase className="" size={20} />
       </div>
-      <h3 className="text-lg font-sans font-bold ">Job Postings</h3>
+      <h3 className="text-sm md:text-lg font-sans font-bold ">Job Postings</h3>
     </div>
     <Tooltip text={'Add Job'} coords={[-14,10]}>
     <button 
@@ -39,8 +39,9 @@ export const JobSection = () => {
     </button>
     </Tooltip>
   </div>
-  <div>
-      {isOpen && (
+  <div className='overflow-hidden'>
+    <div className={`transform transition-all duration-500 ease-in-out ${isOpen ? 'translate-y-0 opacity-100' : '-translate-y-8 opacity-0 h-0'}`}>
+      
         <div className="p-4 space-y-1 flex flex-col">
             {loading ? (
             <div className="text-black/70 text-center py-4">Loading...</div>
@@ -54,7 +55,8 @@ export const JobSection = () => {
             </>
             )}
       </div>
-      )}
+
+    </div>
   </div>
   </div>
 )};

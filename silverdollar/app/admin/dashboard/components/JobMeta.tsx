@@ -141,13 +141,13 @@ const JobMeta = ({meta}: Props) => {
     // };
   return (
     <>
-    <div key={meta.id} className={`flex flex-col min-h-11 md:flex-row group w-full justify-between items-center px-3 rounded-sm bg-gray-500 hover:text-red-800`}
+    <div key={meta.id} className={`flex flex-col min-h-11 md:flex-row group w-full justify-between items-center px-3 rounded-sm bg-gray-500 hover:text-red-800 overflow-hidden cursor-pointer`}
         onClick={()=>{handleCardClick()}}
     >
-        <div className='text-lg xl:text-xl font-arvo'>
+        <div className='text-sm xl:text-xl font-arvo'>
             {meta.title}
         </div>
-        <div className='flex flex-col md:flex-row space-x-2'>
+        <div className='flex flex-col lg:flex-row space-x-2'>
             <div className={`overflow-hidden group-hover:overflow-visible transition-[width] duration-700 w-[0vw] group-hover:w-14 flex space-x-2`}
                 
             >

@@ -36,7 +36,7 @@ const EditableSelectWrapper = <T,>({
                     required
                     value={value as string}
                     onChange={handleChange}
-                    className={`${tailwind} mt-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500`}
+                    className={`${tailwind} mt-1 rounded-md bg-gray-100 border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500`}
                     onBlur={() => setIsEditable(false)}
                 >
                     {selectables.map((option, index) => (

@@ -72,7 +72,7 @@ const NumberEditableWrapper: React.FC<NumberEditableWrapperProps> = ({
           min={min}
           max={max}
           step={step}
-          className={`${tailwind} px-2 py-1 border border-blue-500 rounded outline-none`}
+          className={`${tailwind} px-2 py-1 border border-blue-500 bg-gray-100 rounded outline-none`}
         />
       ) : (
         <Tooltip
