@@ -1,7 +1,7 @@
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { WorkerData } from "../types/auth";
 import { auth, db } from "./client";
-import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
+import { deleteDoc, doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
 import { FirebaseError } from "firebase/app";
 import { redirect } from "next/navigation";
 import { z } from "zod";
@@ -22,31 +22,27 @@ export class AuthService {
     static async registerUser(workerData : WorkerData){
         try{
 
-            // create firebase auth user
-            const userCredential = await createUserWithEmailAndPassword(auth, workerData.email, workerData.password);
-            const user = userCredential.user;
-            
-            const idToken = user.getIdToken();
-            console.log("New user idToken", idToken)
-
-
             const response = await fetch('/api/admin/register', {
               method: 'POST',
               headers: { 'Content-Type' : 'application/json'},
               body: JSON.stringify({
-                uid: user.uid,
+                email: workerData.email,
+                password: workerData.password,
                 role: workerData.role,
                 fName: workerData.fName,
                 lName: workerData.lName
               })
             })
-            // await setDoc(doc(db, 'users', idToken), {
-            //     email: workerData.email,
-            //     fName: workerData.fName,
-            //     lName: workerData.lName,
-            //     role: "manager",
-            //     createdAt: serverTimestamp()
-            // });
+
+            const user = await response.json()
+
+            await setDoc(doc(db, 'users', user.uid), {
+                email: workerData.email,
+                fName: workerData.fName,
+                lName: workerData.lName,
+                role: workerData.role,
+                createdAt: serverTimestamp()
+            });
 
             return {success: true, user: user};
         } catch (error){
@@ -78,7 +74,7 @@ export class AuthService {
             
             if (user.uid !== null) {
               // if user exists we send the id to the server to make a cookie
-                const idToken =  await user.getIdToken();
+                const idToken =  await user.getIdToken(true);
                 const response = await fetch('/api/session/login', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
@@ -120,17 +116,45 @@ export class AuthService {
     }
 
     static async getCurrentUserClaims() {
-      const currentUser = auth.currentUser;
+      return new Promise((resolve) => {
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+          // unsubscribe after it resolves because we don't need it to run multiple times.
+          unsubscribe()
+          if (user) {
+              // force refresh to get latest claims
+              await user.getIdToken(true)
+              const tokenResult = await user.getIdTokenResult()
+              console.log('Claims: ', tokenResult.claims)
+              const claims = tokenResult.claims;
+              resolve({
+                fName: claims.fName,
+                lName: claims.lName,
+                role: claims.role,
+              })
+          } else {
+              resolve({})
+          }
+        })
+    })
+    }
 
-      console.log("CurrentUser: ", currentUser);
-
-      if(currentUser){
-        const tokenResult = await currentUser.getIdTokenResult()
-        console.log('Claims: ', tokenResult.claims)
-
-        return tokenResult.claims;
+    static async deleteUser(uid : string){
+      try{
+        const result = await fetch('/api/admin/deleteUser', {
+          method: 'POST',
+          headers: { "Content-Type" : "application/json"},
+          body: JSON.stringify({ uid })
+        })
+        const res = await result.json();
+        if(res.success){
+          await deleteDoc(doc(db, 'users', uid));
+          return { success: true }
+        }
+        return { success: false, message: res?.message }
+      }catch(error: any){
+        console.error("Error deleting this user: ", error)
+        return {success: false, message: error.message}
       }
-      return null;
     }
 
     // logout and revoke session and cookie

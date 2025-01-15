@@ -222,10 +222,10 @@ const ViewPageComp = () => {
                             </div>
                             <div className='text-gray-500 text-end text-sm'>
                                 <div>
-                                    Created At: {job?.createdAt.toDate().toLocaleDateString()}
+                                    Created At: {job?.createdAt.toLocaleDateString()}
                                 </div>
                                 <div>
-                                    Last Updated At: {job?.updatedAt.toDate().toLocaleDateString()}
+                                    Last Updated At: {job?.updatedAt.toLocaleDateString()}
                                 </div>
                             </div>
                         </div>

@@ -24,7 +24,7 @@ export default function WorkerSection() {
 
     const [newWorker, setNewWorker] = useState<WorkerData>(emptyWorker)
 
-    const [firebaseError, setFirebaseError] = useState<Error | null>(null)
+    const [firebaseError, setFirebaseError] = useState<string | null>(null)
 
     const [errors, setErrors] = useState<{
         fName?: string;
@@ -240,7 +240,9 @@ export default function WorkerSection() {
                     if(res.success === true){
                         closeAddDialog();
                     }
-                    
+                    else{
+                        setFirebaseError('Error creating user.')
+                    }
                 }}
             >
                 Add
@@ -254,7 +256,7 @@ export default function WorkerSection() {
                     outlineOffset: '-6px'
                 }}
             >
-               {firebaseError.message}
+               {firebaseError}
             </div>
         )}
     </DialogWrapper>

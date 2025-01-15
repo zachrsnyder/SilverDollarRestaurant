@@ -35,9 +35,9 @@ export interface JobPosting {
 
   applications: number,
 
-  createdAt: Timestamp;
+  createdAt: Date;
 
-  updatedAt: Timestamp;
+  updatedAt: Date;
 
 }
 
@@ -63,12 +63,6 @@ export const areJobPostingsEqual = (job1: JobPosting | null, job2: JobPosting | 
   if (!areCompensationEqual(job1.compensation, job2.compensation)) return false;
 
 
-
-  // Compare timestamps
-  if (!areTimestampsEqual(job1.createdAt, job2.createdAt)) return false;
-  if (!areTimestampsEqual(job1.updatedAt, job2.updatedAt)) return false;
-
-
   return true;
 };
 
@@ -89,8 +83,6 @@ const areCompensationEqual = (
   );
 };
 
-const areTimestampsEqual = (ts1: Timestamp, ts2: Timestamp): boolean => {
-  return ts1.seconds === ts2.seconds && ts1.nanoseconds === ts2.nanoseconds;
-};
+
 
 export default areJobPostingsEqual;

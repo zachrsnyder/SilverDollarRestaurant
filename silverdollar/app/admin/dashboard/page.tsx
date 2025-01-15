@@ -25,10 +25,8 @@ import { AuthService } from "@/lib/auth/auth";
 export default function Dashboard() {
   const [error, setError] = useState<string | null>(null)
   const [loadingContent, setLoadingContent] = useState(true)
-  const { user, loading } = useAuth()
+  const { user, loading, claims } = useAuth()
   const { currentPage, setCurrentPage, currentData, setCurrentData } = usePageData();
-  //type of defined user
-  const [adminUser, setAdminUser] = useState<AdminUser | null>(null)
   //implementing specific pages.
   const [posting, setPosting] = useState<JobPosting | null>(null)
   const [worker, setWorker] = useState(null)
@@ -52,25 +50,7 @@ export default function Dashboard() {
     }
   }
 
-  useEffect(()=>{
-    const setTheAdminUser = async() => {
-      const admin = await AuthService.getCurrentUserClaims();
-      if(admin){
-        console.log(admin)
-        const userData : AdminUser = {
-          fName: admin?.fName as string,
-          lName: admin?.lName as string,
-          role: admin?.role as UserRole,
-          userId: user?.uid
-        }
-        setAdminUser(userData)
-      }
-      
-    }
-
-    setTheAdminUser();
-  }, [user])
-
+  
   
   //triggers whenever the data is changed, this will force it to change even when moving through two contents of the same page type. (unless miraculously a worker and a job listing have the same id)
   useEffect(()=>{
@@ -93,7 +73,7 @@ export default function Dashboard() {
           }
           case "Manage Workers": {
             try{
-              if (adminUser?.role != "admin"){
+              if (claims.role != "admin"){
                 throw Error("Insufficient Permissions")
               }
               setLoadingContent(false)
@@ -121,7 +101,7 @@ export default function Dashboard() {
   return (
     <div className='flex flex-row justify-between align-middle'>
 
-      <LeftDashboard user={adminUser}/>
+      <LeftDashboard user={claims}/>
       <div className='bg-red-800 hover:bg-red-600 transition-colors duration-300 fixed top-5 right-16 z-50 rounded-lg'>
         <button className='my-2 mx-4 text-white' onClick={async() => {
           await AuthService.logout()
@@ -138,7 +118,7 @@ export default function Dashboard() {
           {currentPage == "Welcome" && (
             <div className='text-7xl align-middle space-y-16 font-arvo '>
               <div>Welcome,</div>
-              <div>{adminUser?.fName}</div>
+              <div>{claims?.fName}</div>
             </div>
           )}
           {currentPage == "Job Postings" && (

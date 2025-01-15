@@ -4,20 +4,24 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(req: NextRequest) {
   try {
-    const { uid, role, fName, lName } = await req.json()
     
-    // user shoulda been created on the client already
+    const { email, password, role, fName, lName } = await req.json()
+    
+    // Create user with Admin SDK
+    const newUser = await auth().createUser({
+      email,
+      password
+    })
 
-
-    // Set their custom claims
-    await auth().setCustomUserClaims(uid, {
-      role: role,    
-      fName : fName,
-      lName : lName,
+    // Set their claims
+    await auth().setCustomUserClaims(newUser.uid, {
+      role,
+      fName,
+      lName,
       createdAt: Date.now()
     })
 
-    return NextResponse.json({ success: true })
+    return NextResponse.json({ success: true, uid: newUser.uid })
   } catch (error) {
     console.error('Registration error:', error)
     return NextResponse.json({ error: 'Registration failed' }, { status: 400 })

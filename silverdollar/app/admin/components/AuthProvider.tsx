@@ -7,11 +7,14 @@ import { AdminUser } from '@/lib/types/auth';
 interface AuthContextType {
     user: User | null;
     loading: boolean;
+
+    claims: any
   }
 
 const AuthContext = createContext<AuthContextType>({
     user:null,
-    loading:true
+    loading:true,
+    claims:null
 });
 
 
@@ -20,22 +23,21 @@ interface AuthProps {
 }
 export function AuthProvider({ children } : AuthProps) {
   const [user, setUser] = useState<User | null>(null);
+  const [claims, setClaims] = useState<any | null>(null)
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // This listener is crucial - it's what keeps track of the auth state
-    const unsubscribe = onAuthStateChanged(auth, (userChanged) => {
-        console.log("Auth state changed?")
-        if (userChanged?.uid === user?.uid) {
-            console.log("User altered")
-        // User is signed in
-        setUser(user);
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        setUser(user)
+        const tokenResult = await user.getIdTokenResult()
+        setClaims(tokenResult.claims)
       } else {
-        // User is signed out
-        setUser(null);
+        setUser(null)
+        setClaims(null)
       }
-      setLoading(false);
-    });
+      setLoading(false)
+    })
 
     
     // Cleanup subscription
@@ -44,7 +46,8 @@ export function AuthProvider({ children } : AuthProps) {
 
   const value: AuthContextType = {
     user,
-    loading
+    loading,
+    claims
   };
 
   return (

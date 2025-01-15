@@ -74,10 +74,13 @@ export function useJobWithApplications(jobId: ID) {
     jobUnsubscribeRef.current = onSnapshot(
       jobRef,
       (docSnap) => {
-        if (docSnap.exists()) {  
+        if (docSnap.exists()) { 
+          const data = docSnap.data() 
           const jobData = {
             id: docSnap.id,
-            ...docSnap.data()
+            ...data,
+            createdAt: data.createdAt.toDate(),
+            updatedAt: data.updatedAt.toDate()
           } as JobPosting;
           
           // Set job data

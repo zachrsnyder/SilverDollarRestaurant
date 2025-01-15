@@ -12,7 +12,7 @@ import { AdminUser } from '@/lib/types/auth'
 import WorkerSection from './WorkerSection'
 
 interface Props {
-  user : AdminUser | null;
+  user :any;
 }
 
 const LeftDashboard : React.FC<Props> = ({user} : Props) => {
