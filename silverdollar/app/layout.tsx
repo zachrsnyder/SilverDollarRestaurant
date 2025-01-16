@@ -67,6 +67,7 @@ export default async function RootLayout({
     <html lang="en">
       <body
         className={`${arvo.variable} antialiased`}
+        
       >
         {/* {!shouldHideHeaderFooter && <NavBar />} */}
         <NavBar/>

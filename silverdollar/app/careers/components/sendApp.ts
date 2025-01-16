@@ -2,7 +2,7 @@ import { db, storage } from "@/lib/auth/client";
 import { Application } from "@/lib/types/Application";
 import { ID } from "@/lib/types/ID";
 import { FirebaseError } from "firebase/app";
-import { doc, collection, addDoc, updateDoc, getFirestore } from 'firebase/firestore'
+import { doc, collection, addDoc, updateDoc, getFirestore, serverTimestamp } from 'firebase/firestore'
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import _ from 'lodash'
 
@@ -12,13 +12,14 @@ export async function submitApplication(resume : File | null, jobId : ID | undef
     if(resume && jobId && appData){
     try{
 
-        const parsedAppData = _.omit(appData, 'resume')
+        const parsedAppData = _.omit<Application>(appData, 'resume')
         const jobRef = doc(db, 'jobPostings', jobId);
         const applicationRef = collection(jobRef, 'applications')
 
         // creating application doc first so its ID can be used in file URL.
         const appDoc = await addDoc(applicationRef, {
             ...parsedAppData,
+            submittedAt: serverTimestamp()
         })
 
         //setting up reference with constructed URL then uploading resume bytes to that ref

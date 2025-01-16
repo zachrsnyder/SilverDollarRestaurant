@@ -110,9 +110,13 @@ export function useJobWithApplications(jobId: ID) {
     applicationsUnsubscribeRef.current = onSnapshot(
     applicationsQuery,
     (querySnapshot) => {
-        const apps = querySnapshot.docs.map(doc => ({
-        ...doc.data()
-        })) as Application[];
+        const apps = querySnapshot.docs.map(doc => {
+          const data = doc.data();
+          console.log(data.submittedAt)
+          return{
+            ...data,
+            submittedAt: data.submittedAt
+          }}) as Application[];
         setApplications(apps);
     },
     (error) => {

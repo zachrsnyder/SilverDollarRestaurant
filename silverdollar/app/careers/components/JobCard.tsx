@@ -18,7 +18,7 @@ const JobCard = ({job, handleJobClick} : Props) => {
 
   return (
     <>
-    <div key={job.id} className={`flex flex-col md:flex-row group h-full w-full justify-between items-center px-3 rounded-md bg-gray-300 hover:bg-gray-200`}
+    <div key={job.id} className={`flex flex-col md:flex-row group h-full w-full justify-between items-center px-3 rounded-md bg-gray-300 hover:bg-gray-200 cursor-pointer`}
       onClick={() =>{handleJobClick(job)}}
     >
         <div className='text-lg xl:text-xl font-arvo font-bold'>

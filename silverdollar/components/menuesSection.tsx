@@ -111,9 +111,9 @@ const MenuesSection = ({menuUrls} : Props) => {
                     e.currentTarget.style.backgroundColor = 'rgba(20,20,20,0.2)';
                   }}
             >
-                <div className='text-center'>
+                <div className='text-center text-white'>
                     <CookingPot className='mx-auto mb-4 font-bold' size={52}/>
-                    <h4 className='text-white font-arvo font-bold text-4xl md:text-6xl lg:text-7xl max-w-[80%] mx-auto break-words'>check out our dinner menu!</h4>
+                    <h4 className='font-arvo font-bold text-4xl md:text-6xl lg:text-7xl max-w-[80%] mx-auto break-words'>check out our dinner menu!</h4>
                 </div>
                 
             </div>

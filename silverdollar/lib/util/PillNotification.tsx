@@ -46,9 +46,6 @@ const PillNotification = ({values, setValues} : Props) => {
             style={{
                 backgroundColor: `${values.colorTailwind}`, // bg-green-400
                 position: 'fixed',
-                top: '50%',         // bottom-2
-                left: '37%',               // left-1/2
-                transform: 'translate(-50%, -50%)',  // -translate-x-1/2 -translate-y-1/2
                 borderRadius: '2rem',    // rounded-3xl
                 height: '3rem',            // h-20
                 padding: '1rem',        // p-3

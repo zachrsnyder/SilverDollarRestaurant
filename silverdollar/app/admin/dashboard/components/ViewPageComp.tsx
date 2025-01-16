@@ -13,6 +13,7 @@ import SaveConfirmationModal from './SaveModal';
 import { db } from '@/lib/auth/client';
 import { doc, FirestoreError, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { Application } from '@/lib/types/Application';
+import ApplicationMeta from './ApplicationMeta';
 
 //TODO: Document code, fix enter key functionality on edit boxes. Add pay period :() completely forgot abt it.
 
@@ -85,20 +86,13 @@ const ViewPageComp = () => {
                             />
             
                         </div>
-                        <div className='flex space-x-4 mr-6'>
+                        <div className='flex mr-6'>
                             {areJobPostingsEqual(originalJob, job) ? (<div></div>) : (<div className='text-sm text-red-500'>You have unsaved changes.</div>)}
                             <Tooltip text='Save Changes' coords={[-30,10]}>
                                 <button className='text-blue-500'
                                     onClick={handleSaveClick}
                                 >
                                     <Save size={26}/>
-                                </button>
-                            </Tooltip>
-                            <Tooltip text={'On Site Perspective'} coords={[-30,10]}>
-                                <button className='text-gray-600'
-                                    onClick={() => {handleUserViewClick()}}
-                                >
-                                    <View size={26} />
                                 </button>
                             </Tooltip>
                         </div>
@@ -230,11 +224,13 @@ const ViewPageComp = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className='mx-4 my-2 min-h-[500px] bg-gray-700 rounded-lg block'>
-                            <div className='text-xl font-arvo pl-3 py-2 text-white font-bold'>Applicants</div>
-                            <div className='mx-6'>
+                        <div className='mx-4 my-2 min-h-[500px] bg-gray-300 rounded-lg block'>
+                            <div className='text-xl font-arvo pl-3 py-2 text-black font-bold'>Applicants</div>
+                            <div className='mx-6 space-y-2'>
                                 {applications.map((value : Application,index : number)  => (
-                                    <div key={index}>{value.name}</div>
+                                    <div key={index} className='cursor-pointer'>
+                                        <ApplicationMeta app={value}/>
+                                    </div>
                                 ))}
                             </div>
                         </div>

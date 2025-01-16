@@ -5,7 +5,7 @@ import RandomGallery from "./RandomGallery"
 
 export default function RandGallWrapper() {
     return (
-        <div className='bg-gray-100 flex justify-center items-center min-w-[100vw]'
+        <div className='bg-gray-100 flex justify-center items-center min-w-full'
             style={{
                 maxHeight: '1000px',
                 padding: '5rem 0 ',

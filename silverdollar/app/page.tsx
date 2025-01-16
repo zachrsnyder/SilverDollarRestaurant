@@ -1,12 +1,13 @@
 import Image from "next/image";
-import Facebook from "../component/Facebook";
-import FoodCard from "../component/SmallCard";
-import SmallCard from "../component/SmallCard";
-import MenuesSection from "@/component/menuesSection";
-import ResponsiveGalley from "@/component/ResponsiveGallery";
-import RandomGallery from "@/component/RandomGallery";
-import RandGallWrapper from "@/component/RandGallWrapper";
+import Facebook from "../components/Facebook";
+import FoodCard from "../components/SmallCard";
+import SmallCard from "../components/SmallCard";
+import MenuesSection from "@/components/menuesSection";
+import ResponsiveGalley from "@/components/ResponsiveGallery";
+import RandomGallery from "@/components/RandomGallery";
+import RandGallWrapper from "@/components/RandGallWrapper";
 import { getMenu } from "@/lib/util/getMenu";
+import OptMenuSection from "@/components/OptMenuSection";
 
 
 export default async function Home() {
@@ -14,7 +15,7 @@ export default async function Home() {
   return (
     <div className='pt-24'>
       
-      <MenuesSection menuUrls={menuUrls}/>
+      <OptMenuSection menuUrls={menuUrls}/>
 
       <RandGallWrapper />
 

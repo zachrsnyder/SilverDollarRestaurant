@@ -13,6 +13,7 @@ import { submitApplication } from './sendApp'
 import { ID } from '@/lib/types/ID'
 import _ from 'lodash'
 import PillNotification from '@/lib/util/PillNotification'
+import { serverTimestamp } from 'firebase/firestore'
 
 
 const emptyApp : Application = {
@@ -22,11 +23,12 @@ const emptyApp : Application = {
   state: '',
   zipCode: '',
   phone: '',
+  email: '',
   referredBy: '',
   startDate: '',
   currentlyEmployed: false,
   canInquire: false,
-  submittedAt: new Date(),
+  submittedAt: null,
   education: {
     highSchool: { name: '', years: '', graduated: false, subjects: '' },
     college: { name: '', years: '', graduated: false, subjects: '' },
@@ -38,7 +40,7 @@ const emptyApp : Application = {
   militaryService: '',
   militaryRank: '',
   resume: null,
-  resumeURL: null,
+  resumeUrl: '',
   status: 'pending'
 }
 
@@ -265,9 +267,9 @@ export default function JobsTableWithModal() {
         </div>
 
         {/* Personal Information */}
-        <div className="space-y-4 mt-4">
+        <div className="space-y-4 mt-4"
+        >
           <h2 className="text-lg font-semibold text-gray-700">Personal Information</h2>
-          {/* Address Fields */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className='md:col-span-2'>
               <label className="block text-sm font-medium text-gray-600">Name (Last Name, First)</label>
@@ -324,6 +326,28 @@ export default function JobsTableWithModal() {
                 required
               />
             </div>
+            <div className="md:col-span-2">
+              <label className="block text-sm font-medium text-gray-600">Email</label>
+              <input
+                type="text"
+                name="email"
+                value={application?.email}
+                onChange={handleChange}
+                className="mt-1 block w-full text-black bg-gray-100 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                required
+              />
+            </div>
+            <div className="md:col-span-2">
+              <label className="block text-sm font-medium text-gray-600">Phone</label>
+              <input
+                type="text"
+                name="phone"
+                value={application?.phone}
+                onChange={handleChange}
+                className="mt-1 block w-full text-black bg-gray-100 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                required
+              />
+            </div>
           </div>
         </div>
 
@@ -338,7 +362,8 @@ export default function JobsTableWithModal() {
                 name="startDate"
                 value={application?.startDate}
                 onChange={handleChange}
-                className="mt-1 block w-full text-black bg-gray-100 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                style={{ colorScheme: 'light' }}
+                className="mt-1 block w-full text-black bg-gray-100 rounded-md border-gray-300 shadow-sm accent-black focus:border-blue-500 focus:ring-blue-500"
                 required
               />
             </div>
@@ -354,7 +379,8 @@ export default function JobsTableWithModal() {
                 className="rounded accent-gray-100 border-gray-300  focus:ring-blue-500"
                 style={{
                   backgroundColor: '#f3f4f6',
-                  accentColor: '#f3f4f6'
+                  accentColor: '#f3f4f6',
+                  colorScheme: 'light'
                 }}
               />
               <label className="text-sm text-gray-600">Are you employed now?</label>
@@ -365,6 +391,11 @@ export default function JobsTableWithModal() {
                 name="canInquire"
                 checked={application?.canInquire}
                 onChange={handleChange}
+                style={{
+                  backgroundColor: '#f3f4f6',
+                  accentColor: '#f3f4f6',
+                  colorScheme: 'light'
+                }}
                 className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
               />
               <label className="text-sm text-gray-600">May we inquire of your present employer?</label>
@@ -409,7 +440,11 @@ export default function JobsTableWithModal() {
                     checked={application?.education[level].graduated}
                     onChange={(e) => handleEducationChange(level, 'graduated', e.target.checked)}
                     className="mt-3 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                    
+                    style={{
+                      backgroundColor: '#f3f4f6',
+                      accentColor: '#f3f4f6',
+                      colorScheme: 'light'
+                    }}
                   />
                 </div>
               </div>
@@ -477,14 +512,19 @@ export default function JobsTableWithModal() {
         </div>
 
         {/* Resume upload */}
-        <div className='pt-4'>
+        <div className='pt-4 text-black'>
           <input
               type='file'
               name='resume'
-              accept='.pdf, .doc'
+              accept='.pdf'
               onChange={handleChange}
               className=''
               required
+              style={{
+                backgroundColor: '#f3f4f6',
+                accentColor: '#f3f4f6',
+                colorScheme: 'light'
+              }}
           />
         </div>
 
@@ -502,7 +542,7 @@ export default function JobsTableWithModal() {
     </DialogWrapper>
     
     
-    <dialog ref={dialog} className="p-6 rounded-lg shadow-xl">
+    <dialog ref={dialog} className="p-6 rounded-lg shadow-xl bg-white text-black">
       <div>
         <h2 className="text-xl font-bold mb-4">Leave without applying?</h2>
         <p className="mb-6">Leave without confirming your application?</p>

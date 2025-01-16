@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore";
+
 export interface Education {
   name: string;
   years: string;
@@ -12,12 +14,13 @@ export interface Application {
   state: string;
   zipCode: string;
   phone: string;
+  email: string;
   referredBy: string;
   startDate: string;
   currentlyEmployed: boolean;
   canInquire: boolean;
   
-  submittedAt: Date;
+  submittedAt: Timestamp | null;
 
   status : string;
   education: {
@@ -30,7 +33,7 @@ export interface Application {
   specialSkills: string;
   militaryService: string;
   militaryRank: string;
-
-  resumeURL: string | null;
   resume: File | null;
+
+  resumeUrl: string;
 }
