@@ -1,20 +1,45 @@
 import { Application } from "@/lib/types/Application"
 import DialogWrapper from "@/lib/util/DialogWrapper";
-import { X } from "lucide-react";
-import { useRef } from "react";
+import { MoveLeft, Trash2, X } from "lucide-react";
+import { useRef, useState } from "react";
 import PDFPreview from "./PDFPreview";
+import Tooltip from "@/lib/util/Tooltip";
+import { deleteDoc, doc, FirestoreError } from "firebase/firestore";
+import { db } from "@/lib/auth/client";
+import { ID } from "@/lib/types/ID";
+import PillNotification from "@/lib/util/PillNotification";
 
 
 interface ApplicationProps {
     app: Application;
+
+    jobId: ID | undefined;
 }
 
-export default function ApplicationMeta({app} : ApplicationProps) {
+export default function ApplicationMeta({app, jobId} : ApplicationProps) {
     const viewRef = useRef<HTMLDialogElement>(null);
+
+    const [popover, setPopover] = useState<{isOpen: boolean, colorTailwind: string, message: string}>({
+        isOpen: false,
+        colorTailwind: 'rgba(230,60,47,30)',
+        message: 'Failed to delete application'
+      });
 
     const onViewDialogClose = () => {
         document.body.style.overflow = 'unset';
         viewRef.current?.close()
+    }
+
+    const handleDeleteApplication = async() => {
+        try{
+            if(jobId){
+                await deleteDoc(doc(db, 'jobPostings', jobId, 'applications', app.uid))
+            }
+            return {success: true}
+        }catch(error : any){
+            console.error(error)
+            return {success: false, message: `Failed to delete application: ${error}`}
+        }
     }
 
     return (
@@ -34,13 +59,38 @@ export default function ApplicationMeta({app} : ApplicationProps) {
             className='border-[1px] border-black border-t-[28px] border-t-gray-700 w-full md:w-4/5 lg:w-1/2 rounded-lg text-black bg-white min-h-[400px] h-[95vh] p-4'
         >
             <div className="relative">
-            <div className='absolute -top-2 -right-2'
-                onClick={onViewDialogClose}
-            >
-                <X size={24} className={'text-red-800 hover:text-red-500'}/>
+            <div className='absolute -top-8 -right-2 -left-2 flex justify-between space-x-3'>
+                <Tooltip
+                    text={"Back"}
+                    coords={[20,-48]}
+                >
+                    <MoveLeft size={24} className={'text-gray-600 hover:text-blue-500'}
+                        onClick={onViewDialogClose}
+                    />
+                </Tooltip>
+                <Tooltip
+                    text={"Delete Application"}
+                    coords={[20, 32]}
+                >
+                    <Trash2 size={24} className={'text-gray-600 hover:text-red-500'}
+                        onClick={async()=>{
+                            const res = await handleDeleteApplication(); 
+                            if(res.success === true){
+                                console.log("Happening")
+                                setPopover(prev => {
+                                    return {
+                                        ...prev,
+                                        isOpen: true
+                                    }
+                                })
+                            }
+                            onViewDialogClose();
+                        }}
+                    />
+                </Tooltip>
             </div>
             {/* personal info */}
-            <div className='space-y-2 '>
+            <div className='space-y-2 mt-6'>
                 <h2 className="text-lg font-semibold text-gray-700">Personal Information</h2>
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4 pl-4">
                     <div className='md:col-span-2'>
@@ -138,6 +188,9 @@ export default function ApplicationMeta({app} : ApplicationProps) {
                     />
                 </div>
                 </div>
+                <PillNotification values={popover} setValues={setPopover}>
+
+                </PillNotification>
         </DialogWrapper>
         </>
     )

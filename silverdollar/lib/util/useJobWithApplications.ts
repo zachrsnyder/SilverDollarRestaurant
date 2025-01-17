@@ -114,6 +114,7 @@ export function useJobWithApplications(jobId: ID) {
           const data = doc.data();
           console.log(data.submittedAt)
           return{
+            uid: doc.id,
             ...data,
             submittedAt: data.submittedAt
           }}) as Application[];

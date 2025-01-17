@@ -17,6 +17,7 @@ import { serverTimestamp } from 'firebase/firestore'
 
 
 const emptyApp : Application = {
+  uid: '',
   name: '',
   address: '',
   city: '',

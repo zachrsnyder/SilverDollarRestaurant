@@ -8,6 +8,7 @@ export interface Education {
 }
 
 export interface Application {
+  uid: string;
   name: string;
   address: string;
   city: string;

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { JobPostingMetadata } from '@/lib/types/JobPostingMetadata'
 import { Trash2, BookPlus, Eye, EyeOff } from 'lucide-react'
 import { usePageData } from './CurrentContext'
@@ -19,14 +19,16 @@ interface Props{
 const JobMeta = ({meta}: Props) => {
     const {currentPage, setCurrentPage, currentData, setCurrentData} = usePageData();
     const {job, setJob, originalJob, updateOriginalJob, applications, loading, error, refreshData} = useJobWithApplications(currentData);
+    const archiveRef = useRef<HTMLDialogElement>(null);
+    const deleteRef = useRef<HTMLDialogElement>(null);
+    const postRef = useRef<HTMLDialogElement>(null);
     
     /**
      * Would probably be wise to pass this logic as props to limit duplicate functionality? But dang that would be soooo many props
      */
-    const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-    const [isPostOpen, setIsPostOpen] = useState(false);
-    const [isArchiveOpen, setIsArchiveOpen] = useState(false);
-    const [isSaveOpen, setIsSaveOpen] = useState(false)
+
+
+
 
     // const handleSave = async() => {
     //     try{
@@ -55,7 +57,7 @@ const JobMeta = ({meta}: Props) => {
         }catch(err : any){
             console.log("Error deleting job posting document.")
         }finally{
-            setIsDeleteOpen(false);
+            onDeleteModalClose();
         }
     }
 
@@ -69,7 +71,7 @@ const JobMeta = ({meta}: Props) => {
             console.log("Error setting post status to active");
             console.log(error);
         }finally{
-            setIsPostOpen(false);
+            onPostModalClose()
         }
     }
 
@@ -79,39 +81,45 @@ const JobMeta = ({meta}: Props) => {
             await updateDoc(docRef, {
                 status: "Archived"
             })
-
+            
         }catch(error: any){
             console.log("Error setting post status to active");
             console.log(error);
         }finally{
-            setIsArchiveOpen(false);
+            handleArchiveModalClose();
         }
     }
 
 
 
     const onDeleteModalClose = () => {
-        setIsDeleteOpen(false)
+        document.body.style.overflow = 'unset';
+        deleteRef.current?.close()
     }
 
     const onDeleteClick = () => {
-        setIsDeleteOpen(true)
+        document.body.style.overflow = 'hidden'
+        deleteRef.current?.showModal();
     }
 
     const handlePostClick = () => {
-        setIsPostOpen(true)
+        document.body.style.overflow = 'hidden'
+        postRef.current?.showModal();
     }
 
     const onPostModalClose = () => {
-        setIsPostOpen(false)
+        document.body.style.overflow = 'unset'
+        postRef.current?.close();
     }
 
     const handleArchiveClick = () => {
-        setIsArchiveOpen(true)
+        document.body.style.overflow = 'hidden'
+        archiveRef.current?.showModal();
     }
 
     const handleArchiveModalClose = () => {
-        setIsArchiveOpen(false);
+        document.body.style.overflow = 'unset'
+        archiveRef.current?.close();
     }
 
     const handleCardClick = () => {
@@ -163,9 +171,9 @@ const JobMeta = ({meta}: Props) => {
     </div>
     
     {/*Modals. It could even be more efficient thao make "ConfirmationModal" component with an extra passed prop being description so because all of these modals are very similar */}
-    <DeleteConfirmationModal isOpen={isDeleteOpen} onClose={onDeleteModalClose} onConfirm={handleDelete} title={meta.title}/>
-    <PostModal isOpen={isPostOpen} onClose={onPostModalClose} onConfirm={handlePost} title={meta.title}/>
-    <ArchiveModal isOpen={isArchiveOpen} onClose={handleArchiveModalClose} onConfirm={handleArchive} title={meta.title}/>
+    <DeleteConfirmationModal dialogRef={deleteRef} onClose={onDeleteModalClose} onConfirm={handleDelete} title={meta.title}/>
+    <PostModal dialogRef={postRef} onClose={onPostModalClose} onConfirm={handlePost} title={meta.title}/>
+    <ArchiveModal dialogRef={archiveRef} onClose={handleArchiveModalClose} onConfirm={handleArchive} title={meta.title}/>
     {/* <SaveConfirmationModal 
         isOpen={isSaveOpen} 
         onClose={handleSaveModalClose}

@@ -1,21 +1,22 @@
 import { BaseModal } from "@/lib/util/BaseModal";
+import DialogWrapper from "@/lib/util/DialogWrapper";
 
 
 interface PostConfirmationModalProps {
-    isOpen: boolean;
+  dialogRef: React.RefObject<HTMLDialogElement>;
     onClose: () => void;
     onConfirm: () => void;
     title: string;
   }
   
   export default function PostConfirmationModal({
-    isOpen,
+    dialogRef,
     onClose,
     onConfirm,
     title
   }: PostConfirmationModalProps) {
     return (
-      <BaseModal isOpen={isOpen} onClose={onClose}>
+      <DialogWrapper dialogRef={dialogRef} onClose={onClose} className=''>
         <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
           <div className="sm:flex sm:items-start">
             <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
@@ -62,7 +63,7 @@ interface PostConfirmationModalProps {
             Cancel
           </button>
         </div>
-      </BaseModal>
+      </DialogWrapper>
     );
   }
   

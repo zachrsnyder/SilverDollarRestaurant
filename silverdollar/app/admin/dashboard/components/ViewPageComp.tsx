@@ -227,9 +227,9 @@ const ViewPageComp = () => {
                         <div className='mx-4 my-2 min-h-[500px] bg-gray-300 rounded-lg block'>
                             <div className='text-xl font-arvo pl-3 py-2 text-black font-bold'>Applicants</div>
                             <div className='mx-6 space-y-2'>
-                                {applications.map((value : Application,index : number)  => (
-                                    <div key={index} className='cursor-pointer'>
-                                        <ApplicationMeta app={value}/>
+                                {applications.map((value : Application)  => (
+                                    <div key={value.uid} className='cursor-pointer'>
+                                        <ApplicationMeta app={value} jobId={job?.id}/>
                                     </div>
                                 ))}
                             </div>

@@ -127,7 +127,7 @@ export default function AddJobForm() {
             required
             value={formData.title}
             onChange={e => setFormData(prev => ({ ...prev, title: e.target.value }))}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            className="mt-1 bg-gray-100 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
           />
         </div>
         <div>
@@ -141,7 +141,7 @@ export default function AddJobForm() {
               ...prev, 
               type: e.target.value as CreateJobPosting['type']
             }))}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            className="mt-1 block bg-gray-100 w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
           >
             <option value="full-time">Full Time</option>
             <option value="part-time">Part Time</option>
@@ -161,7 +161,7 @@ export default function AddJobForm() {
           value={formData.summary}
           onChange={e => setFormData(prev => ({ ...prev, summary: e.target.value }))}
           rows={4}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          className="mt-1 block w-full rounded-md bg-gray-100 border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
         />
       </div>
 
@@ -177,7 +177,7 @@ export default function AddJobForm() {
               required
               value={responsibility}
               onChange={e => handleArrayChange('keyResponsibilities', index, e.target.value)}
-              className="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="flex-1 rounded-md bg-gray-100 border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
             />
             <button
               type="button"
@@ -209,7 +209,7 @@ export default function AddJobForm() {
               required
               value={requirement}
               onChange={e => handleArrayChange('requirements', index, e.target.value)}
-              className="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="flex-1 bg-gray-100 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
             />
             <button
               type="button"
@@ -248,7 +248,7 @@ export default function AddJobForm() {
                   min: Number(e.target.value)
                 }
               }))}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="mt-1 block bg-gray-100 w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
             />
           </div>
           <div>
@@ -264,7 +264,7 @@ export default function AddJobForm() {
                   max: Number(e.target.value)
                 }
               }))}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="mt-1 block w-full bg-gray-100 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
             />
           </div>
           <div>
@@ -278,7 +278,7 @@ export default function AddJobForm() {
                   period: e.target.value as 'hourly' | 'yearly'
                 }
               }))}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="mt-1 block bg-gray-100 w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
             >
               <option value="yearly">Per Year</option>
               <option value="hourly">Per Hour</option>
@@ -298,7 +298,7 @@ export default function AddJobForm() {
             ...prev, 
             status: e.target.value as CreateJobPosting['status']
           }))}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          className="mt-1 block bg-gray-100 w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
         >
           <option value="Draft">Draft</option>
           <option value="Active">Active</option>

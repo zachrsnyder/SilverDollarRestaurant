@@ -48,7 +48,7 @@ const PillNotification = ({values, setValues} : Props) => {
                 position: 'fixed',
                 borderRadius: '2rem',    // rounded-3xl
                 height: '3rem',            // h-20
-                padding: '1rem',        // p-3
+                padding: '1rem',        
                 outline: '2px solid white',
                 outlineOffset: '-4px',
                 display: 'flex',
