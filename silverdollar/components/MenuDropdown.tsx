@@ -68,6 +68,7 @@ export default function MenuDropdown({menuUrls} : Props) {
                         onMouseLeave={(e) => {
                             setBreakfast(false)
                         }}
+                        prefetch
                     >
                         Breakfast
                     </Link>
@@ -82,7 +83,7 @@ export default function MenuDropdown({menuUrls} : Props) {
                             color: dinner ? '#6b7280' : '#9ca3af',
                             transition: 'color .3s cubic-bezier(0.4, 0, 0.2, 1)',
                         }}
-                        
+                        prefetch
                         onMouseEnter={(e) => {
                             setDinner(true)
                         }}
