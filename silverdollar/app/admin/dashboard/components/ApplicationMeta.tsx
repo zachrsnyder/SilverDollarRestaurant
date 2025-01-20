@@ -19,11 +19,8 @@ interface ApplicationProps {
 export default function ApplicationMeta({app, jobId} : ApplicationProps) {
     const viewRef = useRef<HTMLDialogElement>(null);
 
-    const [popover, setPopover] = useState<{isOpen: boolean, colorTailwind: string, message: string}>({
-        isOpen: false,
-        colorTailwind: 'rgba(230,60,47,30)',
-        message: 'Failed to delete application'
-      });
+    const [isSuccessOpen, setIsSuccessOpen] = useState(false)
+    const [isFailedOpen, setIsFailedOpen] = useState(false)
 
     const onViewDialogClose = () => {
         document.body.style.overflow = 'unset';
@@ -75,14 +72,13 @@ export default function ApplicationMeta({app, jobId} : ApplicationProps) {
                     <Trash2 size={24} className={'text-gray-600 hover:text-red-500'}
                         onClick={async()=>{
                             const res = await handleDeleteApplication(); 
-                            if(res.success === true){
-                                console.log("Happening")
-                                setPopover(prev => {
-                                    return {
-                                        ...prev,
-                                        isOpen: true
-                                    }
-                                })
+                            switch(res.success){
+                                case true:
+                                    setIsSuccessOpen(true)
+                                    break;
+                                case false:
+                                    setIsFailedOpen(true)
+                                    break;
                             }
                             onViewDialogClose();
                         }}
@@ -188,9 +184,8 @@ export default function ApplicationMeta({app, jobId} : ApplicationProps) {
                     />
                 </div>
                 </div>
-                <PillNotification values={popover} setValues={setPopover}>
-
-                </PillNotification>
+                <PillNotification isOpen={isFailedOpen} setIsOpen={setIsFailedOpen} message={"Application failed to delete."} rgba={'rgba(230,60,47,30)'}/>
+                <PillNotification isOpen={isSuccessOpen} setIsOpen={setIsSuccessOpen} message={"Application deleted."} rgba={'rgba(114,230,83,30)'}/>
         </DialogWrapper>
         </>
     )

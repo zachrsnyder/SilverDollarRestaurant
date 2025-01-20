@@ -28,23 +28,6 @@ const JobMeta = ({meta}: Props) => {
      */
 
 
-
-
-    // const handleSave = async() => {
-    //     try{
-    //         //this totally saves the id in the data(), but oh well this has no reprocaution as far as I can tell.
-    //         const docRef = doc(db, "jobPostings", `${job?.id}`);
-    //         await updateDoc(docRef, {
-    //             ...job
-    //         })
-    //         setIsSaveOpen(false)
-    //         handleNavigateAfterSave();
-    //     }catch(error : any){
-    //         console.log("Error updating document.");
-    //         console.log(error);
-    //     }
-    // }
-
     const handleDelete = async() => {
         try{
             const docRef = doc(db, "jobPostings", `${meta.id}`);
@@ -123,30 +106,10 @@ const JobMeta = ({meta}: Props) => {
     }
 
     const handleCardClick = () => {
-        // // If we're already looking at this job, no need to do anything
-        // if (currentData === meta.id) return;
-    
-        // // If we have unsaved changes on the CURRENT job (not the one we're clicking)
-        // if (job && originalJob && !areJobPostingsEqual(job, originalJob)) {
-        //     setIsSaveOpen(true);
-        //     return;
-        // }
-    
-        // If no unsaved changes, navigate to the new job
         setCurrentPage("Job Postings"); 
         setCurrentData(meta.id);
     };
 
-    // const handleSaveModalClose = () => {
-    //     setIsSaveOpen(false);
-    //     setCurrentPage("Job Postings");
-    //     setCurrentData(meta.id);
-    // };
-    
-    // const handleNavigateAfterSave = () => {
-    //     setCurrentPage("Job Postings");
-    //     setCurrentData(meta.id);
-    // };
   return (
     <>
     <div key={meta.id} className={`flex flex-col min-h-11 md:flex-row group w-full justify-between items-center px-3 rounded-sm bg-gray-500 hover:text-red-800 overflow-hidden cursor-pointer`}
@@ -174,13 +137,7 @@ const JobMeta = ({meta}: Props) => {
     <DeleteConfirmationModal dialogRef={deleteRef} onClose={onDeleteModalClose} onConfirm={handleDelete} title={meta.title}/>
     <PostModal dialogRef={postRef} onClose={onPostModalClose} onConfirm={handlePost} title={meta.title}/>
     <ArchiveModal dialogRef={archiveRef} onClose={handleArchiveModalClose} onConfirm={handleArchive} title={meta.title}/>
-    {/* <SaveConfirmationModal 
-        isOpen={isSaveOpen} 
-        onClose={handleSaveModalClose}
-        onConfirm={handleSave}
-        title={job?.title || ''}
-    /> */}
-
+    
     </>
   )
 } 

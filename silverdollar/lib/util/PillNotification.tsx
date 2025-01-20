@@ -1,13 +1,16 @@
 import { useEffect, useRef } from "react"
 
 interface Props {
-    values: {isOpen: boolean, colorTailwind: string, message: string}
+    isOpen: boolean
+    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
 
-    setValues: React.Dispatch<React.SetStateAction<{isOpen: boolean, colorTailwind: string, message: string}>>
+    message: string
+
+    rgba: string
 }
 
 
-const PillNotification = ({values, setValues} : Props) => {
+const PillNotification = ({isOpen, setIsOpen, message, rgba} : Props) => {
 
 
     
@@ -18,33 +21,26 @@ const PillNotification = ({values, setValues} : Props) => {
     }>(null)
 
     useEffect(()=>{
-        if(values.isOpen == true){
+        if(isOpen == true){
             popoverRef.current?.showPopover();
             let time = 2
             const timer = setInterval(()=> {
                 --time;
                 if(time == 0){
                     clearInterval(timer);
-                    setValues({
-                        ...values,
-                        isOpen: false
-                        
-                    })
+                    setIsOpen(false)
                     popoverRef.current?.hidePopover();
                 }
             }, 1000)
-
-        } else {
-            popoverRef.current?.hidePopover();
         }
-    }, [values])
+    }, [isOpen])
   
     return (
         <div
             popover='auto'
             ref={popoverRef}
             style={{
-                backgroundColor: `${values.colorTailwind}`, // bg-green-400
+                backgroundColor: `${rgba}`, // bg-green-400
                 position: 'fixed',
                 borderRadius: '2rem',    // rounded-3xl
                 height: '3rem',            // h-20
@@ -55,11 +51,11 @@ const PillNotification = ({values, setValues} : Props) => {
                 alignItems: 'center', 
                 justifyContent: 'center',
                 color: 'white',
-                visibility: `${values.isOpen == true ? 'visible' : 'hidden'}`,
+                visibility: `${isOpen == true ? 'visible' : 'hidden'}`,
                 overflow: 'hidden'
             }} 
         >
-            {values.message} 
+            {message} 
         </div>
     )
 }

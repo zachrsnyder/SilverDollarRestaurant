@@ -2,7 +2,7 @@ import { db, storage } from "@/lib/auth/client";
 import { Application } from "@/lib/types/Application";
 import { ID } from "@/lib/types/ID";
 import { FirebaseError } from "firebase/app";
-import { doc, collection, addDoc, updateDoc, getFirestore, serverTimestamp } from 'firebase/firestore'
+import { doc, collection, addDoc, updateDoc, getFirestore, serverTimestamp, getDoc } from 'firebase/firestore'
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import _ from 'lodash'
 
@@ -14,6 +14,12 @@ export async function submitApplication(resume : File | null, jobId : ID | undef
 
         const parsedAppData = _.omit<Application>(appData, 'resume')
         const jobRef = doc(db, 'jobPostings', jobId);
+        const job = await getDoc(jobRef);
+        if(!job.exists){
+            return {status: 400,
+                message: "Job posting no longer exists."
+            }
+        }
         const applicationRef = collection(jobRef, 'applications')
 
         // creating application doc first so its ID can be used in file URL.

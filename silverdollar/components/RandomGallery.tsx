@@ -145,11 +145,10 @@ export default function RandomGallery() {
       }, []);
 
     return (
-        <div className='bg-gray-700'
+        <div className='bg-gray-700 p-1 sm:p-2 md:p-4 lg:p-6 xl:p-10'
             style={{
                 marginLeft: 'auto',
                 marginRight: 'auto',
-                padding: '3rem 4rem',
                 borderRadius: '.5rem'
             }}
         >

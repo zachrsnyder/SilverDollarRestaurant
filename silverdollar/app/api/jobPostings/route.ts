@@ -5,10 +5,9 @@ import { adminDb } from "@/lib/auth/admin";
 export async function GET(req: Request){
     try{
         const snapshot = await adminDb
-    .collection('jobPostings')
-    .orderBy('createdAt', 'desc')
-    .select('title', 'status')
-    .get();
+            .collection('jobPostings')
+            .orderBy('createdAt', 'desc')
+            .get();
 
     const initialPostings = snapshot.docs.map(doc => {
         var data = doc.data();

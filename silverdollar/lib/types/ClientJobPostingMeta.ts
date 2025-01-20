@@ -13,11 +13,11 @@ export interface ClientJobPosting {
         min: number,
         period: string
     },
-    createdAt: Timestamp,
+    createdAt: string,
     keyResponsibilities: string[],
     requirements: string[],
     summary: string,
-    updatedAt: Timestamp,
+    updatedAt: string,
 }
 
 

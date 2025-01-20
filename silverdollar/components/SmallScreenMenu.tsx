@@ -14,7 +14,7 @@ const SmallScreenMenu = ({menuUrls} : Props) => {
     const modalRef = useRef<HTMLElement>(null)
 
     const handleClickOutside = useCallback(
-        (event: MouseEvent) => {
+        (event: MouseEvent | TouchEvent) => {
           if (
             modalRef.current &&
             !modalRef.current.contains(event.target as Node)
@@ -28,10 +28,12 @@ const SmallScreenMenu = ({menuUrls} : Props) => {
     useEffect(() => {
         if(showMenu){
             document.addEventListener('mousedown', handleClickOutside)
+            document.addEventListener('touchstart', handleClickOutside);
         }
 
         return () => {
             document.removeEventListener('mousedown', handleClickOutside)
+            document.removeEventListener('touchstart', handleClickOutside)
         }
     }, [showMenu, handleClickOutside])
   return (

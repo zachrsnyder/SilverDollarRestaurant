@@ -15,7 +15,7 @@ export function useModal({ isOpen, onClose, onFocusMiss = () => {onClose()} }: U
 
   //handles leaving modal when click isnt within modal. Triggers on every mouse event
   const handleClickOutside = useCallback(
-    (event: MouseEvent) => {
+    (event: MouseEvent | TouchEvent) => {
       if (
         modalRef.current &&
         !modalRef.current.contains(event.target as Node)
@@ -67,6 +67,7 @@ export function useModal({ isOpen, onClose, onFocusMiss = () => {onClose()} }: U
       
       //add event listeners
       document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('touchstart', handleClickOutside)
       document.addEventListener('keydown', handleKeyDown);
       document.addEventListener('keydown', handleFocusTrap);
 
@@ -76,6 +77,7 @@ export function useModal({ isOpen, onClose, onFocusMiss = () => {onClose()} }: U
       //cleanup
       return () => {
         document.removeEventListener('mousedown', handleClickOutside);
+        document.removeEventListener('touchstart', handleClickOutside)
         document.removeEventListener('keydown', handleKeyDown);
         document.removeEventListener('keydown', handleFocusTrap);
         
