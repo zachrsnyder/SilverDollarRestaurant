@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import NavBar from '../maincomps/NavBar'
 
 
 
@@ -57,6 +58,7 @@ export default function Layout({
 }) {
   return (
     <div>
+      <NavBar/>
       {children}
     </div>
   )

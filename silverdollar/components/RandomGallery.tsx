@@ -145,31 +145,33 @@ export default function RandomGallery() {
       }, []);
 
     return (
-        <div className='bg-gray-700 p-1 sm:p-2 md:p-4 lg:p-6 xl:p-10'
+        <div className='p-1 sm:p-2 md:p-4 lg:p-6 xl:p-10'
             style={{
                 marginLeft: 'auto',
                 marginRight: 'auto',
                 borderRadius: '.5rem'
             }}
         >
-            <div className='max-w-[1065px]'
+            <div className='max-w-[1400px] grid grid-cols-[repeat(5,minmax(0,240px))] gap-4 relative
+                grid-rows-[repeat(4,minmax(0,120px))]
+                md:grid-rows-[repeat(4,minmax(0,185px))]'
                 ref={gridRef as LegacyRef<HTMLDivElement>}
-                style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(5, minmax(0, 213px))',
-                    // gridAutoRows: 'min-content',
-                    position: 'relative',
-                    gridTemplateRows: 'repeat(4, minmax(0, 160px))',
-                    aspectRatio: '',
-                    rowGap: '.7rem',
-                    columnGap: '.6rem'
+                // style={{
+                //     display: 'grid',
+                //     gridTemplateColumns: 'repeat(5, minmax(0, 240px))',
+                //     // gridAutoRows: 'min-content',
+                //     position: 'relative',
+                //     gridTemplateRows: 'repeat(4, minmax(0, 185px))',
+                //     aspectRatio: '',
+                //     rowGap: '1rem',
+                //     columnGap: '1rem'
                     
-                }}
+                // }}
             >
                 {layout.map((item : { id: number, src: string, alt: string, gridArea: string }, index : number) => (
                 
                     <a
-                        href={item.src} target="_blank" rel="noopener noreferrer"
+                        href={item.src} target='_self' rel="noopener noreferrer"
                         key={item.id}
                         style={{
                             transition: 'opacity',

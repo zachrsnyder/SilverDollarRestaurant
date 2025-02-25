@@ -5,6 +5,7 @@ import NavBar from "./maincomps/NavBar";
 import Footer from './maincomps/Footer'
 import {Arvo} from 'next/font/google'
 import { getMenu } from "@/lib/util/getMenu";
+import AltNavBar from "./maincomps/AltNavBar";
 // import { usePathname } from "next/navigation";
 
 
@@ -22,6 +23,9 @@ export const arvo = Arvo({
 
 export const metadata: Metadata = {
   title: "Silver Dollar",
+  icons: {
+    icon: "/favicon.png",
+  },
   description: "The Silver Dollar is a homey restaurant right off US-54 at the Eldon-Tuscombia exit.",
   openGraph: {
     title: 'Silver Dollar',
@@ -70,10 +74,16 @@ export default async function RootLayout({
         
       >
         {/* {!shouldHideHeaderFooter && <NavBar />} */}
-        <NavBar/>
         <main className='relative'>{children}</main>
         {/* {!shouldHideHeaderFooter && <Footer />} */}
         <Footer/>
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            window.addEventListener('scroll', () => {
+              document.documentElement.style.setProperty('--scroll', window.scrollY);
+            }, { passive: true });
+          `
+        }} />
       </body>
     </html>
   );

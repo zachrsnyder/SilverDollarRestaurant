@@ -1,19 +1,26 @@
-'use server '
+'use server'
 
 import RandomGallery from "./RandomGallery"
+import Image from "next/image"
 
 
-export default function RandGallWrapper() {
+export default async function RandGallWrapper() {
     return (
-        <div className='bg-gray-100 flex justify-center items-center min-w-full'
+        <div className='bg-slate-400 relative'>
+        <div className=' flex justify-center items-center min-w-full'
             style={{
                 maxHeight: '1000px',
                 padding: '5rem 0 ',
-                background: 'linear-gradient(45deg, #f9f9f9 25%, transparent 25%, transparent 75%, #f9f9f9 75%)',
-                backgroundSize: '12px 12px',
             }}
         >
             <RandomGallery/>
+        </div>
+        <Image
+            src='/images/Wood_Horizontal.jpeg'
+            alt='Wood backdrop'
+            fill
+            priority
+        />
         </div>
     )
 }

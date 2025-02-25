@@ -87,7 +87,7 @@ export default function MenuManager({menuData, setMenuData, currentMenu, setCurr
 
     return (
         <>
-            <div className={`container h-screen min-h-full block`}>
+            <div className={`container h-screen min-h-[120vh] block`}>
                 <div className='container py-3 text-xl font-arvo pl-5'> Version: {currentMenu?.version}</div>
                 <div className='container min-h-[50%] min-w-full py-12 flex justify-evenly mt-12 text-xl font-sans'>
                     <div className='my-auto bg-gray-300 rounded-md border-black border-[1px]'>

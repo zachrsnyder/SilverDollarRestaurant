@@ -1,7 +1,9 @@
 'use client'
-import { useEffect } from 'react'
+import { Skeleton } from '@mui/material';
+import { useEffect, useState } from 'react'
 
 const Facebook = () => {
+  const [loading, setLoading] = useState(true)
     
       //occurs on mount of the object to the DOM
     useEffect(() => {
@@ -16,16 +18,24 @@ const Facebook = () => {
         const js = d.createElement(s) as HTMLScriptElement;
         js.id = id;
         js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v12.0";
+        js.onload = () => setLoading(false);
         fjs.parentNode?.insertBefore(js, fjs);
     }, []);
     //empty dependency array so it happens once and once only.
     
     return (
     <div className=''>
-        <div id="fb-root" className=''>
+        <div id="fb-root" className='flex justify-center align-middle'>
         
         </div>
-        <div className="fb-page shadow-[10px_15px_30px_-3px_rgba(0,0,0,.2)] rounded-full" data-href="https://www.facebook.com/Silver-Dollars-100063559273272/" data-tabs="timeline" data-width="300" data-height="400" data-small-header="true" data-adapt-container-width="false" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/Silver-Dollars-100063559273272/" className="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/Silver-Dollars-100063559273272/">Silver Dollars</a></blockquote></div>
+        <div className='flex justify-center align-middle'>
+          {loading ? 
+            <Skeleton variant="rectangular" width={400} height={500}/>
+            :
+            <div className="fb-page rounded-full w-[400px] h-[500px] flex justify-center align-middle" data-href="https://www.facebook.com/Silver-Dollars-100063559273272/" data-tabs="timeline" data-width="400" data-height="500" data-small-header="true" data-adapt-container-width="false" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/Silver-Dollars-100063559273272/" className="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/Silver-Dollars-100063559273272/"></a></blockquote></div>
+          }
+        </div>
+       
     </div>
   )
 }

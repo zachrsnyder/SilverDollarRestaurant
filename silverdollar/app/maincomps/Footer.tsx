@@ -11,7 +11,7 @@ export default async function Footer() {
   return (
     <footer className="bg-gray-700 text-white">
       <div className="container mx-auto px-4 py-4">
-        <div className='flex flex-wrap w-full gap-4'>
+        <div className='flex flex-wrap w-full gap-2'>
           <div className='flex flex-col my-4 flex-1 basis-[250px] max-w-[450px] h-[300px] justify-center'>
             <div className='py-2 pl-3'>
               <h1 className='text-2xl font-arvo font-bold'>SILVER DOLLAR</h1>
@@ -23,7 +23,7 @@ export default async function Footer() {
               </div>
               <div className='flex items-center gap-2 pl-5'>
                 <Mail/>
-                <span className='text-base'> Fill with email </span>
+                <span className='text-base'> s.dollarsrestaurant@gmail.com </span>
               </div>
               <div className='flex items-center gap-2 pl-5'>
                 <Building2 />
@@ -49,6 +49,9 @@ export default async function Footer() {
               </div>
               <div className='flex items-center gap-2 pl-5'>
                 <Link href='/careers'><p className='text-lg hover:text-red-800'>Careers</p></Link>
+              </div>
+              <div className='flex items-center gap-2 pl-5'>
+                <Link href='/admin'><p className='text-lg hover:text-red-800'>Management Portal</p></Link>
               </div>
             </div>
           </div>

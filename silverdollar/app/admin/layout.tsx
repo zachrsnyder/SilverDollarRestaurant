@@ -1,5 +1,6 @@
 import { Metadata } from 'next'
 import { AuthProvider } from './components/AuthProvider'
+import NavBarAdmin from '../maincomps/NavBarAdmin'
 
 
 
@@ -12,6 +13,7 @@ export default function Layout({
 }) {
   return (
     <div>
+      <NavBarAdmin/>
       <AuthProvider>
         <div className="container min-h-screen">
             {children}

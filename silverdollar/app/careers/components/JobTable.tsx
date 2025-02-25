@@ -68,10 +68,11 @@ export default function JobsTableWithModal({ postings } : Props) {
             <Skeleton variant={'rectangular'}/>
           } */}
         </div>
-        <div className={`space-y-2 mx-auto`}>         
+        <div className={`space-y-2 mx-0`}>         
         {postings.map((job , index: number) => (
           job.status == "Active" && 
-        <div className='xl:w-[900px] md:w-[500px] sm:w-[450px] w-[400px] h-[100px]' key={index}>
+        // <div className='xl:w-[900px] md:w-[500px] sm:w-[400px] xs:w-[200px] h-[100px]' key={index}>
+        <div className='w-full h-[100px]' key={index}>
             <JobCard job={job} handleJobClick={handleJobClick}/>
         </div>))}
         </div>

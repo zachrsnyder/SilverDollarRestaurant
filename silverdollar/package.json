@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "node copy-pdf-worker.js"
+    "postinstall": "node copy-pdf-worker.js",
+    "sitemap": "next-sitemap"
   },
   "dependencies": {
     "@emotion/react": "^11.13.5",
@@ -22,9 +23,10 @@
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
     "lucide-react": "^0.456.0",
-    "next": "15.0.2",
+    "next": "^15.1.7",
     "next-auth": "^4.24.10",
-    "pdfjs-dist": "^3.11.174",
+    "next-sitemap": "^4.2.3",
+    "pdfjs-dist": "^4.10.38",
     "react": "19.0.0-rc-02c0e824-20241028",
     "react-dom": "19.0.0-rc-02c0e824-20241028",
     "react-pdf": "^7.5.1",

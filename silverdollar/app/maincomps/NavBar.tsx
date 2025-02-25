@@ -1,29 +1,37 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import SmallScreenMenu from '@/components/SmallScreenMenu'
-import MenuDropdown from '@/components/MenuDropdown'
+import MenuDropdown from '@/components/AltMenuDropdown'
 import { getMenu } from '@/lib/util/getMenu'
-
-//TODO: Add alternative styling for smaller screens!
-
+import { Calculator } from 'lucide-react'
 
 const NavBar = async() => {
   const menuUrls = await getMenu();
   
+  // shadow-[0px_5px_10px_rgba(0,0,0,.5)]
   return (
-    <nav className="bg-primary p-4 shadow-[0px_5px_10px_rgba(0,0,0,.5)] flex fixed w-full z-40 h-20">
-      <div className="flex flex-1 justify-start items-center space-x-14 text-xl font-arvo font-bold text-gray-500">
-          <Link href="#" className="text-black font-bold" ><Image src='/images/logo.png' alt='Silver Dollar' width={125} height={65} className='min-w-[125px]'/></Link>
-          <div className="hidden md:flex space-x-14">
+    <nav className="bg-white p-4 flex fixed w-full z-40 justify-center shadow-2xl h-[90px]">
+      <div className="flex flex-1 justify-between sm:justify-center items-center space-x-10 text-xl font-arvo font-bold text-gray-500">
+        <div className="sm:hidden">
+          <Link href="#" className="block">
+            <Image 
+            src='/images/logo.png' 
+            alt='Silver Dollar' 
+            width={100} 
+            height={50} 
+            className='w-full h-auto'
+            priority
+            />
+          </Link>
+        </div>
+        <div className="hidden sm:flex space-x-1 sm:space-x-2 md:space-x-8 lg:space-x-12 xl:space-x-24 2xl:space-x-32">
           <div style={{
                 padding: '1.5rem 1rem',
-                fontSize: '1.275rem',
-                fontWeight: '750',
                 display: 'inline-flex',
                 alignItems: 'center',
-                cursor: 'pointer'
+                cursor: 'pointer',
                 }}
-                className='text-gray-500 hover:text-red-800 transition-colors duration-300'
+                className='og-header-text transition-colors duration-300'
             >
               <Link
                 href='/'
@@ -31,16 +39,13 @@ const NavBar = async() => {
                 Home
               </Link>
             </div>
-            <MenuDropdown menuUrls={menuUrls}/>
             <div style={{
                 padding: '1.5rem 1rem',
-                fontSize: '1.275rem',
-                fontWeight: '750',
                 display: 'inline-flex',
                 alignItems: 'center',
                 cursor: 'pointer'
                 }}
-                className='text-gray-500 hover:text-red-800 transition-colors duration-300'
+                className='og-header-text transition-colors duration-300'
             >
               <Link
                 href='/careers'
@@ -48,8 +53,65 @@ const NavBar = async() => {
                 Careers
               </Link>
             </div>
+            {/* Flex shrink because this logo shrinks when I tell it too! */}
+            <div className="flex-shrink-0 flex justify-center">
+            <Link href="#" className="flex justify-center">
+                <Image 
+                src='/images/logo.png' 
+                alt='Silver Dollar' 
+                width={300} 
+                height={210} 
+                className='w-full transition-all duration-300 my-auto pt-[1.8rem]'
+                priority
+                />
+            </Link>
+            </div>
+            <div style={{
+                padding: '1.5rem 1rem',
+                display: 'inline-flex',
+                alignItems: 'center',
+                cursor: 'pointer'
+                }}
+                className='og-header-text transition-colors duration-300'
+            >
+              <Link
+                href={menuUrls.dinner}
+                className='flex align-middle flex-col items-center'
+                prefetch
+                target='_blank'
+              >
+                <div>
+                Breakfast
+                </div>
+                <div>
+                Menu
+                </div>
+              </Link>
+            </div>
+            <div style={{
+                padding: '1.5rem 1rem',
+                display: 'inline-flex',
+                alignItems: 'center',
+                cursor: 'pointer'
+                }}
+                className='og-header-text transition-colors duration-300'
+            >
+              <Link
+                href={menuUrls.dinner}
+                className='flex align-middle flex-col items-center'
+                prefetch
+                target='_blank'
+              >
+                <div>
+                Dinner
+                </div>
+                <div>
+                Menu
+                </div>
+              </Link>
+            </div>
           </div>
-          <div className='flex justify-end w-full md:hidden'>
+          <div className='flex justify-end w-full sm:hidden'>
             <SmallScreenMenu menuUrls={menuUrls}/>
           </div>
       </div>
