@@ -10,7 +10,7 @@ export default async function middleware(req: NextRequest) {
 
   if (req.nextUrl.pathname.startsWith('/api/')) {
     const referer = req.headers.get('referer')
-    if (!referer?.includes(process.env.NEXT_PUBLIC_SITE_URL ? process.env.NEXT_PUBLIC_SITE_URL : "http://localhost:3000")) {
+    if (!referer?.includes("silverdollarsrestaurant.com")) {
       return new NextResponse('Unauthorized', { status: 401 })
     }
   }
