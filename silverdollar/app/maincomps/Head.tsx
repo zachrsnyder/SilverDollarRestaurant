@@ -10,7 +10,7 @@ const HeadMeta = () => {
         <meta property="og:title" content="Best spot in Lake of the Ozarks" />
         <meta property="og:description" content="Experience a delicious breakfast, lunch, and dinner in Lake of the Ozarks." />
         <meta property="og:image" content="/images/FOG_Sunset.jpg" />
-        <meta property="og:url" content={process.env.SITE_URL ? process.env.SITE_URL : "http://localhost:3000"} />
+        <meta property="og:url" content={process.env.NEXT_PUBLIC_SITE_URL ? process.env.NEXT_PUBLIC_SITE_URL : "http://localhost:3000"} />
         <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{
@@ -18,7 +18,7 @@ const HeadMeta = () => {
                 "@context": "https://schema.org",
                 "@type": "LocalBusiness",
                 "name": "Silver Dollar's",
-                "image": process.env.SITE_URL ? process.env.SITE_URL + "/images/logo.png" : "http://localhost:3000/images/logo.jpg",
+                "image": process.env.NEXT_PUBLIC_SITE_URL ? process.env.NEXT_PUBLIC_SITE_URL + "/images/logo.png" : "http://localhost:3000/images/logo.jpg",
                 "telephone": "+1-573-392-3677",
                 "servesCuisine": "Breakfast, Brunch, Lunch, Dinner",
                 "address": {
