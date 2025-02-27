@@ -3,7 +3,7 @@ import Head from 'next/head'
 const HeadMeta = () => {
   return (
     <Head>
-        <title>Best Breakfast in Lake of the Ozarks | Silver Dollar's</title>
+        <title>Best Breakfast in Lake of the Ozarks | Silver Dollar&lsquo;s</title>
         <meta name="description" content="Discover the best breakfast, lunch, and dinner in Lake of the Ozarks! Fresh ingredients, cozy atmosphere, and delicious coffee." />
         <meta name="keywords" content="Lake of the Ozarks breakfast, best coffee, pancakes, brunch spot" />
         <meta name="author" content="Silver Dollar's" />

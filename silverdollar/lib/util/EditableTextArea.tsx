@@ -59,7 +59,7 @@ const EditableTextAreaWrapper: React.FC<Props> = ({
                         className="cursor-pointer p-2 rounded-md hover:bg-gray-50"
                     >
                         {label && <div className="font-bold mb-1">{label}</div>}
-                        {value || <span className="text-gray-400">''</span>}
+                        {value || <span className="text-gray-400">&lsquo;&lsquo;</span>}
                     </div>
                 </Tooltip>
             )}

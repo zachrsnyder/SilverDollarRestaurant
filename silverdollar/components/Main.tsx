@@ -17,7 +17,7 @@ const Main = () => {
         <div className='absolute left-14 h-full min-h-full flex space-y-8 flex-col justify-center font-arvo text-white text-5xl sm:text-6xl lg:text-6xl xl:text-7xl w-[50%]'
         >
           <div>Welcome to</div>
-          <div>Silver Dollar's</div>
+          <div>Silver Dollar&lsquo;s</div>
         </div>
     </div>
   )

@@ -38,7 +38,7 @@ interface ArchiveConfirmationModalProps {
               </h3>
               <div className="mt-2">
                 <p className="text-sm text-gray-500">
-                  Are you sure you want to archive "{title}"? Potential employees will no longer be able to apply.
+                  Are you sure you want to archive &quot;{title}&quot;? Potential employees will no longer be able to apply.
                 </p>
               </div>
             </div>

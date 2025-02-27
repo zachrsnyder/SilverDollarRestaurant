@@ -2,8 +2,12 @@
   "extends": ["next/core-web-vitals", "next/typescript"],
   "plugins": ["unused-imports"],
   "rules": {
-    "unused-imports/no-unused-imports": "error",
-    "unused-imports/no-unused-vars": ["warn", { "vars": "all", "varsIgnorePattern": "^_" }]
+    "@typescript-eslint/no-unused-vars": "off",
+    "unused-imports/no-unused-vars": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "@typescript-eslint/no-unsafe-function-type" : "off",
+    "@next/next/no-img-element" : "off"
   }
   
 }

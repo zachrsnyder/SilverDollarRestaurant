@@ -39,7 +39,7 @@ interface PostConfirmationModalProps {
               </h3>
               <div className="mt-2">
                 <p className="text-sm text-gray-500">
-                  Are you sure you want to post "{title}"?. This can be undone.
+                  Are you sure you want to post &quot;{title}&quot;?. This can be undone.
                 </p>
               </div>
             </div>
