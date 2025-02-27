@@ -1,9 +1,43 @@
-import { auth } from "firebase-admin";
+import * as admin from 'firebase-admin';
+// import { auth } from "firebase-admin";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
 // POST: Create a session
 export async function POST(req: Request) {
+
+  if (!admin.apps.length) {
+    try {
+      admin.initializeApp({
+        credential: admin.credential.cert({
+          projectId: process.env.FIREBASE_ADMIN_PROJECT_ID,
+          clientEmail: process.env.FIREBASE_ADMIN_CLIENT_EMAIL,
+          // Handle both formats of the private key
+          privateKey: process.env.FIREBASE_ADMIN_PRIVATE_KEY?.replace(/\\n/g, '\n')
+        })
+      });
+      console.log("Firebase Admin initialized successfully");
+    } catch (error) {
+      console.error("Firebase Admin initialization error:", error);
+      // Log the environment variable availability without exposing actual values
+      console.log("Environment variables present:", {
+        projectId: !!process.env.FIREBASE_ADMIN_PROJECT_ID,
+        clientEmail: !!process.env.FIREBASE_ADMIN_CLIENT_EMAIL,
+        privateKey: !!process.env.FIREBASE_ADMIN_PRIVATE_KEY
+      });
+    }
+  }
+
+  try {
+    const { idToken } = await req.json();
+    const sessionCookie = await admin.auth().createSessionCookie(idToken, { 
+      expiresIn: 1000 * 60 * 60 * 24 * 5 
+    });
+    // Rest of your code
+  } catch (error) {
+    // Error handling
+  }
+
   try {
     const { idToken } = await req.json();
 
@@ -15,7 +49,7 @@ export async function POST(req: Request) {
 
     
 
-    const sessionCookie = await auth().createSessionCookie(idToken, { expiresIn: 1000 * 60 * 60 * 24 * 5})
+    const sessionCookie = await admin.auth().createSessionCookie(idToken, { expiresIn: 1000 * 60 * 60 * 24 * 5})
 
     const cookieStore = await cookies();
     cookieStore.set('authToken', sessionCookie, {
