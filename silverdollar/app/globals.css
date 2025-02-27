@@ -34,6 +34,10 @@ body {
   font-weight: 650;
 }
 
+.admin-header-text:hover{
+  color: #991b1b
+}
+
 .header-text {
   font-size: calc(max(1.375rem - (var(--scroll, 0) / 50 * 0.15rem), 1.175rem));
   font-weight: 750;

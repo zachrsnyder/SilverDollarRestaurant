@@ -11,7 +11,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "ID token is required" }, { status: 400 });
     }
 
-    console.log(idToken)
+    //console.log(idToken)
 
     
 

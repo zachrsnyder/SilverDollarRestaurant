@@ -1,11 +1,19 @@
-'use client'
-import { Document, Page, pdfjs } from 'react-pdf';
-import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
-import 'react-pdf/dist/esm/Page/TextLayer.css';
-import { useState } from 'react';
+"use client"; // Ensure this runs only in the browser
 
+import dynamic from "next/dynamic";
+import * as pdfjs from "pdfjs-dist"; // ✅ Correct import
+import "pdfjs-dist/build/pdf.worker.entry"; // ✅ Ensure worker is loaded
+import "react-pdf/dist/esm/Page/AnnotationLayer.css";
+import "react-pdf/dist/esm/Page/TextLayer.css";
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+// Dynamically import react-pdf to prevent SSR issues
+const Document = dynamic(() => import("react-pdf").then((mod) => mod.Document), { ssr: false });
+const Page = dynamic(() => import("react-pdf").then((mod) => mod.Page), { ssr: false });
+
+// Manually set the worker source (No more missing worker issues)
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js`;
+
+import { useEffect, useState } from 'react';
 
 interface PDFPreviewProps {
     url: string;
