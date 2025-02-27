@@ -25,6 +25,10 @@ body {
   font-weight: 750;
 }
 
+.og-header-text:hover{
+  color: #991b1b
+}
+
 .admin-header-text {
   font-size: 1.075rem;
   font-weight: 650;

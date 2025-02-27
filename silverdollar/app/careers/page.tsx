@@ -30,8 +30,8 @@ export default async function CareersPage() {
 
     
   return (
-    <div className="mx-auto px-4 py-8 height-[80vh] min-h-[80vh]">
-      <div className="text-center mt-20">
+    <div className="mx-auto px-4 py-8 height-[80vh] min-h-[100vh]">
+      <div className="text-center mt-24">
 
         
         <h1 className="text-4xl text-red-800 font-bold font-arvo mb-4">Join Our Team!</h1>
