@@ -1,7 +1,5 @@
 import { Plus, Briefcase } from 'lucide-react';
 import {useState} from 'react'
-import { PageType } from '@/lib/types/pageTypes';
-import { ID } from '@/lib/types/ID';
 import {usePostingsSubscription} from '@/lib/util/usePostingSubscription'
 import JobMeta from './JobMeta';
 import { usePageData } from './CurrentContext';

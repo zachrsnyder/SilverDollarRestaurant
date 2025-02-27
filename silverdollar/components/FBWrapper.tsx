@@ -1,6 +1,5 @@
 'use client'
 
-import { LegacyRef, useEffect, useRef, useState } from "react";
 import Facebook from "./Facebook";
 
 const FBWrapper = () => {

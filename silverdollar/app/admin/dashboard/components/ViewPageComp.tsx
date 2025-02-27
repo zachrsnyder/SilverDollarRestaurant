@@ -1,17 +1,16 @@
 import { useJobWithApplications } from '@/lib/util/useJobWithApplications'
 import { usePageData } from './CurrentContext';
-import { Trash2, View, Save } from "lucide-react";
+import { Trash2, Save } from "lucide-react";
 import Tooltip from '@/lib/util/Tooltip';
 import EditableWrapper from '@/lib/util/EditableText';
 import NumberEditableWrapper from '@/lib/util/EditableNumber';
 import EditableSelectWrapper from '@/lib/util/EditableSelect';
 import areJobPostingsEqual, { JobPeriod, JobType } from '@/lib/types/JobPosting';
 import EditableTextAreaWrapper from '@/lib/util/EditableTextArea';
-import { useEffect, useState } from 'react';
-import { BaseModal } from '@/lib/util/BaseModal';
+import { useState } from 'react';
 import SaveConfirmationModal from './SaveModal';
 import { db } from '@/lib/auth/client';
-import { doc, FirestoreError, serverTimestamp, updateDoc } from 'firebase/firestore';
+import { doc, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { Application } from '@/lib/types/Application';
 import ApplicationMeta from './ApplicationMeta';
 

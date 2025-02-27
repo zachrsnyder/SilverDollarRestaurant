@@ -50,11 +50,9 @@ export const metadata: Metadata = {
 }
 
 export default function Layout({
-  children,
-  modal
+  children
 }: {
   children: React.ReactNode
-  modal?: React.ReactNode
 }) {
   return (
     <div>

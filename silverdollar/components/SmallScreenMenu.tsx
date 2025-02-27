@@ -10,7 +10,7 @@ interface Props{
 }
 
 const SmallScreenMenu = ({menuUrls} : Props) => {
-    const [showMenu, setShowMenu] = useState<Boolean>(false)
+    const [showMenu, setShowMenu] = useState<boolean>(false)
     const modalRef = useRef<HTMLElement>(null)
 
     const handleClickOutside = useCallback(

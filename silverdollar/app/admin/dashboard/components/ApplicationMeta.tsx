@@ -1,10 +1,10 @@
 import { Application } from "@/lib/types/Application"
 import DialogWrapper from "@/lib/util/DialogWrapper";
-import { MoveLeft, Trash2, X } from "lucide-react";
+import { MoveLeft, Trash2 } from "lucide-react";
 import { useRef, useState } from "react";
 import PDFPreview from "./PDFPreview";
 import Tooltip from "@/lib/util/Tooltip";
-import { deleteDoc, doc, FirestoreError } from "firebase/firestore";
+import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "@/lib/auth/client";
 import { ID } from "@/lib/types/ID";
 import PillNotification from "@/lib/util/PillNotification";

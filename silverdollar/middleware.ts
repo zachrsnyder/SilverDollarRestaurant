@@ -63,5 +63,5 @@ export default async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: [...protectedRoutes, ...protectedApiRoutes]
+  matcher: ["/admin/dashboard", "/api/admin", "/api/jobPostings"]
 };

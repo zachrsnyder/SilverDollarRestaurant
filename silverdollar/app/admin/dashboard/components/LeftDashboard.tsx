@@ -1,14 +1,8 @@
 'use client'
-import {useState, useEffect} from 'react'
+import {useState} from 'react'
 import {ChevronRight, ChevronLeft} from 'lucide-react'
 import { JobSection } from './JobsSection'
-import { ID } from '@/lib/types/ID'
-import { JobPostingMetadata } from '@/lib/types/JobPostingMetadata'
-import { PageType } from '@/lib/types/pageTypes'
-import { db } from '@/lib/auth/client'
-import { usePageData } from './CurrentContext'
 import MenuSection from './MenuSection'
-import { AdminUser } from '@/lib/types/auth'
 import WorkerSection from './WorkerSection'
 
 interface Props {

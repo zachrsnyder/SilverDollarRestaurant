@@ -1,8 +1,7 @@
 import { db, storage } from "@/lib/auth/client";
 import { Application } from "@/lib/types/Application";
 import { ID } from "@/lib/types/ID";
-import { FirebaseError } from "firebase/app";
-import { doc, collection, addDoc, updateDoc, getFirestore, serverTimestamp, getDoc } from 'firebase/firestore'
+import { doc, collection, addDoc, updateDoc, serverTimestamp, getDoc } from 'firebase/firestore'
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import _ from 'lodash'
 

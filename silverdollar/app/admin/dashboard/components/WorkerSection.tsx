@@ -1,11 +1,10 @@
 import { ChangeEvent, useRef, useState } from "react";
-import { usePageData } from "./CurrentContext";
 import { CircleAlert, Plus, UsersRound } from "lucide-react";
 import Tooltip from "@/lib/util/Tooltip";
 import { useWorkersSubscription } from "@/lib/util/useWorkersSubscription";
 import { WorkerMeta } from "./WorkerMeta";
 import DialogWrapper from "@/lib/util/DialogWrapper";
-import { AdminUser, fieldSchemas, formSchema, WorkerData } from "@/lib/types/auth";
+import { fieldSchemas, formSchema, WorkerData } from "@/lib/types/auth";
 import { z } from "zod";
 import { AuthService } from "@/lib/auth/auth";
 

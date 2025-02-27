@@ -1,9 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import SmallScreenMenu from '@/components/SmallScreenMenu'
-import MenuDropdown from '@/components/AltMenuDropdown'
 import { getMenu } from '@/lib/util/getMenu'
-import { Calculator } from 'lucide-react'
 
 const NavBar = async() => {
   const menuUrls = await getMenu();

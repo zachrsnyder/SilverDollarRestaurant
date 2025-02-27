@@ -10,7 +10,7 @@ export async function GET(req: Request){
             .get();
 
     const initialPostings = snapshot.docs.map(doc => {
-        var data = doc.data();
+        const data = doc.data();
         return {
         id: doc.id,
         title: data?.title,

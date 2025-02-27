@@ -1,8 +1,4 @@
 import { ClientJobPosting } from '@/lib/types/ClientJobPostingMeta'
-import { JobPostingMetadata } from '@/lib/types/JobPostingMetadata'
-import { Dialog } from '@mui/material'
-import Link from 'next/link'
-import { SetStateAction } from 'react'
 
 
 interface Props {

@@ -1,7 +1,7 @@
 import { AuthService } from "@/lib/auth/auth";
 import { AdminUser } from "@/lib/types/auth";
 import DialogWrapper from "@/lib/util/DialogWrapper";
-import { ChevronUp, Menu, Trash2 } from "lucide-react";
+import { ChevronUp, Trash2 } from "lucide-react";
 import { useRef, useState } from "react";
 
 interface WorkerProps {

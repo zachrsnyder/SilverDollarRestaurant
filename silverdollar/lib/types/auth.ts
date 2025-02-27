@@ -32,7 +32,7 @@ export interface AdminUser {
 }
 
 
-import { z, ZodString } from "zod";
+import { z } from "zod";
 
 export const formSchema = z.object({
     fName: z.string().trim(),

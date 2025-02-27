@@ -1,7 +1,6 @@
 import { ID } from "./ID";
 import { JobType } from "./JobPosting";
 import { JobStatus } from "./JobPostingMetadata";
-import { Timestamp } from "firebase/firestore";
 
 export interface ClientJobPosting {
     id: ID,

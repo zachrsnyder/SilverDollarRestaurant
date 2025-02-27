@@ -1,7 +1,5 @@
-import { AuthService } from "@/lib/auth/auth"
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from 'next/headers'
-import { redirect } from "next/navigation";
 import { auth } from "firebase-admin";
 
 

@@ -1,7 +1,5 @@
 import "server-only";
-import { JWTPayload, SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
-import { cache } from "react"
 
 const secretKey = process.env.SESSION_SECRET;
 const encodedKey = new TextEncoder().encode(secretKey);

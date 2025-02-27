@@ -4,7 +4,6 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { ClientJobPosting } from '@/lib/types/ClientJobPostingMeta'
 import JobCard from './JobCard'
 import { ID } from '@/lib/types/ID'
-import _ from 'lodash'
 import JobApplication from './JobApplication'
 
 

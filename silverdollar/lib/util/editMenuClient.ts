@@ -1,10 +1,7 @@
-import { transcode } from "buffer";
 import { storage, db } from "../auth/client";
-import { doc, updateDoc, getDocs, collection, getDoc, query, limit, runTransaction, Transaction} from 'firebase/firestore'
+import { doc, updateDoc, getDocs, collection, getDoc, query, limit} from 'firebase/firestore'
 import {ref, getDownloadURL, uploadBytes } from 'firebase/storage'
-import { Files } from "lucide-react";
 import { Menu } from "../types/AdminMenu";
-import { version } from "os";
 
 export async function getVersionCount() {
     try {

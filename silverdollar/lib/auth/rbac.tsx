@@ -2,7 +2,7 @@
 // role based access control state manager!
 
 import { useEffect, useState } from 'react';
-import { onAuthStateChanged, User } from 'firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './client';
 import { AuthService } from './auth';
 import { AdminUser } from '../types/auth';

@@ -1,11 +1,7 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
-import NavBar from "./maincomps/NavBar";
 import Footer from './maincomps/Footer'
 import {Arvo} from 'next/font/google'
-import { getMenu } from "@/lib/util/getMenu";
-import AltNavBar from "./maincomps/AltNavBar";
 // import { usePathname } from "next/navigation";
 
 

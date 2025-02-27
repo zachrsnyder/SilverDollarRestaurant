@@ -1,10 +1,7 @@
 "use client";
 
 import {useEffect, useState} from 'react'
-import { AdminUser, UserRole } from "@/lib/types/auth";
 import LeftDashboard from "./components/LeftDashboard";
-import { PageType } from "@/lib/types/pageTypes";
-import { ID } from "@/lib/types/ID";
 import AddJobForm from "./components/AddJob";
 import { usePageData } from "./components/CurrentContext";
 import { JobPosting } from "@/lib/types/JobPosting";

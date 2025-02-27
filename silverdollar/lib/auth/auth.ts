@@ -1,11 +1,8 @@
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { WorkerData } from "../types/auth";
 import { auth, db } from "./client";
 import { deleteDoc, doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
-import { FirebaseError } from "firebase/app";
-import { redirect } from "next/navigation";
 import { z } from "zod";
-import { deleteSession } from "./session";
 
 const loginSchema = z.object({
     email: z.string().email({ message: "Invalid email address" }).trim(),

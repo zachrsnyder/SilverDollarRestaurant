@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { AdminUser } from "../types/auth";
-import { collection, DocumentData, onSnapshot, orderBy, query, QuerySnapshot, snapshotEqual, where } from "@firebase/firestore";
+import { collection, DocumentData, onSnapshot, query, QuerySnapshot, where } from "@firebase/firestore";
 import { db } from "../auth/client";
 
 

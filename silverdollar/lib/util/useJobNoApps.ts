@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { doc, collection, query, orderBy, onSnapshot, FirestoreError } from 'firebase/firestore';
+import { doc, onSnapshot, FirestoreError } from 'firebase/firestore';
 import { db } from '@/lib/auth/client';
 import { JobPosting } from '../types/JobPosting';
 import { ID } from '../types/ID';

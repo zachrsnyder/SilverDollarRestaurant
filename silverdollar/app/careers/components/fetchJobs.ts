@@ -8,7 +8,7 @@ export default async function fetchJobs() {
         
         if (!snapshot.empty){
             const postings = snapshot.docs.map(doc => {
-                var data = doc.data();
+                const data = doc.data();
                 return {
                     ...data,
                     id: doc.id,

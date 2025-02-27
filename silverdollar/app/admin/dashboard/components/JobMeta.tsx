@@ -1,6 +1,6 @@
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import { JobPostingMetadata } from '@/lib/types/JobPostingMetadata'
-import { Trash2, BookPlus, Eye, EyeOff } from 'lucide-react'
+import { Trash2, BookPlus, EyeOff } from 'lucide-react'
 import { usePageData } from './CurrentContext'
 import { db } from '@/lib/auth/client'
 import { doc, deleteDoc, updateDoc } from 'firebase/firestore'
@@ -8,7 +8,6 @@ import DeleteConfirmationModal from './DeleteModal'
 import PostModal from './PostModal'
 import ArchiveModal from './ArchiveModal'
 // import Tooltip from '@/lib/util/Tooltip'
-import SaveConfirmationModal from './SaveModal'
 import { useJobWithApplications } from '@/lib/util/useJobWithApplications'
 import Tooltip from '@mui/material/Tooltip';
 

@@ -1,4 +1,3 @@
-import { BaseModal } from "@/lib/util/BaseModal";
 import DialogWrapper from "@/lib/util/DialogWrapper";
 
 interface DeleteConfirmationModalProps {

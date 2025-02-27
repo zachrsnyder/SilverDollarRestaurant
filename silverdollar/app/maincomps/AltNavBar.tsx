@@ -3,9 +3,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import SmallScreenMenu from '@/components/SmallScreenMenu'
-import MenuDropdown from '@/components/AltMenuDropdown'
-import { getMenu } from '@/lib/util/getMenu'
-import { useEffect, useState } from 'react'
 
 
 interface Props {

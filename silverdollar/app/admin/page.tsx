@@ -1,5 +1,4 @@
 'use client'
-import { AuthProvider } from "./components/AuthProvider";
 import { LoginForm } from "./components/LoginForm";
 
 const Login = () => {

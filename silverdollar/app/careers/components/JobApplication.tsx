@@ -1,7 +1,6 @@
 'use client'
 
 import { Application, Education } from "@/lib/types/Application"
-import { JobPosting } from "@/lib/types/JobPosting"
 import DialogWrapper from "@/lib/util/DialogWrapper"
 import React, { SetStateAction, useRef, useState } from "react"
 import { submitApplication } from "./sendApp"

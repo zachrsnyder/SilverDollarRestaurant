@@ -1,7 +1,6 @@
 'use client'
 import Link from "next/link"
-import PreviousMap_ from "postcss/lib/previous-map";
-import { useState, useEffect } from "react"
+import { useState } from "react"
 
 
 interface Props{

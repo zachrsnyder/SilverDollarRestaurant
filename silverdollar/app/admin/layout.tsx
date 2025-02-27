@@ -1,4 +1,3 @@
-import { Metadata } from 'next'
 import { AuthProvider } from './components/AuthProvider'
 import NavBarAdmin from '../maincomps/NavBarAdmin'
 
