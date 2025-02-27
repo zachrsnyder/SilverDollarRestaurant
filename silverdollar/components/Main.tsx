@@ -14,8 +14,11 @@ const Main = () => {
                 zIndex: 0
             }}
         />
-        <div className='absolute left-14 h-full min-h-full flex items-center font-arvo text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl w-[50%]'
-        >Welcome to Silver Dollar's</div>
+        <div className='absolute left-14 h-full min-h-full flex space-y-8 flex-col justify-center font-arvo text-white text-5xl sm:text-6xl lg:text-6xl xl:text-7xl w-[50%]'
+        >
+          <div>Welcome to</div>
+          <div>Silver Dollar's</div>
+        </div>
     </div>
   )
 }
