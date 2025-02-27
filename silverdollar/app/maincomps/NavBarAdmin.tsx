@@ -64,7 +64,7 @@ const NavBarAdmin = async() => {
                 className='admin-header-text transition-colors duration-300'
             >
               <Link
-                href={menuUrls.dinner}
+                href={menuUrls.breakfast}
                 className='flex align-middle flex-col items-center'
                 prefetch
                 target='_blank'

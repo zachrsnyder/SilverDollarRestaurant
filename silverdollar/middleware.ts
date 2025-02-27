@@ -21,7 +21,7 @@ export default async function middleware(req: NextRequest) {
     // Basic check for mobile devices
     const isMobile = /mobile|android|iphone|ipad|ipod/i.test(userAgent);
     //can't use admin dash on mobile
-    if(isMobile){
+    if(isMobile && path !== "/admin"){
       return NextResponse.redirect(new URL("/admin", req.nextUrl));
     }
     const cookie = await cookies();
