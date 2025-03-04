@@ -30,7 +30,9 @@ const Facebook = () => {
         </div>
         <div className='flex justify-center align-middle'>
           {loading ? 
-            <Skeleton variant="rectangular" width={400} height={500}/>
+            <Skeleton variant="rectangular" width={400} height={500} className='flex text-2xl text-gray-300 justify-center text-center items-center align-middle'>
+              Loading Facebook Content...
+            </Skeleton>
             :
             <div className="fb-page rounded-full w-[400px] h-[500px] flex justify-center align-middle" data-href="https://www.facebook.com/Silver-Dollars-100063559273272/" data-tabs="timeline" data-width="400" data-height="500" data-small-header="true" data-adapt-container-width="false" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/Silver-Dollars-100063559273272/" className="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/Silver-Dollars-100063559273272/"></a></blockquote></div>
           }

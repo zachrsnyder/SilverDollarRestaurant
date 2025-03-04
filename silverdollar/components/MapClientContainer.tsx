@@ -8,7 +8,7 @@ const MapClientContainer = () => {
         <MapComponent 
         apiKey = {process.env.NEXT_PUBLIC_REACT_MAPS_API_KEY}
         address = '20 Acorn Dr, Eldon, MO 65026'
-        zoom = {15}
+        zoom = {17}
         />
     </div>
   )

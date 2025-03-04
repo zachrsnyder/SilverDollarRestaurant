@@ -53,7 +53,7 @@ const loadGoogleMapsScript = (apiKey) => {
 const MapComponent = ({
   apiKey,
   address,
-  zoom = 15
+  zoom
 }) => {
   const [mapError, setMapError] = useState(null);
   const mapInstance = useRef(null);
