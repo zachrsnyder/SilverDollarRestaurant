@@ -17,6 +17,7 @@
     "@googlemaps/js-api-loader": "^1.16.8",
     "@mui/material": "^6.1.9",
     "@react-google-maps/api": "^2.20.3",
+    "@vercel/speed-insights": "^1.2.0",
     "cookies-next": "^5.0.2",
     "firebase": "^11.3.1",
     "firebase-admin": "^12.7.0",

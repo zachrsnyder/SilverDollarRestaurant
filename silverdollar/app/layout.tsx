@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Footer from './maincomps/Footer'
 import {Arvo} from 'next/font/google'
+import { SpeedInsights } from '@vercel/speed-insights/next';
 // import { usePathname } from "next/navigation";
 
 
@@ -80,6 +81,7 @@ export default async function RootLayout({
             }, { passive: true });
           `
         }} />
+        <SpeedInsights />
       </body>
     </html>
   );
