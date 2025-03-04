@@ -30,24 +30,12 @@ export async function POST(req: Request) {
 
   try {
     const { idToken } = await req.json();
-    const sessionCookie = await admin.auth().createSessionCookie(idToken, { 
-      expiresIn: 1000 * 60 * 60 * 24 * 5 
-    });
-    // Rest of your code
-  } catch (error) {
-    // Error handling
-  }
-
-  try {
-    const { idToken } = await req.json();
 
     if (!idToken) {
       return NextResponse.json({ error: "ID token is required" }, { status: 400 });
     }
 
     //console.log(idToken)
-
-    
 
     const sessionCookie = await admin.auth().createSessionCookie(idToken, { expiresIn: 1000 * 60 * 60 * 24 * 5})
 
