@@ -170,7 +170,7 @@ export default function RandomGallery() {
                 {layout.map((item : { id: number, src: string, alt: string, gridArea: string }, index : number) => (
                 
                     <a
-                        href={item.src} target='_self' rel="noopener noreferrer"
+                        href={item.src} target='_blank' rel="noopener noreferrer"
                         key={item.id}
                         style={{
                             transition: 'opacity',
