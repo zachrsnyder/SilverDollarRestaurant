@@ -54,7 +54,13 @@ export const metadata: Metadata = {
     "best brunch Lake of the Ozarks",
     "breakfast sandwiches Lake Ozark MO",
     "Lake Ozark omelets and pancakes",
-    "Lake of the Ozarks café breakfast"
+    "Lake of the Ozarks café breakfast",
+    "Silver dollar LOZ",
+    "Silver Dollars LOZ",
+    "Silver dollar restaurant LOZ",
+    "Silver Dollar Eldon Mo",
+    "SilverDollars Eldon Mo",
+    "Silver Dollars Eldon Mo",
   ]
 };
 
