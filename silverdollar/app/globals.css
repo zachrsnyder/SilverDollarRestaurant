@@ -19,6 +19,9 @@ body {
   }
 }
 
+#hours-container > :first-child {
+  font-weight: 1000;
+}
 
 .og-header-text {
   font-size: 1.275rem;
